@@ -30,13 +30,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-const path = require('path');
-
-// Tell the server that your HTML/CSS/Images are in the 'public' folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Tell the server to load index.html as the main page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+})
