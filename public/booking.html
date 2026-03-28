@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Stay - Ethiopia Travel</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1771495562804-373fb516114c?w=1200');
+            background-size: cover;
+            background-attachment: fixed;
+            display: flex;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Booking Grid */
+        .booking-container {
+            flex-grow: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        /* The Glass Register Box */
+        .register-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .register-box h2 { color: #ffcc00; margin-bottom: 20px; text-align: center; }
+
+        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+        
+        input, select {
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            margin-top: 5px;
+            background: rgba(255,255,255,0.9);
+        }
+
+        .book-btn {
+            width: 100%;
+            padding: 15px;
+            background: #ffcc00;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .book-btn:hover { background: #e6b800; transform: translateY(-2px); }
+
+        /* Experience Cards */
+        .cards-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .booking-card {
+            background: rgba(0,0,0,0.8);
+            border-bottom: 4px solid #ffcc00;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .booking-card:hover { transform: scale(1.05); }
+
+        .card-img { height: 150px; background-size: cover; background-position: center; }
+
+        .card-content { padding: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Travel Guide</h2>
+        <a href="index.html">🏠 Home</a>
+        <a href="transport.html">🚗 Transport</a>
+        <a href="locations.html">📍 Locations</a>
+        <a href="booking.html" style="background: #ffcc00; color: black;">📅 Booking</a>
+    </div>
+
+    <div class="booking-container">
+        <div class="register-box">
+            <h2>Reserve Your Experience</h2>
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Destination Type</label>
+                    <select>
+                        <option>Luxury Hotel (Addis)</option>
+                        <option>Eco Resort (Lakeside)</option>
+                        <option>Cultural Lodge (Lalibela)</option>
+                        <option>Mountain Trekking Camp</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Check-in Date</label>
+                    <input type="date">
+                </div>
+                <button type="button" class="book-btn" onclick="alert('Booking Request Sent!')">Confirm Registration</button>
+            </form>
+        </div>
+
+        <div class="cards-wrapper">
+            <div class="booking-card">
+                <div class="card-img" style="background-image: url('https://plus.unsplash.com/premium_photo-1674591172486-0414ac4ddcc8?w=400');"></div>
+                <div class="card-content">
+                    <h3>Skylight Hotel</h3>
+                    <p>5-Star luxury near Bole Airport.</p>
+                </div>
+            </div>
+            <div class="booking-card">
+                <div class="card-img" style="background-image: url('https://media.istockphoto.com/id/477145273/photo/simple-interior-of-african-accomodation.webp?a=1&b=1&s=612x612&w=0&k=20&c=DCFKOeOc9WD_yNyOJvFJOSPlbgg4yC-LsgFbQYKqfUk=');"></div>
+                <div class="card-content">
+                    <h3>Haile Resort</h3>
+                    <p>Relax by the beautiful Lake Hawassa.</p>
+                </div>
+            </div>
+            <div class="booking-card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1604357209793-fca5dca89f97?w=400');"></div>
+                <div class="card-content">
+                    <h3>Simien Lodge</h3>
+                    <p>The highest lodge in Africa.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-ai">
+        <div class="chat-header">✨ Booking Assistant</div>
+        <div class="chat-body">
+            <p><strong>AI:</strong> Looking for a honeymoon suite or a business room?</p>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Ask about availability...">
+            <button style="padding: 10px; background: #ffcc00; border: none;">Send</button>
+        </div>
+    </div>
+
+</body>
+</html>
