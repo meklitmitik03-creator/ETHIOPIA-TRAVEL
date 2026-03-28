@@ -23,3 +23,11 @@ async function explore(category) {
 function closeModal() {
     document.getElementById('exploreModal').style.display = "none";
 }
+const path = require('path');
+
+// This tells the server to look INSIDE the public folder for index.html
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
