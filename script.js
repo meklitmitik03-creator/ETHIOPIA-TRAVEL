@@ -31,3 +31,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 })
+app.use(express.static('public'))
+<script>
+    // This script forces the "Explore" buttons to trigger their parent links
+    document.querySelectorAll('.explore-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const link = this.closest('a');
+            if (link) {
+                window.location.href = link.getAttribute('href');
+            }
+        });
+    });
