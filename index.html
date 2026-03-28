@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethiopia AI Travel Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="#"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="#"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="#"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="#"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="#"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container">
+        
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1608634193723-1865aa4416ce?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-plane-departure card-icon"></i>
+                <h2>Transport</h2>
+                <p>Navigate the Land of Origins with ease.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1634029878815-1bb307302471?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-map-location-dot card-icon"></i>
+                <h2>Location</h2>
+                <p>From the Danakil Depression to the Simien peaks.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1629995015838-ea0e985d8d1a?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-book-atlas card-icon"></i>
+                <h2>Books & History</h2>
+                <p>Explore 3,000 years of civilization.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://plus.unsplash.com/premium_photo-1697729902269-70f031f22531?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-city card-icon"></i>
+                <h2>Modern Ethiopia</h2>
+                <p>Experience the vibrant life of Addis Ababa.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1614981816670-3e65f4cfdb28?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-address-book card-icon"></i>
+                <h2>Contact</h2>
+                <p>Talk to local experts and plan your trip.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <span>Ethiopia AI Guide</span>
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Ameseginalehu! How can I help you explore Ethiopia today?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" placeholder="Ask AI anything...">
+                <button><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            sb.classList.toggle('collapsed');
+        }
+
+        function toggleChat() {
+            const chat = document.getElementById('chatWindow');
+            chat.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

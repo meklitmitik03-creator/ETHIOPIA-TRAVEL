@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethiopia Transport | AI Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="transport-page">
+
+    <div class="bg-slideshow">
+        <div class="slide" style="background-image: url('https://media.istockphoto.com/id/2263629500/photo/bustling-urban-landscape-of-addis-ababa-ethiopia-featuring-modern-skyscrapers-vibrant-multi.webp?a=1&b=1&s=612x612&w=0&k=20&c=nFOyLRoAX_B2GA6gIfIZjEPmqUqZSy8PJRTDgjiU7QU=');"></div>
+    </div>
+
+    <div class="content-wrapper">
+        <h1 class="page-title">Ethiopia Transport Hub</h1>
+        
+        <div class="transport-grid">
+            <div class="t-card airport-card" id="card-airport">
+                <div class="card-header">
+                    <i class="fas fa-plane-arrival logo-placeholder"></i>
+                    <h3>Bole International Airport</h3>
+                </div>
+                <div class="short-info">Official Gateway to Ethiopia. Yellow Taxis & Shuttles available 24/7.</div>
+                <div class="extra-info">
+                    <p><strong>Phone:</strong> +251 11 665 0400</p>
+                    <p><strong>Pickup:</strong> Arrivals Terminal Floor 1</p>
+                    <p><strong>Note:</strong> Fixed rates for Yellow Taxis.</p>
+                    <button class="connect-btn">Connect to Official Site</button>
+                </div>
+                <button class="see-more" onclick="toggleCard('card-airport')">See More</button>
+            </div>
+
+            <div class="t-card" id="card-ride">
+                <div class="card-header">
+                    <div class="logo-box">RIDE</div>
+                    <h3>Ride 8294</h3>
+                </div>
+                <div class="short-info">The #1 ride-hailing app in Ethiopia. Fast and reliable.</div>
+                <div class="extra-info">
+                    <p><strong>Phone:</strong> 8294 (Short Code)</p>
+                    <p><strong>Pickup:</strong> 2-5 mins average</p>
+                    <button class="connect-btn" onclick="window.open('https://ride8294.com')">Open Website</button>
+                </div>
+                <button class="see-more" onclick="toggleCard('card-ride')">See More</button>
+            </div>
+
+            <div class="t-card" id="card-feres">
+                <div class="card-header">
+                    <div class="logo-box" style="background:#2ecc71">FERES</div>
+                    <h3>Feres</h3>
+                </div>
+                <div class="short-info">Known for loyalty rewards and "Feres Miles".</div>
+                <div class="extra-info">
+                    <p><strong>Phone:</strong> 6090</p>
+                    <p><strong>Pickup:</strong> 24/7 Service</p>
+                    <button class="connect-btn" onclick="window.open('https://feres.et')">Open Website</button>
+                </div>
+                <button class="see-more" onclick="toggleCard('card-feres')">See More</button>
+            </div>
+
+            <div class="t-card" id="card-yango">
+                <div class="card-header">
+                    <div class="logo-box" style="background:#f39c12">YANGO</div>
+                    <h3>Yango</h3>
+                </div>
+                <div class="short-info">International comfort with high-tech mapping.</div>
+                <div class="extra-info">
+                    <p><strong>Phone:</strong> 8610</p>
+                    <p><strong>Features:</strong> Real-time map, Safety button.</p>
+                </div>
+                <button class="see-more" onclick="toggleCard('card-yango')">See More</button>
+            </div>
+
+            </div>
+    </div>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Travel AI</span></div>
+            <div class="chat-content" id="chatContent"></div>
+            <div class="chat-input-area">
+                <input type="text" placeholder="Ask about routes...">
+                <button><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCard(id) {
+            const card = document.getElementById(id);
+            card.classList.toggle('expanded');
+            const btn = card.querySelector('.see-more');
+            btn.innerText = card.classList.contains('expanded') ? 'See Less' : 'See More';
+        }
+        function toggleChat() {
+            document.getElementById('chatWindow').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
