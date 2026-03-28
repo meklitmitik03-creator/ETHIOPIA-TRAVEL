@@ -45,7 +45,7 @@ body {
 .nav-links li a {
     display: flex;
     align-items: center;
-    color: #bbb;
+    color: #313030;
     text-decoration: none;
     padding: 15px 25px;
     transition: 0.3s;
