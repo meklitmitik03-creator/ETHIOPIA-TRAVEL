@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Locations - Ethiopia Travel</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            /* Using one of your provided backgrounds */
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1619468129361-605ebea04b44?w=800');
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+            display: flex;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border-right: 1px solid #ffcc00;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background: #ffcc00;
+            color: black;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .map-container {
+            width: 100%;
+            max-width: 800px;
+            height: 450px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid #ffcc00;
+            margin-top: 20px;
+        }
+
+        /* Chat AI Box (Floating Right) */
+        .chat-ai {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            color: black;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #ffcc00;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            font-weight: bold;
+        }
+
+        .chat-body {
+            height: 200px;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            border: none;
+            padding: 10px;
+        }
+
+        .location-info {
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Travel Guide</h2>
+        <a href="index.html">🏠 Home</a>
+        <a href="transport.html">🚗 Transport</a>
+        <a href="locations.html" style="background: #ffcc00; color: black;">📍 Locations</a>
+        <a href="#">🍴 Food</a>
+    </div>
+
+    <div class="main-content">
+    <div class="location-info">
+        <h1>Addis Ababa Real-Time Guide</h1>
+        <p>Search for landmarks or find your current position</p>
+        
+        <div style="margin: 15px 0;">
+            <input type="text" id="map-search" placeholder="Enter a place (e.g. Bole Airport, National Museum)..." 
+                   style="padding: 10px; width: 300px; border-radius: 5px; border: none;">
+            <button onclick="searchLocation()" 
+                    style="padding: 10px 20px; background: #ffcc00; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                🔍 Search
+            </button>
+        </div>
+
+        <button onclick="getMyLocation()" 
+                style="padding: 10px 20px; background: #2ecc71; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+            📍 Show My Current Location
+        </button>
+    </div>
+
+    <div class="map-container">
+        <iframe 
+            id="google-map"
+            width="100%" 
+            height="100%" 
+            frameborder="0" 
+            style="border:0"
+            src="https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY_HERE&q=Addis+Ababa,Ethiopia" 
+            allowfullscreen>
+        </iframe>
+    </div>
+</div>
+
+<script>
+    const mapIframe = document.getElementById('google-map');
+
+    // 1. Function to Search for a specific place in Ethiopia
+    function searchLocation() {
+        const query = document.getElementById('map-search').value;
+        if (query) {
+            // This updates the map to the searched location
+            const newUrl = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+            mapIframe.src = newUrl;
+        }
+    }
+
+    // 2. Function to find exactly where the user is standing
+    function getMyLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                // Update map to user's GPS coordinates
+                const userUrl = `https://www.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+                mapIframe.src = userUrl;
+                alert("Location Found! Centering map on you.");
+            }, () => {
+                alert("Please enable Location Services in your browser settings.");
+            });
+        }
+    }
+</script>
+
+        <div class="map-container">
+            <iframe 
+                width="100%" 
+                height="100%" 
+                frameborder="0" 
+                style="border:0"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126115.11507316712!2d38.704265!3d9.010793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85cef5ab402d%3A0x8467b6b037a24d49!2sAddis%20Ababa!5e0!3m2!1sen!2set!4v1711656000000!5m2!1sen!2set" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        
+        <p style="margin-top: 20px;">Current View: <b>Addis Ababa City Center</b></p>
+    </div>
+
+    <div class="chat-ai">
+        <div class="chat-header">✨ Ethiopia AI Assistant</div>
+        <div class="chat-body" id="chat-messages">
+            <p><strong>AI:</strong> Hello! Need directions to Bole, Piazza, or Merkato? Just ask!</p>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Ask for directions...">
+            <button style="padding: 10px; background: #ffcc00; border: none; cursor: pointer;">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Real Location Detection
+        function getLocation() {
+            const status = document.getElementById('status');
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    status.innerHTML = `You are at: <b>Latitude ${lat.toFixed(2)}, Longitude ${lon.toFixed(2)}</b><br>Welcome to the Heart of Ethiopia!`;
+                }, () => {
+                    status.innerHTML = "Location access denied. Showing central Addis Ababa.";
+                });
+            }
+        }
+        window.onload = getLocation;
+    </script>
+
+</body>
+</html>
