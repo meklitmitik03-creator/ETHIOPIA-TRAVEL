@@ -17,8 +17,8 @@ body {
     top: 0;
     left: 0;
     height: 100vh;
-    width: 240px;
-    background: rgba(0, 0, 0, 0.9);
+    width: 150px;
+    background: linear-gradient(green, yellow, red);
     backdrop-filter: blur(10px);
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 1000;
@@ -30,11 +30,11 @@ body {
 }
 
 .toggle-btn {
-    padding: 20px;
-    color: #fff;
+    padding: 15px;
+    color: #0e0c0c;
     cursor: pointer;
     font-size: 1.5rem;
-    text-align: right;
+    text-align: lift;
 }
 
 .nav-links {
