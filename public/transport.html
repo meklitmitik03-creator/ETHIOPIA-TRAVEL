@@ -101,5 +101,24 @@
             document.getElementById('chatWindow').classList.toggle('active');
         }
     </script>
+    <script>
+    // This is "Mock Data" to use until we connect the database tomorrow
+    const mockData = [
+        { name: 'RIDE', phone: '8294', info: 'Ethiopia\'s leading transport app.', logo_color: '#ffcc00' },
+        { name: 'FERES', phone: '6090', 'info': 'Earn miles while you travel.', logo_color: '#2ecc71' }
+    ];
+
+    const container = document.getElementById('transport-container');
+    
+    mockData.forEach(item => {
+        container.innerHTML += `
+            <div class="card" style="border-left: 10px solid ${item.logo_color}">
+                <h2>${item.name}</h2>
+                <p><strong>Phone:</strong> ${item.phone}</p>
+                <p>${item.info}</p>
+            </div>
+        `;
+    });
+</script>
 </body>
 </html>
