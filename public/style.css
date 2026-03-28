@@ -45,10 +45,10 @@ body {
 .nav-links li a {
     display: flex;
     align-items: center;
-    color: #313030;
+    color: #070303;
     text-decoration: none;
     padding: 15px 25px;
-    transition: 0.3s;
+    transition: 0.2s;
     white-space: nowrap;
 }
 
