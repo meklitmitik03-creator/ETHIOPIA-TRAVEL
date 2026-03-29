@@ -3,161 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Your Stay - Ethiopia Travel</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Booking - Ethiopia Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('https://images.unsplash.com/photo-1771495562804-373fb516114c?w=1200');
-            background-size: cover;
-            background-attachment: fixed;
-            display: flex;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background-color: #000; overflow: hidden; }
+
+        /* FIXED BACKGROUND */
+        #bgLayer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-size: cover; background-position: center;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://media.istockphoto.com/id/1162355737/photo/hotel-view-in-lalibela.jpg?s=612x612&w=0&k=20&c=7A0kCOegE3gLRSCHdYfwBmSJWgE-jNhnpwLwmDZoWRA=');
         }
 
-        /* Booking Grid */
-        .booking-container {
-            flex-grow: 1;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-        }
+        .scroll-container { height: 100vh; overflow-y: auto; padding-left: 60px; scroll-behavior: smooth; }
 
-        /* The Glass Register Box */
-        .register-box {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-
-        .register-box h2 { color: #ffcc00; margin-bottom: 20px; text-align: center; }
-
-        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
-        
-        input, select {
-            padding: 12px;
-            border-radius: 5px;
-            border: none;
-            margin-top: 5px;
-            background: rgba(255,255,255,0.9);
-        }
-
-        .book-btn {
-            width: 100%;
-            padding: 15px;
-            background: #ffcc00;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .book-btn:hover { background: #e6b800; transform: translateY(-2px); }
-
-        /* Experience Cards */
-        .cards-wrapper {
+        .content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1000px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 100px 40px;
+            justify-items: center;
         }
 
+        /* BLACK CARDS */
         .booking-card {
-            background: rgba(0,0,0,0.8);
-            border-bottom: 4px solid #ffcc00;
-            border-radius: 10px;
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            width: 350px;
+            padding: 25px;
+            color: #fff;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 250px;
             overflow: hidden;
-            transition: 0.3s;
         }
 
-        .booking-card:hover { transform: scale(1.05); }
+        .booking-card.expanded { width: 90%; grid-column: 1 / -1; }
+        .booking-card h3 { color: #ffcc00; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
 
-        .card-img { height: 150px; background-size: cover; background-position: center; }
+        /* FORM STYLING */
+        .form-container { display: none; margin-top: 20px; border-top: 1px solid #333; padding-top: 20px; }
+        .booking-card.expanded .form-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        
+        .full-width { grid-column: 1 / -1; }
+        input, select { padding: 12px; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; width: 100%; box-sizing: border-box; }
+        label { font-size: 0.8rem; color: #ffcc00; margin-bottom: 5px; display: block; }
 
-        .card-content { padding: 15px; }
+        .action-btn { background: #ffcc00; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; color: #000; margin-top: 10px; transition: 0.3s; }
+        .action-btn:hover { background: #fff; }
+
+        .success-msg { display: none; color: #008844; font-weight: bold; text-align: center; margin-top: 20px; padding: 15px; background: rgba(0,136,68,0.1); border-radius: 10px; }
+        .error-msg { display: none; color: #ee334e; font-size: 0.9rem; margin-top: 5px; font-weight: bold; }
+
+        /* SIDEBAR */
+        #sidebar { width: 250px; height: 100vh; position: fixed; left: 0; top: 0; background: linear-gradient(to bottom, #008844, #ffcc00, #ee334e); transition: 0.5s; z-index: 1001; }
+        #sidebar.collapsed { width: 70px; }
+        #sidebar.collapsed .link-text { display: none; }
+        .nav-links { list-style: none; padding: 80px 0 0 0; margin: 0; }
+        .nav-links li a { display: flex; align-items: center; padding: 20px; color: #000; text-decoration: none; font-weight: bold; white-space: nowrap; }
+        .nav-links i { min-width: 40px; font-size: 1.5rem; text-align: center; }
+        .toggle-btn { z-index: 1002; cursor: pointer; position: fixed; left: 15px; top: 20px; color: #000; font-size: 1.8rem; }
+
+        /* CHAT BOX */
+        .ai-chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 2000; }
+        .chat-toggle { background: #ee334e; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 24px; }
+        .chat-window { position: absolute; bottom: 80px; right: 0; width: 300px; background: #000; border: 1px solid #ffcc00; border-radius: 15px; display: none; flex-direction: column; overflow: hidden; }
+        .chat-window.active { display: flex; }
+        .chat-header { background: #ffcc00; color: #000; padding: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <h2>Travel Guide</h2>
-        <a href="index.html">🏠 Home</a>
-        <a href="transport.html">🚗 Transport</a>
-        <a href="locations.html">📍 Locations</a>
-        <a href="booking.html" style="background: #ffcc00; color: black;">📅 Booking</a>
+    <div id="bgLayer"></div>
+    <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="location.html"><i class="fas fa-map-marker-alt"></i><span class="link-text">Location</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container">
+        <div class="content-grid">
+            
+            <div class="booking-card" id="hotelCard">
+                <h3><i class="fas fa-bed"></i> Hotel & Restaurant</h3>
+                <p>Book luxury stays like Skylight or Sheraton Addis.</p>
+                <button class="action-btn" onclick="expandBooking('hotelCard')">Book Now</button>
+                
+                <div class="form-container">
+                    <div><label>Full Name</label><input type="text" class="req" placeholder="Your Name"></div>
+                    <div><label>Email</label><input type="email" class="req" placeholder="email@example.com"></div>
+                    <div><label>Phone</label><input type="text" class="req" placeholder="+251..."></div>
+                    <div><label>Payment Method (Optional)</label><input type="text" placeholder="CBE, Telebirr..."></div>
+                    <div class="full-width">
+                        <label>Choose Ethiopian Hotel or Restaurant</label>
+                        <select id="hotelList"></select>
+                    </div>
+                    <div><label>City</label><input type="text" class="req" placeholder="e.g. Addis Ababa"></div>
+                    <div><label>Date</label><input type="date" class="req"></div>
+                    <div class="full-width"><label>Days to Stay</label><input type="number" class="req" placeholder="1"></div>
+                    <div class="error-msg">Plse conferm it (Fill all fields)</div>
+                    <button class="action-btn full-width" onclick="validateAndSubmit('hotelCard', 'Booking successful! We will contact you soon.')">Submit Reservation</button>
+                </div>
+                <div class="success-msg"></div>
+            </div>
+
+            <div class="booking-card" id="resortCard">
+                <h3><i class="fas fa-umbrella-beach"></i> Book Resorts</h3>
+                <p>Experience Haile Resort or Kuriftu Water Park.</p>
+                <button class="action-btn" onclick="expandBooking('resortCard')">Book Now</button>
+                
+                <div class="form-container">
+                    <div><label>Full Name</label><input type="text" class="req" placeholder="Your Name"></div>
+                    <div><label>Phone</label><input type="text" class="req" placeholder="+251..."></div>
+                    <div class="full-width"><label>Choose Resort</label><select id="resortList"></select></div>
+                    <div><label>Check-in Date</label><input type="date" class="req"></div>
+                    <div><label>Guests</label><input type="number" class="req" placeholder="2"></div>
+                    <div class="error-msg">Plse conferm it (Fill all fields)</div>
+                    <button class="action-btn full-width" onclick="validateAndSubmit('resortCard', 'Booking successful! We will contact you soon.')">Confirm Resort</button>
+                </div>
+                <div class="success-msg"></div>
+            </div>
+
+            <div class="booking-card" id="vacationCard">
+                <h3><i class="fas fa-plane-departure"></i> Book Vacation</h3>
+                <p>Visit Lalibela, Axum, or the Bale Mountains.</p>
+                <button class="action-btn" onclick="expandBooking('vacationCard')">Plan Trip</button>
+                
+                <div class="form-container">
+                    <div><label>Name</label><input type="text" class="req"></div>
+                    <div><label>Phone</label><input type="text" class="req"></div>
+                    <div class="full-width"><label>Email</label><input type="email" class="req"></div>
+                    <div><label>Travel Dates</label><input type="date" class="req"></div>
+                    <div><label>Destination City</label><input type="text" class="req" placeholder="e.g. Gonder"></div>
+                    <div class="full-width">
+                        <label>Travel Insurance</label>
+                        <select><option>Include Insurance</option><option>No Insurance</option></select>
+                    </div>
+                    <div class="error-msg">Plse conferm it (Fill all fields)</div>
+                    <button class="action-btn full-width" onclick="validateAndSubmit('vacationCard', 'We hope we will see you soon! We will contact you.')">Register Vacation</button>
+                </div>
+                <div class="success-msg"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Ethiopia AI Guide</span></div>
+            <div style="padding: 20px; color: white;">Thanx to see you again! Whates up today?</div>
+        </div>
     </div>
 
-    <div class="booking-container">
-        <div class="register-box">
-            <h2>Reserve Your Experience</h2>
-            <form id="bookingForm">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" placeholder="Enter your name" required>
-                </div>
-                <div class="form-group">
-                    <label>Destination Type</label>
-                    <select>
-                        <option>Luxury Hotel (Addis)</option>
-                        <option>Eco Resort (Lakeside)</option>
-                        <option>Cultural Lodge (Lalibela)</option>
-                        <option>Mountain Trekking Camp</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Check-in Date</label>
-                    <input type="date">
-                </div>
-                <button type="button" class="book-btn" onclick="alert('Booking Request Sent!')">Confirm Registration</button>
-            </form>
-        </div>
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
 
-        <div class="cards-wrapper">
-            <div class="booking-card">
-                <div class="card-img" style="background-image: url('https://plus.unsplash.com/premium_photo-1674591172486-0414ac4ddcc8?w=400');"></div>
-                <div class="card-content">
-                    <h3>Skylight Hotel</h3>
-                    <p>5-Star luxury near Bole Airport.</p>
-                </div>
-            </div>
-            <div class="booking-card">
-                <div class="card-img" style="background-image: url('https://media.istockphoto.com/id/477145273/photo/simple-interior-of-african-accomodation.webp?a=1&b=1&s=612x612&w=0&k=20&c=DCFKOeOc9WD_yNyOJvFJOSPlbgg4yC-LsgFbQYKqfUk=');"></div>
-                <div class="card-content">
-                    <h3>Haile Resort</h3>
-                    <p>Relax by the beautiful Lake Hawassa.</p>
-                </div>
-            </div>
-            <div class="booking-card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1604357209793-fca5dca89f97?w=400');"></div>
-                <div class="card-content">
-                    <h3>Simien Lodge</h3>
-                    <p>The highest lodge in Africa.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+        function expandBooking(id) {
+            document.querySelectorAll('.booking-card').forEach(c => c.classList.remove('expanded'));
+            document.getElementById(id).classList.add('expanded');
+        }
 
-    <div class="chat-ai">
-        <div class="chat-header">✨ Booking Assistant</div>
-        <div class="chat-body">
-            <p><strong>AI:</strong> Looking for a honeymoon suite or a business room?</p>
-        </div>
-        <div class="chat-input">
-            <input type="text" placeholder="Ask about availability...">
-            <button style="padding: 10px; background: #ffcc00; border: none;">Send</button>
-        </div>
-    </div>
+        function validateAndSubmit(id, msg) {
+            const card = document.getElementById(id);
+            const inputs = card.querySelectorAll('.req');
+            const error = card.querySelector('.error-msg');
+            let allFilled = true;
 
+            inputs.forEach(input => {
+                if (!input.value) {
+                    allFilled = false;
+                    input.style.borderColor = "#ee334e";
+                } else {
+                    input.style.borderColor = "#444";
+                }
+            });
+
+            if (!allFilled) {
+                error.style.display = "block";
+                return;
+            }
+
+            // If filled, proceed to success
+            error.style.display = "none";
+            const form = card.querySelector('.form-container');
+            const success = card.querySelector('.success-msg');
+            
+            form.style.display = 'none';
+            success.innerText = msg;
+            success.style.display = 'block';
+
+            const delay = (id === 'vacationCard') ? 3000 : 1000; 
+
+            setTimeout(() => {
+                card.classList.remove('expanded');
+                success.style.display = 'none';
+                form.style.display = ''; 
+                inputs.forEach(i => i.value = ""); // Clear form
+            }, delay);
+        }
+
+        // REAL ETHIOPIAN NAMES
+        const hotels = ["Ethiopian Skylight Hotel", "Sheraton Addis", "Hilton Addis Ababa", "Hyatt Regency Addis", "Radisson Blu", "Jupiter International", "Capital Hotel & Spa", "Elilly International Hotel", "Golden Tulip", "Harmony Hotel", "Ye-Afesh Restaurant", "Totot Cultural Restaurant", "2000 Habesha Cultural Restaurant"];
+        const resorts = ["Haile Resort Hawassa", "Kuriftu Resort & Spa Bishoftu", "Doho Lodge & Hiwot Resort", "Lewi Resort", "Sabana Beach Resort", "Haile Resort Arbaminch", "Bishangari Lodge", "Pyramid Resort"];
+
+        const hotelSelect = document.getElementById('hotelList');
+        hotels.forEach(name => {
+            let opt = document.createElement('option');
+            opt.text = name;
+            hotelSelect.add(opt);
+        });
+
+        const resortSelect = document.getElementById('resortList');
+        resorts.forEach(name => {
+            let opt = document.createElement('option');
+            opt.text = name;
+            resortSelect.add(opt);
+        });
+    </script>
 </body>
 </html>
