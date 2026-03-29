@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ethiopian Ceremonies - EthioTravel AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #000; color: white; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        
+        /* Manual Scroll - Hidden Scrollbar */
+        .main-scroll-wrapper {
+            height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .main-scroll-wrapper::-webkit-scrollbar { display: none; }
+
+        /* Sticky Search Header */
+        .search-area {
+            position: sticky;
+            top: 0;
+            background: rgba(0,0,0,0.9);
+            padding: 80px 20px 20px 80px;
+            z-index: 100;
+            text-align: center;
+        }
+        .search-bar {
+            width: 100%; max-width: 500px; padding: 15px 25px;
+            border-radius: 50px; border: 1px solid #333;
+            background: #111; color: white; outline: none;
+        }
+
+        /* Ceremony Grid */
+        .ceremony-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 20px 20px 100px 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .ceremony-card {
+            background: #161616; border-radius: 20px; overflow: hidden;
+            border: 1px solid #222; transition: 0.3s;
+        }
+        .ceremony-card:hover { border-color: #ffca28; transform: translateY(-5px); }
+        .ceremony-card img { width: 100%; height: 260px; object-fit: cover; }
+        
+        .ceremony-info { padding: 20px; }
+        .ceremony-info h3 { margin: 0; color: #ffca28; font-size: 1.6rem; }
+        .ceremony-info p { font-size: 0.9rem; color: #bbb; margin: 10px 0 20px; line-height: 1.5; }
+
+        .explore-btn {
+            width: 100%; padding: 12px;
+            background: #ffca28; border: none; border-radius: 10px;
+            font-weight: bold; cursor: pointer; color: #000;
+            text-transform: uppercase;
+        }
+
+        /* Sidebar & Chat (Consistent Structure) */
+        .sidebar.collapsed { width: 60px; }
+        .sidebar.collapsed .link-text { display: none; }
+        #sidebar { z-index: 1001; }
+        .ai-chat-wrapper { z-index: 3000; }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="ceremony.html" style="color:#ffca28"><i class="fas fa-calendar-check"></i><span class="link-text">Ceremony</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="main-scroll-wrapper">
+        <div class="search-area">
+            <input type="text" id="ceremonySearch" class="search-bar" placeholder="Search Adwa, Timkat, Arbegnoch..." onkeyup="filterCeremony()">
+        </div>
+
+        <div class="ceremony-grid" id="ceremonyGrid">
+            
+            <div class="ceremony-card">
+                <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600" alt="Adwa">
+                <div class="ceremony-info">
+                    <h3>Adwa Victory Day</h3>
+                    <p>Celebrating the historic victory at the Battle of Adwa, a symbol of Pan-African independence.</p>
+                    <button class="explore-btn">Explore History</button>
+                </div>
+            </div>
+
+            <div class="ceremony-card">
+                <img src="https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=600" alt="Labour Day">
+                <div class="ceremony-info">
+                    <h3>Ye Lab Aderoch Ken</h3>
+                    <p>International Workers' Day celebrated across Ethiopia with rallies and recognition of the workforce.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="ceremony-card">
+                <img src="https://images.unsplash.com/photo-1523813389247-584639f06767?w=600" alt="Patriots Day">
+                <div class="ceremony-info">
+                    <h3>Arbegnoch Ken</h3>
+                    <p>Patriots' Victory Day honoring those who fought against the Italian occupation to keep Ethiopia free.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="ceremony-card">
+                <img src="https://images.unsplash.com/photo-1571946080923-a81668948f52?w=600" alt="Timkat">
+                <div class="ceremony-info">
+                    <h3>Timkat (Epiphany)</h3>
+                    <p>The colorful Orthodox celebration of the baptism of Jesus, featuring Tabot processions.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="ceremony-card">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600" alt="Meskel">
+                <div class="ceremony-info">
+                    <h3>Meskel</h3>
+                    <p>The Finding of the True Cross, celebrated with the massive Demera bonfire in Addis Ababa.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Ceremony AI Guide</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Ameseginalehu! Which ceremony would you like to learn about today?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        function filterCeremony() {
+            let input = document.getElementById('ceremonySearch').value.toLowerCase();
+            let cards = document.getElementsByClassName('ceremony-card');
+            for (let card of cards) {
+                let title = card.querySelector('h3').innerText.toLowerCase();
+                card.style.display = title.includes(input) ? "block" : "none";
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if(!input.value.trim()) return;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28;">You: ${input.value}</div>`;
+            input.value = '';
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</body>
+</html>

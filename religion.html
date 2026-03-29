@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Religion in Ethiopia - EthioTravel AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #000; color: white; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        
+        /* Full Screen Panels for Vertical Manual Scrolling */
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+        }
+        .scroll-container::-webkit-scrollbar { display: none; }
+
+        .religion-panel {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        /* Glass Card Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 400px;
+            width: 80%;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        .glass-card h2 { margin: 0; font-size: 2.5rem; color: #ffca28; text-transform: uppercase; letter-spacing: 2px; }
+        .glass-card p { color: #ddd; margin: 15px 0 25px; font-size: 1rem; line-height: 1.6; }
+
+        .explore-btn {
+            padding: 12px 35px;
+            background: #ffca28;
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .explore-btn:hover { transform: scale(1.1); background: #fff; }
+
+        /* Sidebar & Chat (Locked Structure) */
+        .sidebar.collapsed { width: 60px; }
+        .sidebar.collapsed .link-text { display: none; }
+        #sidebar { z-index: 1001; }
+        .ai-chat-wrapper { z-index: 3000; }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="religion.html" style="color:#ffca28"><i class="fas fa-church"></i><span class="link-text">Religion</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container">
+        
+        <section class="religion-panel" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://media.istockphoto.com/id/528342233/photo/the-church-of-saint-george-lalibela-ethiopia.jpg?s=612x612&w=0&k=20&c=wUBcNSg_rJ05u2X20asY-7vK-HNxWcfTL_obV80Nv4s=');">
+            <div class="glass-card">
+                <h2>Orthodox</h2>
+                <p>Explore the ancient rock-hewn churches and the deep Tewahedo traditions of Ethiopia.</p>
+                <a href="orthodox.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+
+        <section class="religion-panel" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1508914127305-fa5114b81b3f?q=80&w=870');">
+            <div class="glass-card">
+                <h2>Islamic</h2>
+                <p>Discover Harar Jugol, the fourth holiest city in Islam, and the peaceful Al-Nejashi history.</p>
+                <a href="islamic.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+
+        <section class="religion-panel" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1548625361-625be31b4d5b?w=800');">
+            <div class="glass-card">
+                <h2>Catholic</h2>
+                <p>The history of the Ethiopian Catholic Church and its unique Ge'ez rite architecture.</p>
+                <a href="catholic.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+
+        <section class="religion-panel" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800');">
+            <div class="glass-card">
+                <h2>Protestant</h2>
+                <p>P'ent'ay spirituality and the vibrant modern worship culture across the nation.</p>
+                <a href="protestant.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Religion Guide AI</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">I can explain the history of any of these four religious paths. Which interests you?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if(!input.value.trim()) return;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28;">You: ${input.value}</div>`;
+            input.value = '';
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</body>
+</html>

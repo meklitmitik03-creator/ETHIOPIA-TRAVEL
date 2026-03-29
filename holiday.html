@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ethiopian Holidays - EthioTravel AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #000; color: white; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        
+        /* Manual Scroll - Hidden Scrollbar */
+        .main-scroll-wrapper {
+            height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .main-scroll-wrapper::-webkit-scrollbar { display: none; }
+
+        /* Sticky Search Header */
+        .search-area {
+            position: sticky;
+            top: 0;
+            background: rgba(0,0,0,0.9);
+            padding: 80px 20px 20px 80px;
+            z-index: 100;
+            text-align: center;
+        }
+        .search-bar {
+            width: 100%; max-width: 500px; padding: 15px 25px;
+            border-radius: 50px; border: 1px solid #333;
+            background: #111; color: white; outline: none;
+        }
+
+        /* Holiday Grid (Two Columns) */
+        .holiday-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            padding: 20px 20px 100px 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .holiday-card {
+            background: #161616; border-radius: 20px; overflow: hidden;
+            border: 1px solid #222; transition: 0.3s;
+        }
+        .holiday-card:hover { border-color: #ffca28; transform: scale(1.02); }
+        .holiday-card img { width: 100%; height: 280px; object-fit: cover; }
+        
+        .holiday-info { padding: 20px; }
+        .holiday-info h3 { margin: 0; color: #ffca28; font-size: 1.6rem; }
+        .holiday-info p { font-size: 0.9rem; color: #bbb; margin: 10px 0 20px; line-height: 1.5; }
+
+        .explore-btn {
+            width: 100%; padding: 12px;
+            background: #ffca28; border: none; border-radius: 10px;
+            font-weight: bold; cursor: pointer; color: #000;
+            text-transform: uppercase;
+        }
+
+        /* Sidebar & Chat Box (Locked Structure) */
+        .sidebar.collapsed { width: 60px; }
+        .sidebar.collapsed .link-text { display: none; }
+        #sidebar { z-index: 1001; }
+        .ai-chat-wrapper { z-index: 3000; }
+
+        @media (max-width: 800px) {
+            .holiday-grid { grid-template-columns: 1fr; padding-left: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="holiday.html" style="color:#ffca28"><i class="fas fa-star"></i><span class="link-text">Holidays</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="main-scroll-wrapper">
+        <div class="search-area">
+            <input type="text" id="holidaySearch" class="search-bar" placeholder="Search Meskel, Timkat, Eid..." onkeyup="filterHoliday()">
+        </div>
+
+        <div class="holiday-grid" id="holidayGrid">
+            
+            <div class="holiday-card">
+                <img src="https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=600" alt="New Year">
+                <div class="holiday-info">
+                    <h3>Enkutatash (New Year)</h3>
+                    <p>Celebrated on September 11th, marking the end of the rainy season with yellow daisies (Adey Abeba).</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="holiday-card">
+                <img src="https://images.unsplash.com/photo-1571946080923-a81668948f52?w=600" alt="Timkat">
+                <div class="holiday-info">
+                    <h3>Timket (Epiphany)</h3>
+                    <p>The most important Orthodox festival, commemorating the baptism of Jesus in the Jordan River.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="holiday-card">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600" alt="Christmas">
+                <div class="holiday-info">
+                    <h3>Genna (Ledet)</h3>
+                    <p>Ethiopian Christmas celebrated on January 7th with traditional games like Yegenna Chewata.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="holiday-card">
+                <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600" alt="Easter">
+                <div class="holiday-info">
+                    <h3>Fasika (Tensae)</h3>
+                    <p>Ethiopian Easter, following a 55-day fast. A time of massive family feasts and Doro Wat.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="holiday-card">
+                <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=600" alt="Good Friday">
+                <div class="holiday-info">
+                    <h3>Siklet (Good Friday)</h3>
+                    <p>A day of deep prayer and fasting, commemorating the crucifixion of Jesus.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="holiday-card">
+                <img src="https://images.unsplash.com/photo-1508914127305-fa5114b81b3f?w=600" alt="Eid">
+                <div class="holiday-info">
+                    <h3>Eid al-Fitr</h3>
+                    <p>Celebrating the end of Ramadan with prayers, charity, and communal feasts across the nation.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="holiday-card">
+                <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=600" alt="Arefa">
+                <div class="holiday-info">
+                    <h3>Eid al-Adha (Arefa)</h3>
+                    <p>The Feast of Sacrifice, honoring the willingness of Ibrahim to obey Allah.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="holiday-card">
+                <img src="https://plus.unsplash.com/premium_photo-1695297516698-fd7a320a55e5?w=600" alt="Meskel">
+                <div class="holiday-info">
+                    <h3>Meskel</h3>
+                    <p>The Finding of the True Cross, famous for the giant Demera bonfire and yellow flowers.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Holiday AI Guide</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Melkam Be'al! Which holiday tradition should I explain first?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        function filterHoliday() {
+            let input = document.getElementById('holidaySearch').value.toLowerCase();
+            let cards = document.getElementsByClassName('holiday-card');
+            for (let card of cards) {
+                let title = card.querySelector('h3').innerText.toLowerCase();
+                card.style.display = title.includes(input) ? "block" : "none";
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if(!input.value.trim()) return;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28;">You: ${input.value}</div>`;
+            input.value = '';
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</body>
+</html>

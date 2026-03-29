@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ethiopian Music - EthioTravel AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #000; color: white; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        
+        /* Manual Scroll - No Scrollbar */
+        .main-scroll-wrapper {
+            height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .main-scroll-wrapper::-webkit-scrollbar { display: none; }
+
+        /* Search Area */
+        .search-area {
+            position: sticky;
+            top: 0;
+            background: rgba(0,0,0,0.9);
+            padding: 80px 20px 20px 80px;
+            z-index: 100;
+            text-align: center;
+        }
+        .search-bar {
+            width: 100%; max-width: 500px; padding: 15px 25px;
+            border-radius: 50px; border: 1px solid #333;
+            background: #111; color: white; outline: none;
+        }
+
+        /* Two-Row/Two-Column Grid */
+        .music-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two Columns */
+            gap: 25px;
+            padding: 20px 20px 100px 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .music-card {
+            background: #161616; border-radius: 20px; overflow: hidden;
+            border: 1px solid #222; transition: 0.3s;
+            position: relative;
+        }
+        .music-card:hover { border-color: #ffca28; transform: scale(1.02); }
+        .music-card img { width: 100%; height: 250px; object-fit: cover; opacity: 0.7; }
+        
+        .music-info { 
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            box-sizing: border-box;
+        }
+        .music-info h3 { margin: 0; color: #ffca28; font-size: 1.5rem; }
+        .music-info p { font-size: 0.85rem; color: #ccc; margin: 5px 0 15px; }
+
+        .explore-btn {
+            width: 100%; padding: 10px;
+            background: #ffca28; border: none; border-radius: 8px;
+            font-weight: bold; cursor: pointer; color: #000;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* Sidebar & Chat (Standardized) */
+        .sidebar.collapsed { width: 60px; }
+        .sidebar.collapsed .link-text { display: none; }
+        #sidebar { z-index: 1001; }
+        .ai-chat-wrapper { z-index: 3000; }
+
+        @media (max-width: 768px) {
+            .music-grid { grid-template-columns: 1fr; padding-left: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="music.html" style="color:#ffca28"><i class="fas fa-music"></i><span class="link-text">Music</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="main-scroll-wrapper">
+        <div class="search-area">
+            <input type="text" id="musicSearch" class="search-bar" placeholder="Search Music, Tezeta, Anchihoye..." onkeyup="filterMusic()">
+        </div>
+
+        <div class="music-grid" id="musicGrid">
+            <div class="music-card">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500" alt="Modern">
+                <div class="music-info">
+                    <h3>Modern Music</h3>
+                    <p>Ethio-Jazz and contemporary pop beats.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="music-card">
+                <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500" alt="Country">
+                <div class="music-info">
+                    <h3>Country Music</h3>
+                    <p>Traditional folk and rural melodies.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="music-card">
+                <img src="https://images.unsplash.com/photo-1453090927415-5f45085b65c0?w=500" alt="Mother">
+                <div class="music-info">
+                    <h3>Mother Music</h3>
+                    <p>Songs dedicated to mothers and heritage.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="music-card">
+                <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=500" alt="Love">
+                <div class="music-info">
+                    <h3>Love Music</h3>
+                    <p>Romantic ballads and soulful expressions.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="music-card">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500" alt="Anchihoye">
+                <div class="music-info">
+                    <h3>Anchihoye</h3>
+                    <p>The scale of royalty and church celebration.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="music-card">
+                <img src="https://images.unsplash.com/photo-1514525253361-b8748333c58a?w=500" alt="Tezeta">
+                <div class="music-info">
+                    <h3>Tezeta</h3>
+                    <p>Nostalgic blues and memories of the past.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+
+            <div class="music-card">
+                <img src="https://images.unsplash.com/photo-1507838596018-bd74d6bbac97?w=500" alt="Melody">
+                <div class="music-info">
+                    <h3>Melody</h3>
+                    <p>Instrumental Masinqo and Krar vibes.</p>
+                    <button class="explore-btn">Explore</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Music Guide AI</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Ameseginalehu! Ready to hear the soul of Ethiopia?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        function filterMusic() {
+            let input = document.getElementById('musicSearch').value.toLowerCase();
+            let cards = document.getElementsByClassName('music-card');
+            for (let card of cards) {
+                let title = card.querySelector('h3').innerText.toLowerCase();
+                card.style.display = title.includes(input) ? "block" : "none";
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if(!input.value.trim()) return;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28;">You: ${input.value}</div>`;
+            input.value = '';
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</body>
+</html>
