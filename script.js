@@ -33,17 +33,3 @@ app.get('/', (req, res) => {
 })
 
 app.use(express.static('public'))
-const express = require('express');
-const app = express();
-const path = require('path');
-
-// This line is the secret! It tells the server to look inside /public
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.listen(3000, () => {
-    console.log('Server running on http://localhost:3000');
-});

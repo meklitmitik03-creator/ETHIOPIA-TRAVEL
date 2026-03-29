@@ -20,7 +20,7 @@ body {
     width: 150px;
     background: linear-gradient(green, yellow, red);
     backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgb(0, 0, 0);
     z-index: 1000;
     transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -45,7 +45,7 @@ body {
 .nav-links li a {
     display: flex;
     align-items: center;
-    color: #070303;
+    color:black;
     text-decoration: none;
     padding: 15px 25px;
     transition: 0.2s;
@@ -54,12 +54,12 @@ body {
 
 .nav-links li a:hover {
     color: #ffcc00;
-    background: rgba(255, 204, 0, 0.1);
+    background: white;
 }
 
 .nav-links li i {
     font-size: 1.2rem;
-    min-width: 30px;
+    min-width: 25px;
 }
 
 .sidebar.collapsed .link-text {
@@ -86,11 +86,11 @@ body {
 
 /* GLASS CARDS */
 .glass-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(150, 142, 142, 0);
     backdrop-filter: blur(12px);
     padding: 50px;
     border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgb(10, 0, 0);
     text-align: center;
     color: white;
     max-width: 400px;
