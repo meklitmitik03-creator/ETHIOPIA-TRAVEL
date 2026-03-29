@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <title>Ethiopian Culture - EthioTravel AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .panel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+            scroll-snap-align: start;
+        }
+        #sidebar { z-index: 1001; }
+        .toggle-btn { z-index: 1002; cursor: pointer; }
+        .sidebar.collapsed { width: 70px; }
+        .sidebar.collapsed .link-text { display: none; }
+    </style>
+</head>
+
+<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#1a1a1a; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+    <div style="text-align:center; color:white;">
+        <h1 style="margin:0;">🎭</h1>
+        <p>EthioCulture AI</p>
+    </div>
+</div>
+
+<body>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html" class="active"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-history"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-paw"></i><span class="link-text">Animal</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container" id="mainScroll" style="height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory;">
+        
+        <section class="panel" id="cultureLanding" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://plus.unsplash.com/premium_photo-1695297516698-fd7a320a55e5?w=800');">
+            <div class="glass-card">
+                <i class="fas fa-mask card-icon"></i>
+                <h2>Ethiopian Culture</h2>
+                <button class="explore-btn" onclick="document.getElementById('food').scrollIntoView()">Explore</button>
+            </div>
+        </section>
+
+        <section id="food" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://plus.unsplash.com/premium_photo-1695297516698-fd7a320a55e5?w=800');">
+            <div class="glass-card"><h2>🥘 Food</h2><a href="food.html"><button class="explore-btn">Explore</button></a></div>
+        </section>
+
+        <section id="drink" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1623038455007-891466ff6016?w=800');">
+            <div class="glass-card"><h2>☕ Drink</h2><a href="drink.html"><button class="explore-btn">Explore</button></a></div>
+        </section>
+
+        <section id="region" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://plus.unsplash.com/premium_photo-1667401373119-f9af8c7ccf8e?w=800');">
+            <div class="glass-card"><h2>📍 Region</h2><a href="region.html"><button class="explore-btn">Explore</button></a></div>
+        </section>
+
+        <section id="religion" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/528342233/photo/the-church-of-saint-george-lalibela-ethiopia.jpg?s=612x612&w=0&k=20&c=wUBcNSg_rJ05u2X20asY-7vK-HNxWcfTL_obV80Nv4s=');">
+            <div class="glass-card"><h2>⛪ Religion</h2><a href="religion.html"><button class="explore-btn">Explore</button></a></div>
+        </section>
+
+        <section id="music" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1483671174579-bab2a5293389?w=800');">
+            <div class="glass-card"><h2>🎶 Music</h2><a href="music.html"><button class="explore-btn">Explore</button></a></div>
+        </section>
+
+        <section id="cloth" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1630861413071-a424a4d6d155?w=800');">
+            <div class="glass-card"><h2>👗 Cloth</h2><a href="cloth.html"><button class="explore-btn">Explore</button></a></div>
+        </section>
+
+        <section id="ceremony" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/155352114/photo/blue-nile-falls-in-tis-abay-ethiopia.webp?a=1&b=1&s=612x612&w=0&k=20&c=2UK9Ing5NrOwCcjdx-H6yQ7QuAC2S0-_ZWqvR5Hvr88=');">
+            <div class="glass-card"><h2>🤝 Ceremony</h2><a href="ceremony.html"><button class="explore-btn">Explore</button></a></div>
+        </section>
+
+        <section id="tradition" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1508914127305-fa5114b81b3f?q=80&w=870');">
+            <div class="glass-card"><h2>🏛️ Tradition</h2><a href="tradition.html"><button class="explore-btn">Explore</button></a></div>
+        </section>
+
+        <section id="holiday" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1571946080923-a81668948f52?w=500');">
+            <div class="glass-card"><h2>📅 Holiday</h2><a href="holiday.html"><button class="explore-btn">Explore</button></a></div>
+        </section>
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Culture AI Guide</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Ask me about Ethiopian Culture!</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0'; setTimeout(() => splash.remove(), 500);
+            }, 1500);
+        });
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if (!input.value.trim()) return;
+
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#2e7d32; font-weight:bold;">You: ${input.value}</div>`;
+            const msg = input.value; input.value = '';
+
+            try {
+                const response = await fetch('https://shiny-dollop-x5gxg6gw49g43645p-3000.app.github.dev/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await response.json();
+                chatContent.innerHTML += `<div class="ai-msg">${data.reply}</div>`;
+            } catch (error) {
+                chatContent.innerHTML += `<div class="ai-msg">Error connecting to AI.</div>`;
+            }
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</body>
+</html>

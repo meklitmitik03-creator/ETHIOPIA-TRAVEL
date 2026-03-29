@@ -245,37 +245,21 @@ function handleKeyPress(event) {
                 .then(() => console.log("Mobile App Mode: Active"))
                 .catch(err => console.error("SW Registration failed:", err));
         }
-    </script>
-    <button id="installApp" style="display:none; background:#ffca28; border:none; padding:10px; border-radius:5px; font-weight:bold; position: fixed; bottom: 20px; left: 20px; z-index: 1000;">📲 Install App</button>
-
     <script>
-        // 2. Mobile Install Logic
-        let deferredPrompt;
-        const installBtn = document.getElementById('installApp');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'block'; 
-        });
-
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    installBtn.style.display = 'none';
-                }
-                deferredPrompt = null;
+    installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                installBtn.style.display = 'none';
             }
-        });
-
-        // 3. Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then(() => console.log("Mobile App Mode: Active"))
-                .catch(err => console.error("SW Registration failed:", err));
+            deferredPrompt = null;
         }
-    </script>
-</body>
-</html>
+    });
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+</boy>
+d</html>
