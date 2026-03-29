@@ -6,101 +6,159 @@
     <title>Ethiopia AI Travel Guide</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+
+        /* Vertical Scroll Container */
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .panel {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- Horizontal Auto-Scrolling Background --- */
+        .bg-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            height: 100%;
+            /* 4 images = 400% width */
+            width: 400%; 
+            z-index: -1;
+            /* 2s per image = 8s total loop */
+            animation: sideScroll 8s infinite linear; 
+        }
+
+        .bg-slider img {
+            width: 25%; /* Each image takes 1/4 of the slider width */
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.5);
+        }
+
+        @keyframes sideScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-75%); } /* Moves through all 4 images */
+        }
+
+        /* UI Elements */
+        .glass-card {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px);
+            padding: 3rem;
+            border-radius: 25px;
+            color: white;
+            text-align: center;
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            max-width: 450px;
+        }
+
+        .explore-btn {
+            background: #ffcc00;
+            border: none;
+            padding: 12px 30px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .explore-btn:hover { transform: scale(1.1); background: white; }
+    </style>
 </head>
 <body>
 
     <nav class="sidebar" id="sidebar">
-        <div class="toggle-btn" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
+        <div class="sidebar-content">
+            <h2 style="color: #ffcc00; padding: 20px;">Ethiopia Guide</h2>
+            <a href="index.html">🏠 Home</a>
+            <a href="culture.html">🎭 Culture</a>
+            <a href="animal.html">🦁 Animals</a>
+            <a href="land.html">⛰️ Landscape</a>
+            <a href="hotel.html">🏨 Hotel</a>
         </div>
-        <div class="sidebar">
-    <h2>Ethiopia Guide</h2>
-    <a href="index.html">🏠 Home</a>
-    <a href="culture.html">🎭 Culture</a>
-    <a href="animal.html">🦁 Animals</a>
-    <a href="land.html">⛰️ Landscape</a>
-    <a href="hotel.html">🏨 Hotel & Resort</a>
-    <a href="history.html"> 🌍history </a>
-</div>
-    
+    </nav>
 
-    <main class="scroll-container">
+    <main class="scroll-container" id="mainContainer">
         
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1608634193723-1865aa4416ce?auto=format&fit=crop&q=80');">
+        <section class="panel">
+            <div class="bg-slider">
+                <img src="https://media.istockphoto.com/id/498103855/photo/colorful-woven-plates-of-ethiopia.webp?a=1&b=1&s=612x612&w=0&k=20&c=yq_mI4LvuBr4fBM828EzuwflsXVU-CyIstp6jdnDOUU=">
+                <img src="https://media.istockphoto.com/id/1060042082/photo/ethiopia-ethiopian-flag-textile-cloth-fabric-waving-on-the-top-sunrise-mist-fog.jpg?s=612x612&w=0&k=20&c=kumByuKQjCnoxronKx9E82xAqYjucuv-Do-oxundre0=">
+                <img src="https://media.istockphoto.com/id/155352114/photo/blue-nile-falls-in-tis-abay-ethiopia.webp?a=1&b=1&s=612x612&w=0&k=20&c=2UK9Ing5NrOwCcjdx-H6yQ7QuAC2S0-_ZWqvR5Hvr88=">
+                <img src="https://media.istockphoto.com/id/2228817333/photo/ethiopian-nun-reading-holy-book-in-a-rock-hewn-church-in-lalibela.webp?a=1&b=1&s=612x612&w=0&k=20&c=jQV27gbwBXLpAyl0W2M7csLric7_Q6cSBCMLVZoYSdA=">
+            </div>
             <div class="glass-card">
-                <i class="fas fa-plane-departure card-icon"></i>
+                <i class="fas fa-plane-departure" style="font-size: 3rem; color: #ffcc00;"></i>
                 <h2>Transport</h2>
                 <p>Navigate the Land of Origins with ease.</p>
                 <a href="transport.html"><button class="explore-btn">Explore</button></a>
             </div>
         </section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1634029878815-1bb307302471?auto=format&fit=crop&q=80');">
+        <section class="panel">
+            <div class="bg-slider" style="animation-duration: 6s;"> <img src="https://media.istockphoto.com/id/697529054/photo/the-church-of-saint-george-in-lalibela.webp?a=1&b=1&s=612x612&w=0&k=20&c=dBg19KDZyM0fpSri4GHZt7EQfOajmOlX1xkptf5eRZQ=">
+                <img src="https://media.istockphoto.com/id/174755039/photo/dorze-hut-ethiopia.jpg?s=612x612&w=0&k=20&c=jkFb4VsPHkGjF_UePzLQHI8Jwf-Wt8pKCt0kA8lhFHU=">
+                <img src="https://plus.unsplash.com/premium_photo-1723773650963-de7f36b9ed3d?w=500&auto=format&fit=crop&q=60">
+                <img src="https://media.istockphoto.com/id/697529054/photo/the-church-of-saint-george-in-lalibela.webp?a=1&b=1&s=612x612&w=0&k=20&c=dBg19KDZyM0fpSri4GHZt7EQfOajmOlX1xkptf5eRZQ=">
+            </div>
             <div class="glass-card">
-                <i class="fas fa-map-location-dot card-icon"></i>
+                <i class="fas fa-map-marked-alt" style="font-size: 3rem; color: #ffcc00;"></i>
                 <h2>Location</h2>
-                <p>From the Danakil Depression to the Simien peaks.</p>
-                <a href="location.html".html"><button class="explore-btn">Explore</button></a>
+                <p>Discover the ancient rock-hewn wonders of the north.</p>
+                <a href="location.html"><button class="explore-btn">Explore</button></a>
             </div>
         </section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(199, 177, 177, 0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1629995015838-ea0e985d8d1a?auto=format&fit=crop&q=80');">
+        <section class="panel" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/1162355737/photo/hotel-view-in-lalibela.webp?a=1&b=1&s=612x612&w=0&k=20&c=jGjicLiYzwRk4Q3cYoWtyFRNyoVJ36q6sdrANVt6Sw8=') center/cover;">
             <div class="glass-card">
-                <i class="fas fa-book-atlas card-icon"></i>
-                <h2>Booksing</h2>
-                <p>Explore we apprisate that you come to ethiopia .</p>
+                <i class="fas fa-hotel" style="font-size: 3rem; color: #ffcc00;"></i>
+                <h2>Booking</h2>
+                <p>Stay in the heart of history with our luxury selections.</p>
                 <a href="booking.html"><button class="explore-btn">Explore</button></a>
             </div>
         </section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://plus.unsplash.com/premium_photo-1697729902269-70f031f22531?auto=format&fit=crop&q=80');">
-            <div class="glass-card">
-                <i class="fas fa-city card-icon"></i>
-                <h2>Modern Ethiopia</h2>
-                <p>Experience the vibrant life of Addis Ababa.</p>
-                <a href="modernetiopia.html"><button class="explore-btn">Explore</button></a>
-            </div>
-        </section>
-
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1614981816670-3e65f4cfdb28?auto=format&fit=crop&q=80');">
-            <div class="glass-card">
-                <i class="fas fa-address-book card-icon"></i>
-                <h2>Contact</h2>
-                <p>Talk to local experts and plan your trip.</p>
-                <a href="contact.html"><button class="explore-btn">Explore</button></a>
-            </div>
-        </section>
     </main>
 
-    <div class="ai-chat-wrapper">
-        <div class="chat-toggle" onclick="toggleChat()">
-            <i class="fa-solid fa-robot"></i>
-        </div>
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header">
-                <span>Ethiopia AI Guide</span>
-                <i class="fa-solid fa-circle-info"></i>
-            </div>
-            <div class="chat-content" id="chatContent">
-                <div class="ai-msg">Ameseginalehu! How can I help you explore Ethiopia today?</div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" placeholder="Ask AI anything...">
-                <button><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        function toggleSidebar() {
-            const sb = document.getElementById('sidebar');
-            sb.classList.toggle('collapsed');
-        }
+        // 1. AUTOMATIC VERTICAL SCROLL (Every 5 seconds)
+        const container = document.getElementById('mainContainer');
+        let scrollIndex = 0;
+        const panels = document.querySelectorAll('.panel');
 
-        function toggleChat() {
-            const chat = document.getElementById('chatWindow');
-            chat.classList.toggle('active');
-        }
+        setInterval(() => {
+            scrollIndex++;
+            if (scrollIndex >= panels.length) {
+                scrollIndex = 0; // Loop back to top
+            }
+            container.scrollTo({
+                top: panels[scrollIndex].offsetTop,
+                behavior: 'smooth'
+            });
+        }, 5000); 
+
+        // 2. FORCE LINK TRIGGER (Fixes the button issue)
+        document.querySelectorAll('.explore-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const url = this.closest('a').getAttribute('href');
+                window.location.href = url;
+            });
+        });
     </script>
 </body>
 </html>
