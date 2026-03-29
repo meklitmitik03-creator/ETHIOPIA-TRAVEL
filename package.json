@@ -4,8 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-  "start": "node script.js"
-},
+    "start": "node script.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/meklitmitik03-creator/ETHIOPIA-TRAVEL.git"
@@ -13,14 +13,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type":"module",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/meklitmitik03-creator/ETHIOPIA-TRAVEL/issues"
   },
   "homepage": "https://github.com/meklitmitik03-creator/ETHIOPIA-TRAVEL#readme",
   "dependencies": {
+    "@huggingface/inference": "^4.13.15",
+    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "openai": "^6.33.0",
     "path": "^0.12.7",
     "pg": "^8.20.0"
   }

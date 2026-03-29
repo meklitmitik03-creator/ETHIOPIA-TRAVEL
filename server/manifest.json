@@ -1,0 +1,15 @@
+{
+  "name": "Ethiopia Travel Guide",
+  "short_name": "EthioTravel",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#008800",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/330/330551.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

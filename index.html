@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2e7d32">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ethiopia AI Travel Guide</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,6 +28,23 @@
         .toggle-btn { z-index: 1002; cursor: pointer; }
     </style>
 </head>
+<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#2e7d32; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+    <div style="text-align:center; color:white;">
+        <h1 style="margin:0;">🇪🇹</h1>
+        <p>EthioTravel AI</p>
+    </div>
+</div>
+
+<script>
+    // This hides the splash screen after the page loads
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            splash.style.opacity = '0';
+            setTimeout(() => splash.remove(), 500);
+        }, 1500); // Shows for 1.5 seconds
+    });
+</script>
 <body>
 
     <nav class="sidebar" id="sidebar">
@@ -100,13 +122,58 @@
                 <div class="ai-msg">Ameseginalehu! How can I help you explore Ethiopia today?</div>
             </div>
             <div class="chat-input-area">
-                <input type="text" placeholder="Ask AI anything...">
-                <button><i class="fa-solid fa-paper-plane"></i></button>
+                <input type="text" id="userInput" placeholder="Ask AI anything..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
     <script>
+      
+// This function sends the message to your Node.js server
+async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const chatContent = document.getElementById('chatContent');
+    const message = input.value.trim();
+
+    if (!message) return;
+
+    // 1. Show your message in the chat window
+    chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#2e7d32; font-weight:bold;">You: ${message}</div>`;
+    input.value = ''; // Clear input
+
+    // 2. Add a temporary loading message
+    const loadingDiv = document.createElement("div");
+    loadingDiv.className = "ai-msg";
+    loadingDiv.innerText = "AI is thinking... ⏳";
+    chatContent.appendChild(loadingDiv);
+    chatContent.scrollTop = chatContent.scrollHeight;
+
+    try {
+        // 3. Talk to your server.js
+        // Change line 134 to this:
+const response = await fetch('https://shiny-dollop-x5gxg6gw49g43645p-3000.app.github.dev/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
+        });
+
+        const data = await response.json();
+        
+        // 4. Replace loading message with real AI reply
+        loadingDiv.innerText = data.reply || data.error;
+    } catch (error) {
+        loadingDiv.innerText = "Error: Make sure 'node server.js' is running in your terminal!";
+    }
+    chatContent.scrollTop = chatContent.scrollHeight;
+}
+
+// This allows the "Enter" key to work
+function handleKeyPress(event) {
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+}
         function toggleSidebar() {
             const sb = document.getElementById('sidebar');
             sb.classList.toggle('collapsed');
@@ -147,6 +214,68 @@
                 window.location.href = url;
             });
         });
+        
+    </script>
+    <button id="installApp" style="display:none; background:#ffca28; border:none; padding:10px; border-radius:5px; font-weight:bold; position: fixed; bottom: 20px; left: 20px; z-index: 1000;">📲 Install App</button>
+   <script>
+        // 1. MOBILE INSTALL LOGIC
+        let deferredPrompt;
+        const installBtn = document.getElementById('installApp');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block'; 
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        // 2. SERVICE WORKER REGISTRATION
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log("Mobile App Mode: Active"))
+                .catch(err => console.error("SW Registration failed:", err));
+        }
+    </script>
+    <button id="installApp" style="display:none; background:#ffca28; border:none; padding:10px; border-radius:5px; font-weight:bold; position: fixed; bottom: 20px; left: 20px; z-index: 1000;">📲 Install App</button>
+
+    <script>
+        // 2. Mobile Install Logic
+        let deferredPrompt;
+        const installBtn = document.getElementById('installApp');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block'; 
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        // 3. Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log("Mobile App Mode: Active"))
+                .catch(err => console.error("SW Registration failed:", err));
+        }
     </script>
 </body>
 </html>

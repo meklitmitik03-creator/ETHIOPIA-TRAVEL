@@ -326,3 +326,24 @@ body {
 .airport-card {
     border: 2px solid #ffcc00;
 }
+/* Prevent horizontal scrolling and bouncy behavior */
+html, body {
+    overflow-x: hidden;
+    position: relative;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    touch-action: manipulation; /* Makes buttons feel faster */
+}
+
+/* Make the Chat Box look like a mobile popup */
+@media (max-width: 600px) {
+    #chat-container {
+        width: 100% !important;
+        height: 80vh !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        border-radius: 20px 20px 0 0 !important;
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+    }
+}
