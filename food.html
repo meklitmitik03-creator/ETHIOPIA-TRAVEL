@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ethiopian Food - EthioTravel AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #000; color: white; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        
+        /* Manual Scroll - No Scrollbar */
+        .main-scroll-wrapper {
+            height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE/Edge */
+        }
+        .main-scroll-wrapper::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        /* Search Bar Sticky */
+        .search-area {
+            position: sticky;
+            top: 0;
+            background: rgba(0,0,0,0.9);
+            padding: 80px 20px 20px 80px;
+            z-index: 100;
+            text-align: center;
+        }
+        .search-bar {
+            width: 100%; max-width: 500px; padding: 15px 25px;
+            border-radius: 50px; border: 1px solid #333;
+            background: #111; color: white; outline: none;
+        }
+
+        /* Food Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px 20px 100px 100px;
+        }
+
+        .food-card {
+            background: #161616; border-radius: 15px; overflow: hidden;
+            border: 1px solid #222; transition: 0.3s;
+        }
+        .food-card:hover { border-color: #ffca28; }
+        .food-card img { width: 100%; height: 220px; object-fit: cover; }
+        .food-info { padding: 15px; }
+        .food-info h3 { margin: 0; color: #ffca28; }
+        .culture-text { font-size: 0.8rem; color: #888; margin: 5px 0; }
+
+        .order-btn {
+            width: 100%; padding: 12px; margin-top: 10px;
+            background: #ffca28; border: none; border-radius: 8px;
+            font-weight: bold; cursor: pointer;
+        }
+
+        /* Order Popup */
+        #orderPopup {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 5000; justify-content: center; align-items: center;
+        }
+        .popup-card {
+            background: #1a1a1a; padding: 30px; border-radius: 20px;
+            width: 90%; max-width: 380px; border: 1px solid #ffca28; text-align: center;
+        }
+        .popup-card input {
+            width: 90%; padding: 12px; margin: 10px 0;
+            background: #222; border: 1px solid #444; color: white; border-radius: 8px;
+        }
+
+        /* Sidebar & Chat (RESTORING ORIGINAL STRUCTURE) */
+        .sidebar.collapsed { width: 60px; }
+        .sidebar.collapsed .link-text { display: none; }
+        #sidebar { z-index: 1001; }
+        .ai-chat-wrapper { z-index: 3000; }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="food.html" style="color:#ffca28"><i class="fas fa-utensils"></i><span class="link-text">Food</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="main-scroll-wrapper">
+        <div class="search-area">
+            <input type="text" id="foodSearch" class="search-bar" placeholder="Search Kitfo, Shiro, Tibs..." onkeyup="filterFood()">
+        </div>
+
+        <div class="food-grid" id="foodGrid">
+            </div>
+    </div>
+
+    <div id="orderPopup">
+        <div class="popup-card" id="popupContent">
+            <h2 style="color:#ffca28">Complete Your Order</h2>
+            <input type="text" id="name" placeholder="Full Name">
+            <input type="text" id="phone" placeholder="Phone Number">
+            <input type="text" id="loc" placeholder="Delivery Location (City/Street)">
+            <button class="order-btn" onclick="processOrder()">Confirm Order</button>
+        </div>
+    </div>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Ethiopia Food AI</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Ask me anything about these 100 dishes!</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. DATA FOR 100 CARDS
+        const dishes = [
+            {n: "Kitfo", c: "Gurage", l: "Wolkite", i: "https://media.istockphoto.com/id/1514288265/photo/several-ethiopian-entrees.jpg?s=612x612&w=0&k=20&c=HGEJTPRNh_yKOii1tuP_yv6xu-McXl7QjME3dbNwr0M="},
+            {n: "Shiro Wat", c: "Oromo", l: "Jimma", i: "https://media.istockphoto.com/id/454977029/photo/ethiopian-feast.jpg?s=612x612&w=0&k=20&c=dIiqQqgvsoaTYcEwpJnC27Da7eedmC3RiBiWz--9Wfw="},
+            {n: "Doro Wat", c: "Amhara", l: "Addis Ababa", i: "https://media.istockphoto.com/id/1514286669/photo/bowl-of-doro-wat.jpg?s=612x612&w=0&k=20&c=ro46aZ2akatSFlMrS_Po2yy0NvxthaptsTIYqgoQXJY="},
+            {n: "Beef Tibs", c: "General", l: "Adama", i: "https://media.istockphoto.com/id/1514288000/photo/ethiopian-combination-platter.jpg?s=612x612&w=0&k=20&c=FONW4wguKdiRx89VSaKunp8m2f679b0tSZUnBhpFVs4="},
+            {n: "Beyaynetu", c: "Orthodox", l: "Axum", i: "https://media.istockphoto.com/id/1623067219/photo/injera-is-a-sourdough-flatbread-made-from-teff-flour-served-with-filling-close-up-on-the.jpg?s=612x612&w=0&k=20&c=xlcoiXvMxG_SqGSTKYABpo3nWInIj5q2cI4ODjOdlUI="}
+        ];
+
+        const grid = document.getElementById('foodGrid');
+        for (let i = 0; i < 100; i++) {
+            let item = dishes[i % dishes.length];
+            grid.innerHTML += `
+                <div class="food-card">
+                    <img src="${item.i}&sig=${i}" alt="Food">
+                    <div class="food-info">
+                        <h3>${item.n} #${i+1}</h3>
+                        <p class="culture-text">Culture: ${item.c} | Origin: ${item.l}</p>
+                        <button class="order-btn" onclick="openOrder()">Order Now</button>
+                    </div>
+                </div>`;
+        }
+
+        // 2. ORDER FLOW
+        function openOrder() { document.getElementById('orderPopup').style.display = 'flex'; }
+        
+        function processOrder() {
+            const content = document.getElementById('popupContent');
+            content.innerHTML = `<h2 style="color:#4caf50">Order Successful!</h2><p>It will be there soon.</p>`;
+            setTimeout(() => {
+                document.getElementById('orderPopup').style.display = 'none';
+                location.reload(); // Returns to normal
+            }, 1000);
+        }
+
+        // 3. UI LOGIC (RESTORED)
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        function filterFood() {
+            let input = document.getElementById('foodSearch').value.toLowerCase();
+            let cards = document.getElementsByClassName('food-card');
+            for (let card of cards) {
+                let title = card.querySelector('h3').innerText.toLowerCase();
+                card.style.display = title.includes(input) ? "block" : "none";
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if(!input.value.trim()) return;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28;">You: ${input.value}</div>`;
+            input.value = '';
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</body>
+</html>
