@@ -6,19 +6,41 @@
     <title>Transport - Ethiopia Guide</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background-color: #000; overflow: hidden; }
+        /* Base Reset */
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            height: 100%; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #000; 
+            overflow: hidden; 
+        }
 
         /* FIXED BACKGROUND SYSTEM */
         #bgLayer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-size: cover; background-position: center; background-repeat: no-repeat;
-            transition: background-image 0.5s ease-in-out; /* 0.5s transition */
-            /* Initial background using your first new link */
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/2203115946/photo/passenger-plane-interior.webp?a=1&b=1&s=612x612&w=0&k=20&c=2KLzy7fdOrRCoNHk__PZp2Hk99tR6cJNkD6v9xtIWVU=');
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 0.5s ease-in-out; /* 0.5s transition as requested */
+            /* Initial Image */
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/1296923626/photo/plane-landing-in-addis-ababa-ethiopia-airport-with-signboard.jpg?s=612x612&w=0&k=20&c=qXnfn34_VgdKAKiv1GvGtDx9WZ2F2DG0ch-PHmSQBPI=');
         }
 
-        .scroll-container { height: 100vh; overflow-y: auto; scroll-behavior: smooth; padding-left: 60px; }
+        /* MANUAL SCROLL CONTAINER */
+        .scroll-container {
+            height: 100vh;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            padding-left: 60px; /* Space for the collapsed sidebar */
+        }
 
+        /* GRID LAYOUT FOR 10 CARDS */
         .content-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -27,51 +49,142 @@
             justify-items: center;
         }
 
+        /* MEDIUM SIZED EXPANDING CARDS */
         .transport-card {
             background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            width: 350px;
+            width: 350px; /* Medium width */
             padding: 25px;
             color: white;
-            transition: height 0.4s ease;
-            height: 220px;
+            transition: height 0.4s ease, border-color 0.4s ease;
+            height: 220px; /* Closed height */
             overflow: hidden;
+            position: relative;
         }
 
-        .transport-card.expanded { height: 420px; border-color: #ffcc00; }
-        .transport-card h3 { color: #ffcc00; margin: 15px 0; }
+        .transport-card.expanded { 
+            height: 420px; 
+            border-color: #ffcc00; 
+        }
 
+        .transport-card i { color: #ffcc00; margin-bottom: 10px; }
+        .transport-card h3 { color: #ffcc00; margin: 10px 0; font-size: 1.5rem; }
+        .transport-card p { font-size: 0.95rem; line-height: 1.4; opacity: 0.9; }
+
+        /* BUTTONS */
         .see-more { 
-            background: #ffcc00; border: none; padding: 12px; border-radius: 8px; 
-            cursor: pointer; font-weight: bold; width: 100%; color: #000; margin-top: 10px;
+            background: #ffcc00; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            width: 100%; 
+            color: #000; /* BLACK TEXT */
+            margin-top: 15px;
+            transition: 0.3s;
         }
 
-        .btn-group { margin-top: 20px; display: none; flex-direction: column; gap: 10px; }
+        .btn-group { 
+            margin-top: 20px; 
+            display: none; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+
         .transport-card.expanded .btn-group { display: flex; }
-        .call-btn { background: #008844; color: white; padding: 12px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; }
-        .contact-btn { background: #ee334e; color: white; padding: 12px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; }
-
-        /* SIDEBAR - SAME AS HOME */
-        #sidebar { 
-            width: 180px; height: 100vh; position: fixed; left: 0; top: 0;
-            background: linear-gradient(to bottom, #008844, #ffcc00, #ee334e);
-            transition: 0.5s; z-index: 1001; 
+        
+        .call-btn { 
+            background: #008844; 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            text-align: center; 
+            text-decoration: none; 
+            font-weight: bold; 
         }
-        #sidebar.collapsed { width: 70px; }
+
+        .contact-btn { 
+            background: #ee334e; 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            text-align: center; 
+            text-decoration: none; 
+            font-weight: bold; 
+        }
+
+        /* SIDEBAR - EXACTLY SAME AS HOME PAGE */
+        #sidebar { 
+            width: 180px; 
+            height: 100vh; 
+            position: fixed; 
+            left: 0; 
+            top: 0;
+            background: linear-gradient(to bottom, #008844, #ffcc00, #ee334e);
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+            z-index: 1001; 
+        }
+
+        #sidebar.collapsed { 
+            width: 60px; /* Stays as a thin bar, does not disappear */
+        }
+
         #sidebar.collapsed .link-text { display: none; }
+        
         .nav-links { list-style: none; padding: 80px 0 0 0; margin: 0; }
-        .nav-links li a { display: flex; align-items: center; padding: 20px; color: #000; text-decoration: none; font-weight: bold; white-space: nowrap; }
-        .nav-links i { min-width: 40px; font-size: 1.5rem; text-align: center; }
-        .toggle-btn { z-index: 1002; cursor: pointer; position: fixed; left: 15px; top: 20px; color: #000; font-size: 1.8rem; }
+        
+        .nav-links li a { 
+            display: flex; 
+            align-items: center; 
+            padding: 20px; 
+            color: #000; 
+            text-decoration: none; 
+            font-weight: bold; 
+            white-space: nowrap;
+        }
+
+        .nav-links i { min-width: 40px; font-size: 1.4rem; text-align: center; }
+
+        .toggle-btn { 
+            z-index: 1002; 
+            cursor: pointer; 
+            position: fixed; 
+            left: 15px; 
+            top: 20px; 
+            color: #000; 
+            font-size: 1.8rem; 
+        }
+
+        /* CHAT BOX - SAME AS HOME */
+        .ai-chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 2000; }
+        .chat-toggle { 
+            background: #ee334e; width: 60px; height: 60px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            color: white; font-size: 24px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .chat-window {
+            position: absolute; bottom: 80px; right: 0; width: 320px; height: 450px;
+            background: rgba(0,0,0,0.9); border: 1px solid #ffcc00; border-radius: 15px;
+            display: none; flex-direction: column; overflow: hidden; backdrop-filter: blur(10px);
+        }
+        .chat-window.active { display: flex; }
+        .chat-header { background: #ffcc00; color: #000; padding: 15px; font-weight: bold; }
+        .chat-content { flex: 1; padding: 15px; color: white; overflow-y: auto; font-size: 0.9rem; }
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid #333; }
+        .chat-input-area input { flex: 1; background: #222; border: none; padding: 10px; color: white; border-radius: 5px; }
+        .chat-input-area button { background: #ffcc00; border: none; padding: 0 15px; margin-left: 5px; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="bgLayer"></div>
 
-    <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+    <div class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
 
     <nav class="sidebar collapsed" id="sidebar">
         <ul class="nav-links">
@@ -86,88 +199,173 @@
 
     <main class="scroll-container">
         <div class="content-grid">
+            
             <div class="transport-card" id="c1">
-                <i class="fas fa-taxi fa-2x"></i><h3>Yango Ethiopia</h3>
-                <p>Reliable ride-hailing app for quick city transport.</p>
+                <i class="fas fa-taxi fa-2x"></i>
+                <h3>Yango Ethiopia</h3>
+                <p>Global ride-hailing service providing comfort and economy rides across the city.</p>
                 <button class="see-more" onclick="expandCard('c1')">See More</button>
-                <div class="btn-group"><a href="tel:952" class="call-btn">Call 952</a></div>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Company Info</a>
+                    <a href="tel:952" class="call-btn"><i class="fas fa-phone"></i> Call 952 Now</a>
+                </div>
             </div>
+
             <div class="transport-card" id="c2">
-                <i class="fas fa-horse fa-2x"></i><h3>Feres</h3>
-                <p>Leading local taxi service with rewards program.</p>
+                <i class="fas fa-horse fa-2x"></i>
+                <h3>Feres Taxi</h3>
+                <p>Ethiopia's favorite local ride service known for its "Miles" reward system.</p>
                 <button class="see-more" onclick="expandCard('c2')">See More</button>
-                <div class="btn-group"><a href="tel:6090" class="call-btn">Call 6090</a></div>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Contact Company</a>
+                    <a href="tel:6090" class="call-btn"><i class="fas fa-phone"></i> Call 6090 Now</a>
+                </div>
             </div>
+
             <div class="transport-card" id="c3">
-                <i class="fas fa-car-side fa-2x"></i><h3>Ride</h3>
-                <p>The most popular taxi booking platform in Addis.</p>
+                <i class="fas fa-car-side fa-2x"></i>
+                <h3>Ride Ethiopia</h3>
+                <p>The pioneer of taxi-hailing apps in Addis Ababa, offering safe and reliable transport.</p>
                 <button class="see-more" onclick="expandCard('c3')">See More</button>
-                <div class="btn-group"><a href="tel:8294" class="call-btn">Call 8294</a></div>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Company Info</a>
+                    <a href="tel:8294" class="call-btn"><i class="fas fa-phone"></i> Call 8294 Now</a>
+                </div>
             </div>
+
             <div class="transport-card" id="c4">
-                <i class="fas fa-plane fa-2x"></i><h3>Ethiopian Airlines</h3>
-                <p>Africa's world-class airline for global travel.</p>
+                <i class="fas fa-plane fa-2x"></i>
+                <h3>Ethiopian Airlines</h3>
+                <p>The Pride of Africa, connecting you to the world with award-winning service.</p>
                 <button class="see-more" onclick="expandCard('c4')">See More</button>
-                <div class="btn-group"><a href="tel:+251116656666" class="call-btn">Call Now</a></div>
+                <div class="btn-group">
+                    <a href="https://www.ethiopianairlines.com" target="_blank" class="contact-btn">Visit Website</a>
+                    <a href="tel:+251116656666" class="call-btn"><i class="fas fa-phone"></i> Call Desk</a>
+                </div>
             </div>
+
             <div class="transport-card" id="c5">
-                <i class="fas fa-car fa-2x"></i><h3>ZayRide</h3>
-                <p>Fast and safe ride-sharing for urban travel.</p>
+                <i class="fas fa-car fa-2x"></i>
+                <h3>ZayRide</h3>
+                <p>A fast-growing on-demand taxi platform focused on urban efficiency.</p>
                 <button class="see-more" onclick="expandCard('c5')">See More</button>
-                <div class="btn-group"><a href="tel:6300" class="call-btn">Call 6300</a></div>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">App Details</a>
+                    <a href="tel:6300" class="call-btn"><i class="fas fa-phone"></i> Call 6300</a>
+                </div>
             </div>
+
             <div class="transport-card" id="c6">
-                <i class="fas fa-train fa-2x"></i><h3>Railway</h3>
-                <p>Modern train services connecting to Djibouti.</p>
+                <i class="fas fa-train fa-2x"></i>
+                <h3>Ethio-Djibouti Rail</h3>
+                <p>Modern cross-border train journey connecting Addis Ababa to Djibouti port.</p>
                 <button class="see-more" onclick="expandCard('c6')">See More</button>
-                <div class="btn-group"><a href="tel:7544" class="call-btn">Call Station</a></div>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Schedules</a>
+                    <a href="tel:7544" class="call-btn"><i class="fas fa-phone"></i> Call Station</a>
+                </div>
             </div>
+
             <div class="transport-card" id="c7">
-                <i class="fas fa-motorcycle fa-2x"></i><h3>Pick Pick</h3>
-                <p>Quick transport and delivery services.</p>
+                <i class="fas fa-motorcycle fa-2x"></i>
+                <h3>Pick Pick Taxi</h3>
+                <p>Reliable and fast motorcycle and small vehicle transport for traffic avoidance.</p>
                 <button class="see-more" onclick="expandCard('c7')">See More</button>
-                <div class="btn-group"><a href="tel:6868" class="call-btn">Call 6868</a></div>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Support</a>
+                    <a href="tel:6868" class="call-btn"><i class="fas fa-phone"></i> Call 6868</a>
+                </div>
             </div>
+
             <div class="transport-card" id="c8">
-                <i class="fas fa-bus fa-2x"></i><h3>Sheger Bus</h3>
-                <p>Reliable city-wide public bus transport.</p>
+                <i class="fas fa-bus fa-2x"></i>
+                <h3>Sheger Bus</h3>
+                <p>Mass transit services serving the diverse routes of Addis Ababa city.</p>
                 <button class="see-more" onclick="expandCard('c8')">See More</button>
-                <div class="btn-group"><a href="#" class="call-btn">Support</a></div>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Route Map</a>
+                    <a href="#" class="call-btn">Support Center</a>
+                </div>
             </div>
+
             <div class="transport-card" id="c9">
-                <i class="fas fa-taxi fa-2x"></i><h3>Blue Lada</h3>
-                <p>Iconic traditional street-hailed taxis.</p>
+                <i class="fas fa-taxi fa-2x"></i>
+                <h3>Classic Blue Taxi</h3>
+                <p>The iconic blue and white street-hailed taxis found everywhere in Ethiopia.</p>
                 <button class="see-more" onclick="expandCard('c9')">See More</button>
-                <div class="btn-group"><a href="#" class="call-btn">Price Guide</a></div>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Safety Info</a>
+                    <a href="#" class="call-btn">Check Prices</a>
+                </div>
             </div>
+
             <div class="transport-card" id="c10">
-                <i class="fas fa-bus-simple fa-2x"></i><h3>Sky Bus</h3>
-                <p>Luxury inter-city travel across Ethiopia.</p>
+                <i class="fas fa-bus-simple fa-2x"></i>
+                <h3>Sky Bus</h3>
+                <p>Inter-city luxury bus travel providing high-quality coaches for long journeys.</p>
                 <button class="see-more" onclick="expandCard('c10')">See More</button>
-                <div class="btn-group"><a href="tel:011" class="call-btn">Call Desk</a></div>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Get Tickets</a>
+                    <a href="tel:011" class="call-btn"><i class="fas fa-phone"></i> Call Terminal</a>
+                </div>
             </div>
+
         </div>
     </main>
 
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Ethiopia AI Guide</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Happy day! Where do you want to go? If you have any question ask me.</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" placeholder="Ask AI anything...">
+                <button><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        // Sidebar logic
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        // Chat logic
+        function toggleChat() {
+            document.getElementById('chatWindow').classList.toggle('active');
+        }
+
+        // Card expand logic
         function expandCard(id) {
             const card = document.getElementById(id);
             card.classList.toggle('expanded');
-            card.querySelector('.see-more').innerText = card.classList.contains('expanded') ? "Close" : "See More";
+            const btn = card.querySelector('.see-more');
+            btn.innerText = card.classList.contains('expanded') ? "Close" : "See More";
         }
 
+        // BACKGROUND ROTATION WITH FIXED IMAGES
+        const bgLayer = document.getElementById('bgLayer');
         const images = [
-            "https://media.istockphoto.com/id/2203115946/photo/passenger-plane-interior.webp?a=1&b=1&s=612x612&w=0&k=20&c=2KLzy7fdOrRCoNHk__PZp2Hk99tR6cJNkD6v9xtIWVU=",
-            "https://images.unsplash.com/photo-1436491865332-7a61a109c05?w=500&auto=format&fit=crop&q=60",
-            "https://images.unsplash.com/photo-1692029861107-991b13db6ad0?w=500&auto=format&fit=crop&q=60"
+            "https://media.istockphoto.com/id/1296923626/photo/plane-landing-in-addis-ababa-ethiopia-airport-with-signboard.jpg?s=612x612&w=0&k=20&c=qXnfn34_VgdKAKiv1GvGtDx9WZ2F2DG0ch-PHmSQBPI=",
+            "https://media.istockphoto.com/id/2200627004/photo/victoria-falls-airport-terminal-building-facade-zimbabwe-travel-to-africa.jpg?s=612x612&w=0&k=20&c=KZYY4k1MxIxqgv6hL4YOJS8Rmjg1xayrRGF2n0leJ_4=",
+            "https://media.istockphoto.com/id/1202817564/photo/passenger-jet-takeoff.jpg?s=612x612&w=0&k=20&c=aTky3Qfrowqr006gtZnjJXgah-WABM9bQ3D9qFSz6rY=",
+            "https://media.istockphoto.com/id/1316560346/photo/flag-of-ethiopia-with-passport-and-toy-airplane-on-wooden-background.jpg?s=612x612&w=0&k=20&c=N8sJJPhloPtSNBRM7kOv-bow-pg84GSvfEK0XYxtKPU="
         ];
         
         let imgIndex = 0;
-        setInterval(() => {
+        function rotateBackground() {
             imgIndex = (imgIndex + 1) % images.length;
-            document.getElementById('bgLayer').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${images[imgIndex]}')`;
-        }, 10000);
+            // Apply 0.5s fade via the CSS transition property defined above
+            bgLayer.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${images[imgIndex]}')`;
+        }
+        
+        // Rotate every 10 seconds
+        setInterval(rotateBackground, 10000);
     </script>
 </body>
 </html>
