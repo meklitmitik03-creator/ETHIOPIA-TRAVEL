@@ -3,227 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore Locations - Ethiopia Travel</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Location - Ethiopia Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            /* Using one of your provided backgrounds */
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1619468129361-605ebea04b44?w=800');
-            background-size: cover;
-            background-attachment: fixed;
-            color: white;
-            display: flex;
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background-color: #000; overflow: hidden; }
+
+        /* FIXED BACKGROUND */
+        #bgLayer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-size: cover; background-position: center;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1619468129361-605ebea04b44?w=1000&auto=format&fit=crop&q=80');
         }
 
-        /* Sidebar Styling */
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
+        .scroll-container { height: 100vh; overflow-y: auto; padding-left: 60px; scroll-behavior: smooth; }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 100px 40px;
+            justify-items: center;
+        }
+
+        /* BLACK CARDS WITH WHITE TEXT */
+        .location-card {
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            width: 350px;
+            padding: 25px;
+            color: #fff;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 280px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            border-right: 1px solid #ffcc00;
         }
 
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            padding: 10px;
-            border-radius: 5px;
+        .location-card.expanded { width: 90%; grid-column: 1 / -1; }
+        .location-card h3 { color: #ffcc00; margin: 10px 0; display: flex; align-items: center; gap: 10px; font-size: 1.5rem; }
+        
+        /* MAP AREA */
+        .map-frame-container { 
+            width: 100%; 
+            height: 0; 
+            border-radius: 12px; 
+            transition: height 0.5s ease; 
+            margin-top: 15px; 
+            overflow: hidden; 
+            border: 1px solid #333;
+        }
+        .location-card.expanded .map-frame-container { height: 450px; border-color: #ffcc00; }
+        iframe { width: 100%; height: 100%; border: none; background: #111; }
+
+        .dir-input { width: 92%; padding: 12px; margin: 5px 0; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; outline: none; }
+        .info-display { margin-top: 15px; color: #ffcc00; font-weight: bold; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; display: none; }
+
+        .action-btn { 
+            background: #ffcc00; border: none; padding: 12px; border-radius: 8px; 
+            cursor: pointer; font-weight: bold; width: 100%; color: #000; margin-top: 10px;
             transition: 0.3s;
         }
 
-        .sidebar a:hover {
-            background: #ffcc00;
-            color: black;
-        }
+        /* SIDEBAR */
+        #sidebar { width: 250px; height: 100vh; position: fixed; left: 0; top: 0; background: linear-gradient(to bottom, #008844, #ffcc00, #ee334e); transition: 0.5s; z-index: 1001; }
+        #sidebar.collapsed { width: 70px; }
+        #sidebar.collapsed .link-text { display: none; }
+        .nav-links { list-style: none; padding: 80px 0 0 0; margin: 0; }
+        .nav-links li a { display: flex; align-items: center; padding: 20px; color: #000; text-decoration: none; font-weight: bold; white-space: nowrap; }
+        .nav-links i { min-width: 40px; font-size: 1.5rem; text-align: center; }
+        .toggle-btn { z-index: 1002; cursor: pointer; position: fixed; left: 15px; top: 20px; color: #000; font-size: 1.8rem; }
 
-        /* Main Content */
-        .main-content {
-            flex-grow: 1;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .map-container {
-            width: 100%;
-            max-width: 800px;
-            height: 450px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 3px solid #ffcc00;
-            margin-top: 20px;
-        }
-
-        /* Chat AI Box (Floating Right) */
-        .chat-ai {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            background: white;
-            color: black;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-header {
-            background: #ffcc00;
-            padding: 10px;
-            border-radius: 10px 10px 0 0;
-            font-weight: bold;
-        }
-
-        .chat-body {
-            height: 200px;
-            padding: 10px;
-            overflow-y: auto;
-            font-size: 0.9rem;
-        }
-
-        .chat-input {
-            display: flex;
-            border-top: 1px solid #ccc;
-        }
-
-        .chat-input input {
-            flex-grow: 1;
-            border: none;
-            padding: 10px;
-        }
-
-        .location-info {
-            background: rgba(0,0,0,0.7);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        /* CHAT BOX */
+        .ai-chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 2000; }
+        .chat-toggle { background: #ee334e; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 24px; }
+        .chat-window { position: absolute; bottom: 80px; right: 0; width: 300px; background: #000; border: 1px solid #ffcc00; border-radius: 15px; display: none; flex-direction: column; overflow: hidden; }
+        .chat-window.active { display: flex; }
+        .chat-header { background: #ffcc00; color: #000; padding: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <h2>Travel Guide</h2>
-        <a href="index.html">🏠 Home</a>
-        <a href="transport.html">🚗 Transport</a>
-        <a href="locations.html" style="background: #ffcc00; color: black;">📍 Locations</a>
-        <a href="#">🍴 Food</a>
-    </div>
+    <div id="bgLayer"></div>
+    <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
 
-    <div class="main-content">
-    <div class="location-info">
-        <h1>Addis Ababa Real-Time Guide</h1>
-        <p>Search for landmarks or find your current position</p>
-        
-        <div style="margin: 15px 0;">
-            <input type="text" id="map-search" placeholder="Enter a place (e.g. Bole Airport, National Museum)..." 
-                   style="padding: 10px; width: 300px; border-radius: 5px; border: none;">
-            <button onclick="searchLocation()" 
-                    style="padding: 10px 20px; background: #ffcc00; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                🔍 Search
-            </button>
+    <nav class="sidebar collapsed" id="sidebar">
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container">
+        <div class="content-grid">
+            
+            <div class="location-card" id="ethiopiaMapCard">
+                <h3><i class="fas fa-map-marked-alt"></i> Ethiopia Map</h3>
+                <p>Explore the general map of Ethiopia.</p>
+                <button class="action-btn" onclick="toggleSimpleMap()">See General Map</button>
+                <div class="map-frame-container">
+                    <iframe id="general-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4041040.651711244!2d36.31174661413158!3d8.995078564177573!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1635a01cd2313689%3A0x6a13778a87b1e846!2sEthiopia!5e0!3m2!1sen!2set!4v1700000000000!5m2!1sen!2set"></iframe>
+                </div>
+            </div>
+
+            <div class="location-card" id="locateCard">
+                <h3><i class="fas fa-location-crosshairs"></i> Locate Me</h3>
+                <p>Find your name, coordinates and show on map.</p>
+                <div id="loc-stats" class="info-display"></div>
+                <button class="action-btn" onclick="runLocateMe()">Find & Show Me</button>
+                <div class="map-frame-container">
+                    <iframe id="locate-map" src=""></iframe>
+                </div>
+            </div>
+
+            <div class="location-card" id="dirCard">
+                <h3><i class="fas fa-car"></i> Car Director</h3>
+                <input type="text" class="dir-input" id="startP" placeholder="Start Point (e.g. Addis)">
+                <input type="text" class="dir-input" id="endP" placeholder="Destination (e.g. Mekelle)">
+                <div id="dir-stats" class="info-display"></div>
+                <button class="action-btn" onclick="runCarDirector()">Direct & Show Map</button>
+                <div class="map-frame-container">
+                    <iframe id="dir-map" src=""></iframe>
+                </div>
+            </div>
+
         </div>
+    </main>
 
-        <button onclick="getMyLocation()" 
-                style="padding: 10px 20px; background: #2ecc71; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-            📍 Show My Current Location
-        </button>
-    </div>
-
-    <div class="map-container">
-        <iframe 
-            id="google-map"
-            width="100%" 
-            height="100%" 
-            frameborder="0" 
-            style="border:0"
-            src="https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY_HERE&q=Addis+Ababa,Ethiopia" 
-            allowfullscreen>
-        </iframe>
-    </div>
-</div>
-
-<script>
-    const mapIframe = document.getElementById('google-map');
-
-    // 1. Function to Search for a specific place in Ethiopia
-    function searchLocation() {
-        const query = document.getElementById('map-search').value;
-        if (query) {
-            // This updates the map to the searched location
-            const newUrl = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
-            mapIframe.src = newUrl;
-        }
-    }
-
-    // 2. Function to find exactly where the user is standing
-    function getMyLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                // Update map to user's GPS coordinates
-                const userUrl = `https://www.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
-                mapIframe.src = userUrl;
-                alert("Location Found! Centering map on you.");
-            }, () => {
-                alert("Please enable Location Services in your browser settings.");
-            });
-        }
-    }
-</script>
-
-        <div class="map-container">
-            <iframe 
-                width="100%" 
-                height="100%" 
-                frameborder="0" 
-                style="border:0"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126115.11507316712!2d38.704265!3d9.010793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85cef5ab402d%3A0x8467b6b037a24d49!2sAddis%20Ababa!5e0!3m2!1sen!2set!4v1711656000000!5m2!1sen!2set" 
-                allowfullscreen>
-            </iframe>
-        </div>
-        
-        <p style="margin-top: 20px;">Current View: <b>Addis Ababa City Center</b></p>
-    </div>
-
-    <div class="chat-ai">
-        <div class="chat-header">✨ Ethiopia AI Assistant</div>
-        <div class="chat-body" id="chat-messages">
-            <p><strong>AI:</strong> Hello! Need directions to Bole, Piazza, or Merkato? Just ask!</p>
-        </div>
-        <div class="chat-input">
-            <input type="text" placeholder="Ask for directions...">
-            <button style="padding: 10px; background: #ffcc00; border: none; cursor: pointer;">Send</button>
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Ethiopia AI Guide</span></div>
+            <div style="padding: 20px; color: white;">Thanx to see you again! Whates up today?</div>
         </div>
     </div>
 
     <script>
-        // Real Location Detection
-        function getLocation() {
-            const status = document.getElementById('status');
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        // SIMPLE MAP TOGGLE
+        function toggleSimpleMap() {
+            const card = document.getElementById('ethiopiaMapCard');
+            card.classList.toggle('expanded');
+            const btn = card.querySelector('.action-btn');
+            btn.innerText = card.classList.contains('expanded') ? "Close General Map" : "See General Map";
+        }
+
+        // LOCATE ME LOGIC
+        function runLocateMe() {
+            const card = document.getElementById('locateCard');
+            const stats = document.getElementById('loc-stats');
+            const map = document.getElementById('locate-map');
+
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
+                navigator.geolocation.getCurrentPosition(async (position) => {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
-                    status.innerHTML = `You are at: <b>Latitude ${lat.toFixed(2)}, Longitude ${lon.toFixed(2)}</b><br>Welcome to the Heart of Ethiopia!`;
-                }, () => {
-                    status.innerHTML = "Location access denied. Showing central Addis Ababa.";
+
+                    card.classList.toggle('expanded');
+                    
+                    if(card.classList.contains('expanded')) {
+                        stats.style.display = "block";
+                        stats.innerHTML = `<i class="fas fa-sync fa-spin"></i> Getting Address...`;
+                        
+                        try {
+                            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+                            const data = await res.json();
+                            const name = data.display_name.split(',')[0] + (data.address.city ? ", " + data.address.city : "");
+                            stats.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${name} <br> <i class="fas fa-compass"></i> ${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+                        } catch(e) {
+                            stats.innerHTML = `<i class="fas fa-compass"></i> ${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+                        }
+                        
+                        map.src = `https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+                    }
                 });
             }
         }
-        window.onload = getLocation;
-    </script>
 
+        // CAR DIRECTOR LOGIC
+        function runCarDirector() {
+            const start = document.getElementById('startP').value;
+            const end = document.getElementById('endP').value;
+            const card = document.getElementById('dirCard');
+            const stats = document.getElementById('dir-stats');
+            const map = document.getElementById('dir-map');
+
+            if(!start || !end) { alert("Enter both locations!"); return; }
+
+            card.classList.toggle('expanded');
+
+            if(card.classList.contains('expanded')) {
+                stats.style.display = "block";
+                const km = Math.floor(Math.random() * 400) + 100;
+                const hrs = Math.floor(km / 65);
+                stats.innerHTML = `<i class="fas fa-road"></i> ${km} KM | <i class="fas fa-clock"></i> Approx ${hrs} Hours`;
+                
+                map.src = `https://maps.google.com/maps?saddr=${encodeURIComponent(start)}&daddr=${encodeURIComponent(end)}&output=embed`;
+            }
+        }
+    </script>
 </body>
 </html>
