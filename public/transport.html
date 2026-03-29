@@ -3,122 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethiopia Transport | AI Guide</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Transport - Ethiopia Guide</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background-color: #000; overflow: hidden; }
+
+        /* FIXED BACKGROUND SYSTEM */
+        #bgLayer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            transition: background-image 0.5s ease-in-out; /* 0.5s transition */
+            /* Initial background using your first new link */
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/2203115946/photo/passenger-plane-interior.webp?a=1&b=1&s=612x612&w=0&k=20&c=2KLzy7fdOrRCoNHk__PZp2Hk99tR6cJNkD6v9xtIWVU=');
+        }
+
+        .scroll-container { height: 100vh; overflow-y: auto; scroll-behavior: smooth; padding-left: 60px; }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 100px 40px;
+            justify-items: center;
+        }
+
+        .transport-card {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            width: 350px;
+            padding: 25px;
+            color: white;
+            transition: height 0.4s ease;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .transport-card.expanded { height: 420px; border-color: #ffcc00; }
+        .transport-card h3 { color: #ffcc00; margin: 15px 0; }
+
+        .see-more { 
+            background: #ffcc00; border: none; padding: 12px; border-radius: 8px; 
+            cursor: pointer; font-weight: bold; width: 100%; color: #000; margin-top: 10px;
+        }
+
+        .btn-group { margin-top: 20px; display: none; flex-direction: column; gap: 10px; }
+        .transport-card.expanded .btn-group { display: flex; }
+        .call-btn { background: #008844; color: white; padding: 12px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; }
+        .contact-btn { background: #ee334e; color: white; padding: 12px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; }
+
+        /* SIDEBAR - SAME AS HOME */
+        #sidebar { 
+            width: 180px; height: 100vh; position: fixed; left: 0; top: 0;
+            background: linear-gradient(to bottom, #008844, #ffcc00, #ee334e);
+            transition: 0.5s; z-index: 1001; 
+        }
+        #sidebar.collapsed { width: 70px; }
+        #sidebar.collapsed .link-text { display: none; }
+        .nav-links { list-style: none; padding: 80px 0 0 0; margin: 0; }
+        .nav-links li a { display: flex; align-items: center; padding: 20px; color: #000; text-decoration: none; font-weight: bold; white-space: nowrap; }
+        .nav-links i { min-width: 40px; font-size: 1.5rem; text-align: center; }
+        .toggle-btn { z-index: 1002; cursor: pointer; position: fixed; left: 15px; top: 20px; color: #000; font-size: 1.8rem; }
+    </style>
 </head>
-<body class="transport-page">
+<body>
 
-    <div class="bg-slideshow">
-        <div class="slide" style="background-image: url('https://media.istockphoto.com/id/2263629500/photo/bustling-urban-landscape-of-addis-ababa-ethiopia-featuring-modern-skyscrapers-vibrant-multi.webp?a=1&b=1&s=612x612&w=0&k=20&c=nFOyLRoAX_B2GA6gIfIZjEPmqUqZSy8PJRTDgjiU7QU=');"></div>
-    </div>
+    <div id="bgLayer"></div>
 
-    <div class="content-wrapper">
-        <h1 class="page-title">Ethiopia Transport Hub</h1>
-        
-        <div class="transport-grid">
-            <div class="t-card airport-card" id="card-airport">
-                <div class="card-header">
-                    <i class="fas fa-plane-arrival logo-placeholder"></i>
-                    <h3>Bole International Airport</h3>
-                </div>
-                <div class="short-info">Official Gateway to Ethiopia. Yellow Taxis & Shuttles available 24/7.</div>
-                <div class="extra-info">
-                    <p><strong>Phone:</strong> +251 11 665 0400</p>
-                    <p><strong>Pickup:</strong> Arrivals Terminal Floor 1</p>
-                    <p><strong>Note:</strong> Fixed rates for Yellow Taxis.</p>
-                    <button class="connect-btn">Connect to Official Site</button>
-                </div>
-                <button class="see-more" onclick="toggleCard('card-airport')">See More</button>
+    <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container">
+        <div class="content-grid">
+            <div class="transport-card" id="c1">
+                <i class="fas fa-taxi fa-2x"></i><h3>Yango Ethiopia</h3>
+                <p>Reliable ride-hailing app for quick city transport.</p>
+                <button class="see-more" onclick="expandCard('c1')">See More</button>
+                <div class="btn-group"><a href="tel:952" class="call-btn">Call 952</a></div>
             </div>
-
-            <div class="t-card" id="card-ride">
-                <div class="card-header">
-                    <div class="logo-box">RIDE</div>
-                    <h3>Ride 8294</h3>
-                </div>
-                <div class="short-info">The #1 ride-hailing app in Ethiopia. Fast and reliable.</div>
-                <div class="extra-info">
-                    <p><strong>Phone:</strong> 8294 (Short Code)</p>
-                    <p><strong>Pickup:</strong> 2-5 mins average</p>
-                    <button class="connect-btn" onclick="window.open('https://ride8294.com')">Open Website</button>
-                </div>
-                <button class="see-more" onclick="toggleCard('card-ride')">See More</button>
+            <div class="transport-card" id="c2">
+                <i class="fas fa-horse fa-2x"></i><h3>Feres</h3>
+                <p>Leading local taxi service with rewards program.</p>
+                <button class="see-more" onclick="expandCard('c2')">See More</button>
+                <div class="btn-group"><a href="tel:6090" class="call-btn">Call 6090</a></div>
             </div>
-
-            <div class="t-card" id="card-feres">
-                <div class="card-header">
-                    <div class="logo-box" style="background:#2ecc71">FERES</div>
-                    <h3>Feres</h3>
-                </div>
-                <div class="short-info">Known for loyalty rewards and "Feres Miles".</div>
-                <div class="extra-info">
-                    <p><strong>Phone:</strong> 6090</p>
-                    <p><strong>Pickup:</strong> 24/7 Service</p>
-                    <button class="connect-btn" onclick="window.open('https://feres.et')">Open Website</button>
-                </div>
-                <button class="see-more" onclick="toggleCard('card-feres')">See More</button>
+            <div class="transport-card" id="c3">
+                <i class="fas fa-car-side fa-2x"></i><h3>Ride</h3>
+                <p>The most popular taxi booking platform in Addis.</p>
+                <button class="see-more" onclick="expandCard('c3')">See More</button>
+                <div class="btn-group"><a href="tel:8294" class="call-btn">Call 8294</a></div>
             </div>
-
-            <div class="t-card" id="card-yango">
-                <div class="card-header">
-                    <div class="logo-box" style="background:#f39c12">YANGO</div>
-                    <h3>Yango</h3>
-                </div>
-                <div class="short-info">International comfort with high-tech mapping.</div>
-                <div class="extra-info">
-                    <p><strong>Phone:</strong> 8610</p>
-                    <p><strong>Features:</strong> Real-time map, Safety button.</p>
-                </div>
-                <button class="see-more" onclick="toggleCard('card-yango')">See More</button>
+            <div class="transport-card" id="c4">
+                <i class="fas fa-plane fa-2x"></i><h3>Ethiopian Airlines</h3>
+                <p>Africa's world-class airline for global travel.</p>
+                <button class="see-more" onclick="expandCard('c4')">See More</button>
+                <div class="btn-group"><a href="tel:+251116656666" class="call-btn">Call Now</a></div>
             </div>
-
+            <div class="transport-card" id="c5">
+                <i class="fas fa-car fa-2x"></i><h3>ZayRide</h3>
+                <p>Fast and safe ride-sharing for urban travel.</p>
+                <button class="see-more" onclick="expandCard('c5')">See More</button>
+                <div class="btn-group"><a href="tel:6300" class="call-btn">Call 6300</a></div>
             </div>
-    </div>
-
-    <div class="ai-chat-wrapper">
-        <div class="chat-toggle" onclick="toggleChat()">
-            <i class="fa-solid fa-robot"></i>
+            <div class="transport-card" id="c6">
+                <i class="fas fa-train fa-2x"></i><h3>Railway</h3>
+                <p>Modern train services connecting to Djibouti.</p>
+                <button class="see-more" onclick="expandCard('c6')">See More</button>
+                <div class="btn-group"><a href="tel:7544" class="call-btn">Call Station</a></div>
+            </div>
+            <div class="transport-card" id="c7">
+                <i class="fas fa-motorcycle fa-2x"></i><h3>Pick Pick</h3>
+                <p>Quick transport and delivery services.</p>
+                <button class="see-more" onclick="expandCard('c7')">See More</button>
+                <div class="btn-group"><a href="tel:6868" class="call-btn">Call 6868</a></div>
+            </div>
+            <div class="transport-card" id="c8">
+                <i class="fas fa-bus fa-2x"></i><h3>Sheger Bus</h3>
+                <p>Reliable city-wide public bus transport.</p>
+                <button class="see-more" onclick="expandCard('c8')">See More</button>
+                <div class="btn-group"><a href="#" class="call-btn">Support</a></div>
+            </div>
+            <div class="transport-card" id="c9">
+                <i class="fas fa-taxi fa-2x"></i><h3>Blue Lada</h3>
+                <p>Iconic traditional street-hailed taxis.</p>
+                <button class="see-more" onclick="expandCard('c9')">See More</button>
+                <div class="btn-group"><a href="#" class="call-btn">Price Guide</a></div>
+            </div>
+            <div class="transport-card" id="c10">
+                <i class="fas fa-bus-simple fa-2x"></i><h3>Sky Bus</h3>
+                <p>Luxury inter-city travel across Ethiopia.</p>
+                <button class="see-more" onclick="expandCard('c10')">See More</button>
+                <div class="btn-group"><a href="tel:011" class="call-btn">Call Desk</a></div>
+            </div>
         </div>
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header"><span>Travel AI</span></div>
-            <div class="chat-content" id="chatContent"></div>
-            <div class="chat-input-area">
-                <input type="text" placeholder="Ask about routes...">
-                <button><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
+    </main>
 
     <script>
-        function toggleCard(id) {
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function expandCard(id) {
             const card = document.getElementById(id);
             card.classList.toggle('expanded');
-            const btn = card.querySelector('.see-more');
-            btn.innerText = card.classList.contains('expanded') ? 'See Less' : 'See More';
+            card.querySelector('.see-more').innerText = card.classList.contains('expanded') ? "Close" : "See More";
         }
-        function toggleChat() {
-            document.getElementById('chatWindow').classList.toggle('active');
-        }
-    </script>
-    <script>
-    // This is "Mock Data" to use until we connect the database tomorrow
-    const mockData = [
-        { name: 'RIDE', phone: '8294', info: 'Ethiopia\'s leading transport app.', logo_color: '#ffcc00' },
-        { name: 'FERES', phone: '6090', 'info': 'Earn miles while you travel.', logo_color: '#2ecc71' }
-    ];
 
-    const container = document.getElementById('transport-container');
-    
-    mockData.forEach(item => {
-        container.innerHTML += `
-            <div class="card" style="border-left: 10px solid ${item.logo_color}">
-                <h2>${item.name}</h2>
-                <p><strong>Phone:</strong> ${item.phone}</p>
-                <p>${item.info}</p>
-            </div>
-        `;
-    });
-</script>
+        const images = [
+            "https://media.istockphoto.com/id/2203115946/photo/passenger-plane-interior.webp?a=1&b=1&s=612x612&w=0&k=20&c=2KLzy7fdOrRCoNHk__PZp2Hk99tR6cJNkD6v9xtIWVU=",
+            "https://images.unsplash.com/photo-1436491865332-7a61a109c05?w=500&auto=format&fit=crop&q=60",
+            "https://images.unsplash.com/photo-1692029861107-991b13db6ad0?w=500&auto=format&fit=crop&q=60"
+        ];
+        
+        let imgIndex = 0;
+        setInterval(() => {
+            imgIndex = (imgIndex + 1) % images.length;
+            document.getElementById('bgLayer').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${images[imgIndex]}')`;
+        }, 10000);
+    </script>
 </body>
 </html>
