@@ -3,164 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Ethiopia Travel</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Contact - Ethiopia Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=1200');
-            background-size: cover;
-            background-attachment: fixed;
-            display: flex;
-            color: white;
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background-color: #000; overflow: hidden; }
+
+        /* FIXED BACKGROUND */
+        #bgLayer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-size: cover; background-position: center;
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1523966211575-eb4a01e7dd51?w=1000&auto=format&fit=crop&q=80');
         }
 
-        .contact-container {
-            flex-grow: 1;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        .scroll-container { height: 100vh; overflow-y: auto; padding-left: 60px; scroll-behavior: smooth; }
 
-        .contact-grid {
+        .content-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            width: 100%;
-            max-width: 1100px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 100px 40px;
+            justify-items: center;
         }
 
-        /* Glass Form Box */
-        .contact-box {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            padding: 30px;
-            border-radius: 20px;
+        /* CONTACT CARDS */
+        .contact-card {
+            background: #000;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            width: 300px;
+            padding: 30px;
+            color: #fff;
+            text-align: center;
+            transition: 0.4s ease;
         }
 
-        .contact-box h2 { color: #ffcc00; margin-bottom: 20px; }
-
-        .form-group { margin-bottom: 15px; }
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: rgba(255, 255, 255, 0.9);
-            margin-top: 5px;
-        }
-
-        .send-btn {
+        .contact-card:hover { border-color: #ffcc00; transform: translateY(-5px); }
+        .contact-card i { font-size: 3rem; margin-bottom: 15px; }
+        .contact-card h3 { color: #ffcc00; margin-bottom: 10px; }
+        
+        .social-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
             background: #ffcc00;
-            color: black;
-            font-weight: bold;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .send-btn:hover { background: #e6b800; transform: scale(1.05); }
-
-        /* Social Media Icons */
-        .social-links {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .social-card {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            color: #000;
             text-decoration: none;
-            color: white;
+            font-weight: bold;
+            border-radius: 8px;
             transition: 0.3s;
-            border-left: 5px solid #ffcc00;
         }
+        .social-link:hover { background: #fff; }
 
-        .social-card:hover { background: #ffcc00; color: black; transform: translateX(10px); }
+        /* COLORS FOR ICONS */
+        .fa-instagram { color: #E1306C; }
+        .fa-telegram { color: #0088cc; }
+        .fa-facebook { color: #1877F2; }
+        .fa-x-twitter { color: #fff; }
 
-        .social-icon { font-size: 1.5rem; }
+        /* SIDEBAR */
+        #sidebar { width: 250px; height: 100vh; position: fixed; left: 0; top: 0; background: linear-gradient(to bottom, #008844, #ffcc00, #ee334e); transition: 0.5s; z-index: 1001; }
+        #sidebar.collapsed { width: 70px; }
+        #sidebar.collapsed .link-text { display: none; }
+        .nav-links { list-style: none; padding: 80px 0 0 0; margin: 0; }
+        .nav-links li a { display: flex; align-items: center; padding: 20px; color: #000; text-decoration: none; font-weight: bold; white-space: nowrap; }
+        .nav-links i { min-width: 40px; font-size: 1.5rem; text-align: center; }
+        .toggle-btn { z-index: 1002; cursor: pointer; position: fixed; left: 15px; top: 20px; color: #000; font-size: 1.8rem; }
+
+        /* CHAT BOX */
+        .ai-chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 2000; }
+        .chat-toggle { background: #ee334e; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 24px; }
+        .chat-window { position: absolute; bottom: 80px; right: 0; width: 300px; background: #000; border: 1px solid #ffcc00; border-radius: 15px; display: none; flex-direction: column; overflow: hidden; }
+        .chat-window.active { display: flex; }
+        .chat-header { background: #ffcc00; color: #000; padding: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <h2>Travel Guide</h2>
-        <a href="index.html">🏠 Home</a>
-        <a href="modernetiopia.html">🌍 Modern Ethiopia</a>
-        <a href="booking.html">📅 Booking</a>
-        <a href="contact.html" style="background: #ffcc00; color: black;">📞 Contact</a>
-    </div>
+    <div id="bgLayer"></div>
+    <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
 
-    <div class="contact-container">
-        <h1>Get In Touch</h1>
-        <p>Have a question? We are here to help you navigate Ethiopia.</p>
+    <nav class="sidebar collapsed" id="sidebar">
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="location.html"><i class="fas fa-map-marker-alt"></i><span class="link-text">Location</span></a></li>
+            <li><a href="booking.html"><i class="fas fa-calendar-check"></i><span class="link-text">Booking</span></a></li>
+        </ul>
+    </nav>
 
-        <div class="contact-grid">
-            <div class="contact-box">
-                <h2>Email Us</h2>
-                <form>
-                    <div class="form-group">
-                        <label>Your Email</label>
-                        <input type="email" placeholder="example@gmail.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Ask a Question</label>
-                        <textarea rows="5" placeholder="What would you like to know about your trip?"></textarea>
-                    </div>
-                    <button type="button" class="send-btn" onclick="alert('Message Sent!')">Send Message</button>
-                </form>
+    <main class="scroll-container">
+        <div class="content-grid">
+            
+            <div class="contact-card">
+                <i class="fab fa-instagram"></i>
+                <h3>Instagram</h3>
+                <p>Follow my journey and updates.</p>
+                <a href="https://instagram.com/maky-bwa" target="_blank" class="social-link">@maky-bwa</a>
             </div>
 
-            <div class="social-links">
-                <h2>Our Socials</h2>
-                
-                <a href="https://t.me/yourusername" class="social-card" target="_blank">
-                    <span class="social-icon">✈️</span>
-                    <div>
-                        <strong>Telegram</strong>
-                        <p>Join our travel community</p>
-                    </div>
-                </a>
-
-                <a href="https://instagram.com/yourusername" class="social-card" target="_blank">
-                    <span class="social-icon">📸</span>
-                    <div>
-                        <strong>Instagram</strong>
-                        <p>See the beauty of Ethiopia</p>
-                    </div>
-                </a>
-
-                <a href="https://tiktok.com/@yourusername" class="social-card" target="_blank">
-                    <span class="social-icon">🎵</span>
-                    <div>
-                        <strong>TikTok</strong>
-                        <p>Modern Ethiopia videos</p>
-                    </div>
-                </a>
+            <div class="contact-card">
+                <i class="fab fa-telegram"></i>
+                <h3>Telegram</h3>
+                <p>Join the community chat.</p>
+                <a href="#" class="social-link">Coming Soon</a>
             </div>
+
+            <div class="contact-card">
+                <i class="fab fa-facebook"></i>
+                <h3>Facebook</h3>
+                <p>Like our official page.</p>
+                <a href="#" class="social-link">Coming Soon</a>
+            </div>
+
+            <div class="contact-card">
+                <i class="fab fa-x-twitter"></i>
+                <h3>X / Twitter</h3>
+                <p>Get real-time news.</p>
+                <a href="#" class="social-link">Coming Soon</a>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Ethiopia AI Guide</span></div>
+            <div style="padding: 20px; color: white; background: #111;">Thanx to see you again! Whates up today?</div>
         </div>
     </div>
 
-    <div class="chat-ai">
-        <div class="chat-header">✨ Support AI</div>
-        <div class="chat-body">
-            <p><strong>AI:</strong> Need an answer fast? Ask me anything about visas, flights, or hotels!</p>
-        </div>
-        <div class="chat-input">
-            <input type="text" placeholder="Type a question...">
-            <button>Send</button>
-        </div>
-    </div>
-
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+    </script>
 </body>
 </html>
