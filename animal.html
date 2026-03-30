@@ -87,48 +87,21 @@
 
     <main class="scroll-container" id="mainScroll">
         
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1590012357732-84562098656d?auto=format&fit=crop&q=80');">
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://media.istockphoto.com/id/2178047267/photo/gelada-baboon.jpg?s=612x612&w=0&k=20&c=v6aDyNyu7bObAX_VYauGrf0TA_twe5bhjoL4aV3ycqA=');">
             <div class="glass-card">
-                <i class="fas fa-mountain card-icon"></i>
-                <h2>Walia Ibex</h2>
-                <p>The rare mountain goat found only in the Simien Mountains National Park.</p>
-                <button class="explore-btn">Explore Habitat</button>
+                <i class="fas fa-hippo card-icon"></i>
+                <h2>Wild Animals</h2>
+                <p>Discover the diverse and untamed wildlife roaming the Ethiopian landscapes.</p>
+                <a href="wild.html"><button class="explore-btn">Explore</button></a>
             </div>
         </section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1543350317-0630737a2ccb?auto=format&fit=crop&q=80');">
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://media.istockphoto.com/id/117150336/photo/rare-wildlife-shot-of-a-walia-ibex-simien-mountains-ethiopia.jpg?s=612x612&w=0&k=20&c=_kq8FBol9QVUEvLNu5urkd36821MwSI_dPcQYWe6U90=');">
             <div class="glass-card">
-                <i class="fas fa-dog card-icon"></i>
-                <h2>Ethiopian Wolf</h2>
-                <p>The world's rarest canid, roaming the alpine heights of the Bale Mountains.</p>
-                <button class="explore-btn">Meet the Pack</button>
-            </div>
-        </section>
-
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1518544801976-3e159e50e5bb?auto=format&fit=crop&q=80');">
-            <div class="glass-card">
-                <i class="fas fa-heart card-icon"></i>
-                <h2>Gelada Baboon</h2>
-                <p>The "Bleeding-Heart Monkey," famous for its unique social grazing in Simien.</p>
-                <button class="explore-btn">Watch Troops</button>
-            </div>
-        </section>
-
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1574870111867-089730e5a7ce?auto=format&fit=crop&q=80');">
-            <div class="glass-card">
-                <i class="fas fa-leaf card-icon"></i>
-                <h2>Mountain Nyala</h2>
-                <p>A majestic antelope endemic to the high-altitude woodlands of the Southeast.</p>
-                <button class="explore-btn">Discover</button>
-            </div>
-        </section>
-
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1614027164847-1b2809eb189d?auto=format&fit=crop&q=80');">
-            <div class="glass-card">
-                <i class="fas fa-shield-cat card-icon"></i>
-                <h2>The Black-Maned Lion</h2>
-                <p>The national symbol of Ethiopia, known for its distinct dark mane and powerful presence.</p>
-                <button class="explore-btn">View King</button>
+                <i class="fas fa-dna card-icon"></i>
+                <h2>Endemic Species</h2>
+                <p>Meet the unique treasures of Ethiopia found nowhere else on Earth.</p>
+                <a href="endemic.html"><button class="explore-btn">Explore</button></a>
             </div>
         </section>
 
@@ -139,7 +112,7 @@
         <div class="chat-window" id="chatWindow">
             <div class="chat-header"><span>Wildlife AI</span></div>
             <div class="chat-content" id="chatContent">
-                <div class="ai-msg">Ameseginalehu! I can help you locate where these endemic animals live.</div>
+                <div class="ai-msg">I can help you locate where these endemic animals live. Ask me anything!</div>
             </div>
             <div class="chat-input-area">
                 <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
@@ -160,14 +133,6 @@
 
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
         function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
-
-        // Auto Vertical Scroll (Every 1 minute)
-        const scrollDiv = document.getElementById('mainScroll');
-        let currentPos = 0;
-        setInterval(() => {
-            currentPos = (currentPos + window.innerHeight >= scrollDiv.scrollHeight) ? 0 : currentPos + window.innerHeight;
-            scrollDiv.scrollTo({ top: currentPos, behavior: 'smooth' });
-        }, 60000);
 
         async function sendMessage() {
             const input = document.getElementById('userInput');

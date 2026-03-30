@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Endemic Wonders - EthioTravel AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #000; color: white; margin: 0; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        
+        /* Manual Scroll Wrapper */
+        .main-scroll-wrapper {
+            height: 100vh;
+            margin-left: 60px;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        .main-scroll-wrapper::-webkit-scrollbar { display: none; }
+
+        .header-section {
+            padding: 80px 20px 30px;
+            text-align: center;
+        }
+        .header-section h1 { color: #ffca28; font-size: 2rem; letter-spacing: 2px; }
+
+        /* Medium Size Grid */
+        .endemic-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            padding: 0 20px 100px;
+            max-width: 900px; /* Constrained for medium size */
+            margin: 0 auto;
+        }
+
+        .animal-card {
+            background: #111; 
+            border-radius: 15px; 
+            overflow: hidden;
+            border: 1px solid #333; 
+            transition: 0.3s ease;
+            cursor: pointer;
+        }
+        .animal-card:hover { border-color: #ffca28; }
+        
+        /* Specific Image Sizing */
+        .animal-card img { 
+            width: 100%; 
+            height: 200px; /* Medium height */
+            object-fit: cover; 
+            filter: grayscale(20%);
+            transition: 0.5s;
+        }
+        .animal-card:hover img { filter: grayscale(0%); }
+
+        .card-content { padding: 15px; text-align: center; }
+        .card-content h3 { margin: 0; font-size: 1.1rem; color: #fff; }
+
+        /* Expansion Logic */
+        .expand-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #1a1a1a;
+            padding: 0 15px;
+        }
+        .animal-card.active .expand-details {
+            max-height: 400px;
+            padding: 20px 15px;
+            border-top: 1px solid #ffca28;
+        }
+
+        .loc-label { color: #ffca28; font-weight: bold; font-size: 0.85rem; display: block; margin-bottom: 8px; }
+        .desc-label { font-size: 0.8rem; color: #ccc; line-height: 1.5; margin: 0; }
+
+        .explore-tag {
+            font-size: 0.7rem; color: #ffca28; text-transform: uppercase;
+            margin-top: 10px; display: inline-block; letter-spacing: 1px;
+        }
+
+        /* Sidebar & AI UI */
+        .sidebar.collapsed { width: 60px; }
+        #sidebar { z-index: 1001; }
+        .ai-chat-wrapper { z-index: 3000; }
+
+        @media (max-width: 600px) {
+            .endemic-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="animal.html" style="color:#ffca28"><i class="fas fa-paw"></i><span class="link-text">Animals</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="main-scroll-wrapper">
+        <div class="header-section">
+            <h1>The Endemic Ten</h1>
+            <p style="color:#666">Click to reveal the secrets of Ethiopia's unique wildlife</p>
+        </div>
+
+        <div class="endemic-grid" id="endemicGrid">
+            </div>
+    </div>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Endemic Expert AI</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Ameseginalehu! I can tell you which of these are currently endangered. Just ask!</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask about these 10 species...">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const endemicTen = [
+            {n:"Walia Ibex", l:"Simien Mountains National Park", d:"A majestic wild goat found only in the Simien Mountains. They are expert climbers of steep volcanic cliffs.", i:"https://images.unsplash.com/photo-1590012357732-84562098656d"},
+            {n:"Ethiopian Wolf", l:"Bale Mountains / Sanetti Plateau", d:"The world's rarest canid. They are specialized hunters of rodents in high-altitude afro-alpine moorlands.", i:"https://images.unsplash.com/photo-1543350317-0630737a2ccb"},
+            {n:"Gelada Baboon", l:"Simien & Guassa Highlands", d:"The only grass-eating primate. They are famous for their golden manes and the 'bleeding heart' patch on their chest.", i:"https://images.unsplash.com/photo-1518544801976-3e159e50e5bb"},
+            {n:"Mountain Nyala", l:"Bale Mountains Highlands", d:"A large, spiral-horned antelope. They live in the heath and juniper forests of the south-eastern highlands.", i:"https://images.unsplash.com/photo-1574870111867-089730e5a7ce"},
+            {n:"Menelik's Bushbuck", l:"Shoan & Bale Forested Areas", d:"A shy, forest-dwelling antelope with a thick, dark coat specialized for the cold highland climate.", i:"https://images.unsplash.com/photo-1516627145497-ae6968895b74"},
+            {n:"Bale Monkey", l:"Harenna Forest", d:"One of Africa's most localized monkeys. They live almost exclusively in bamboo forests and are very elusive.", i:"https://images.unsplash.com/photo-1540573133985-87b6da6d54a9"},
+            {n:"Swayne's Hartebeest", l:"Senkele Swayne's Sanctuary", d:"A chocolate-colored antelope with uniquely shaped horns, once widespread, now fighting for survival.", i:"https://images.unsplash.com/photo-1518114140033-02f43c8d1678"},
+            {n:"Blue-winged Goose", l:"Highland Wetlands", d:"A quiet, pale-grey bird that looks more like a shelduck. It is found near high-altitude lakes and streams.", i:"https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f"},
+            {n:"Prince Ruspoli's Turaco", l:"Borena & Guji Zones", d:"A stunning, brightly colored bird with a red crest. It was once thought to be extinct until rediscovered.", i:"https://images.unsplash.com/photo-1552728089-57bdde30ebd3"},
+            {n:"Stresemann's Bush-crow", l:"Yabello Savanna", d:"A distinctive grey-blue bird restricted to a tiny area of southern acacia thorn-bush.", i:"https://images.unsplash.com/photo-1444464666168-49d633b867ad"}
+        ];
+
+        const grid = document.getElementById('endemicGrid');
+
+        endemicTen.forEach((animal, i) => {
+            grid.innerHTML += `
+                <div class="animal-card" onclick="toggleCard(this)">
+                    <img src="${animal.i}?auto=format&fit=crop&q=80&w=400&sig=${i}" alt="${animal.n}">
+                    <div class="card-content">
+                        <h3>${animal.n}</h3>
+                        <span class="explore-tag">Click to Explore <i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="expand-details">
+                        <span class="loc-label"><i class="fas fa-map-marker-alt"></i> ${animal.l}</span>
+                        <p class="desc-label">${animal.d}</p>
+                    </div>
+                </div>
+            `;
+        });
+
+        function toggleCard(card) {
+            // Close others
+            document.querySelectorAll('.animal-card').forEach(c => {
+                if(c !== card) c.classList.remove('active');
+            });
+            // Toggle current
+            card.classList.toggle('active');
+        }
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if(!input.value.trim()) return;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28;">You: ${input.value}</div>`;
+            input.value = '';
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</body>
+</html>
