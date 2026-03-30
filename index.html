@@ -245,21 +245,6 @@ function handleKeyPress(event) {
                 .then(() => console.log("Mobile App Mode: Active"))
                 .catch(err => console.error("SW Registration failed:", err));
         }
-    <script>
-    installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                installBtn.style.display = 'none';
-            }
-            deferredPrompt = null;
-        }
-    });
-
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-    }
-</script>
-</boy>
-d</html>
+    </script>
+</body>
+</html>

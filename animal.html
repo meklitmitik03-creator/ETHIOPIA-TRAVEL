@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Ethiopian Wildlife - EthioTravel AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin: 0; background: #000; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+        }
+        .scroll-container::-webkit-scrollbar { display: none; }
+
+        .panel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            scroll-snap-align: start;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 400px;
+            width: 80%;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            color: white;
+        }
+
+        .card-icon { font-size: 3rem; color: #ffca28; margin-bottom: 15px; }
+        .glass-card h2 { margin: 10px 0; font-size: 2rem; text-transform: uppercase; }
+        .glass-card p { font-size: 1rem; opacity: 0.9; margin-bottom: 20px; }
+
+        .explore-btn {
+            padding: 12px 30px;
+            background: #ffca28;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #000;
+            transition: 0.3s;
+        }
+        .explore-btn:hover { transform: scale(1.1); background: #fff; }
+
+        #sidebar { z-index: 1001; }
+        .ai-chat-wrapper { z-index: 3000; }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#1b5e20; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+        <div style="text-align:center; color:white;">
+            <h1 style="margin:0;">🐾</h1>
+            <p>EthioTravel AI: Wildlife</p>
+        </div>
+    </div>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="animal.html" style="color:#ffca28"><i class="fas fa-paw"></i><span class="link-text">Animals</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container" id="mainScroll">
+        
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1590012357732-84562098656d?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-mountain card-icon"></i>
+                <h2>Walia Ibex</h2>
+                <p>The rare mountain goat found only in the Simien Mountains National Park.</p>
+                <button class="explore-btn">Explore Habitat</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1543350317-0630737a2ccb?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-dog card-icon"></i>
+                <h2>Ethiopian Wolf</h2>
+                <p>The world's rarest canid, roaming the alpine heights of the Bale Mountains.</p>
+                <button class="explore-btn">Meet the Pack</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1518544801976-3e159e50e5bb?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-heart card-icon"></i>
+                <h2>Gelada Baboon</h2>
+                <p>The "Bleeding-Heart Monkey," famous for its unique social grazing in Simien.</p>
+                <button class="explore-btn">Watch Troops</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1574870111867-089730e5a7ce?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-leaf card-icon"></i>
+                <h2>Mountain Nyala</h2>
+                <p>A majestic antelope endemic to the high-altitude woodlands of the Southeast.</p>
+                <button class="explore-btn">Discover</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1614027164847-1b2809eb189d?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-shield-cat card-icon"></i>
+                <h2>The Black-Maned Lion</h2>
+                <p>The national symbol of Ethiopia, known for its distinct dark mane and powerful presence.</p>
+                <button class="explore-btn">View King</button>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Wildlife AI</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Ameseginalehu! I can help you locate where these endemic animals live.</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Splash logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1500);
+        });
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        // Auto Vertical Scroll (Every 1 minute)
+        const scrollDiv = document.getElementById('mainScroll');
+        let currentPos = 0;
+        setInterval(() => {
+            currentPos = (currentPos + window.innerHeight >= scrollDiv.scrollHeight) ? 0 : currentPos + window.innerHeight;
+            scrollDiv.scrollTo({ top: currentPos, behavior: 'smooth' });
+        }, 60000);
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if(!input.value.trim()) return;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28;">You: ${input.value}</div>`;
+            input.value = '';
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</body>
+</html>

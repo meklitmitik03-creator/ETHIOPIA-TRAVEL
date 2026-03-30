@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Ethiopian History - EthioTravel AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin: 0; background: #000; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+        }
+        .scroll-container::-webkit-scrollbar { display: none; }
+
+        .panel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            scroll-snap-align: start;
+        }
+
+        /* Glass Card Design from your structure */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 400px;
+            width: 80%;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            color: white;
+        }
+
+        .card-icon { font-size: 3rem; color: #ffca28; margin-bottom: 15px; }
+        .glass-card h2 { margin: 10px 0; font-size: 2rem; text-transform: uppercase; }
+        .glass-card p { font-size: 1rem; opacity: 0.9; margin-bottom: 20px; }
+
+        .explore-btn {
+            padding: 12px 30px;
+            background: #ffca28;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #000;
+            transition: 0.3s;
+        }
+        .explore-btn:hover { transform: scale(1.1); background: #fff; }
+
+        #sidebar { z-index: 1001; }
+        .ai-chat-wrapper { z-index: 3000; }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#2e7d32; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+        <div style="text-align:center; color:white;">
+            <h1 style="margin:0;">🇪🇹</h1>
+            <p>EthioTravel AI: History</p>
+        </div>
+    </div>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html" style="color:white"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="hotel & resort"><i class="fas fa-hotel"></i><span class="link-text">Hotels & Resorts</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container" id="mainScroll">
+        
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/172222084/photo/saint-giorgis-lalibela-ethiopia.jpg?s=612x612&w=0&k=20&c=k1S3JUbYu23ZzyGmv8FIQA7DXt7Okri7z54g6wwFMnM=');">
+            <div class="glass-card">
+                <i class="fas fa-dna card-icon"></i>
+                <h2>Origin</h2>
+                <p>Journey to the Land of Origins and the dawn of humanity.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/1301078653/photo/historic-fasilides-castle-in-gondar-ethiopia.jpg?s=612x612&w=0&k=20&c=xmmIwll1OQgLXq97l0w2k8YR2LAE5U6qcZ3NYueZ7qI=');">
+            <div class="glass-card">
+                <i class="fas fa-crown card-icon"></i>
+                <h2>Kingdoms</h2>
+                <p>From Aksumite glory to the Imperial majesty of Gondar.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/498665561/photo/addis-ababa-ethiopia-lion-of-judah.jpg?s=612x612&w=0&k=20&c=WKsFzWpByjAVZyvEy-jReIu9mVdyvvq6LdMoTCvUh5k=');">
+            <div class="glass-card">
+                <i class="fas fa-shield-halved card-icon"></i>
+                <h2>Battles</h2>
+                <p>Relive the victory of Adwa and the spirit of resistance.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/1183020363/photo/man-in-suit-from-ethiopia.jpg?s=612x612&w=0&k=20&c=6ZRR6_uyEOiFygyaWld6QttS5qx2USQWyFHQ-A99f6c=');">
+            <div class="glass-card">
+                <i class="fas fa-flask card-icon"></i>
+                <h2>Scientists</h2>
+                <p>Discover Ethiopian innovators and indigenous knowledge.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/1129786441/photo/offer-qeddus-mercoreus.jpg?s=612x612&w=0&k=20&c=Rns1pdz-IlefurPiy8noFpaXpdX4hZ-KplzE1a_Z3ds=');">
+            <div class="glass-card">
+                <i class="fas fa-archive card-icon"></i>
+                <h2>Archives</h2>
+                <p>Preserving Ge'ez manuscripts and ancient records.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/2267475660/photo/emperor-fasiledes-bath-in-gondar-ethiopia-a-large-tree-stands-beside-a-cobblestone-path.jpg?s=612x612&w=0&k=20&c=7ugKnfNbsT-PggiQB1PR1_fPGamI6DMeaONk4GR91I=');">
+            <div class="glass-card">
+                <i class="fas fa-running card-icon"></i>
+                <h2>Sport</h2>
+                <p>The history of the barefoot marathon and long-distance dominance.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/2267474986/photo/the-old-debre-birhan-selassie-church-in-gondar-ethiopia-an-ancient-stone-tower-stands-amidst.jpg?s=612x612&w=0&k=20&c=EXQn6ncHwMu_m-i690JmCcwRJIHT6SiSm-DN4sho9TU=');">
+            <div class="glass-card">
+                <i class="fas fa-palette card-icon"></i>
+                <h2>Art & Education</h2>
+                <p>Exploring the canvas of church paintings and modern schools.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>History AI</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">I am your historian. Ask me about the 3,000 years of our nation.</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Splash logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1500);
+        });
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        // Auto Vertical Scroll (Every 1 minute)
+        const scrollDiv = document.getElementById('mainScroll');
+        let currentPos = 0;
+        setInterval(() => {
+            currentPos = (currentPos + window.innerHeight >= scrollDiv.scrollHeight) ? 0 : currentPos + window.innerHeight;
+            scrollDiv.scrollTo({ top: currentPos, behavior: 'smooth' });
+        }, 60000);
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if(!input.value.trim()) return;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28;">You: ${input.value}</div>`;
+            input.value = '';
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</body>
+</html>
