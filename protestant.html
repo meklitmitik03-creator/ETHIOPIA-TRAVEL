@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Protestant Heritage - Ethiopia Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="protestant-page">
+
+    <div class="video-container">
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-hands-raised-at-a-christian-concert-4338-large.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <h2>Guide</h2>
+        <a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a>
+        <a href="religion.html"><i class="fas fa-cross"></i> <span>Orthodox</span></a>
+        <a href="islamic.html"><i class="fas fa-moon"></i> <span>Islamic</span></a>
+        <a href="catholic.html"><i class="fas fa-church"></i> <span>Catholic</span></a>
+        <a href="protestant.html" class="active"><i class="fas fa-bible"></i> <span>Protestant</span></a>
+    </div>
+
+    <div class="main-content">
+        <header class="app-header">
+            <h1>Protestant Heritage</h1>
+            <p>Exploring the vibrant "P'ent'ay" faith and worship in Ethiopia</p>
+        </header>
+
+        <div class="card-container">
+            <div class="info-card">
+                <i class="fas fa-bible icon"></i>
+                <h3>Faith History</h3>
+                <p>The movement grew from 19th-century missions into powerful indigenous denominations like Mekane Yesus and Meserete Kristos.</p>
+                <button class="explore-btn">Learn More</button>
+            </div>
+
+            <div class="info-card">
+                <i class="fas fa-microphone-alt icon"></i>
+                <h3>Worship & Music</h3>
+                <p>Experience the modern, soulful Protestant Mezmur that has influenced music across the Horn of Africa.</p>
+                <button class="explore-btn">Listen</button>
+            </div>
+
+            <div class="info-card">
+                <i class="fas fa-hands-helping icon"></i>
+                <h3>Social Impact</h3>
+                <p>Protestant churches are major leaders in education, healthcare, and humanitarian work throughout Ethiopia.</p>
+                <button class="explore-btn">Read Impact</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-trigger" onclick="toggleChat()">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span>Ethiopia AI Guide</span>
+            <button onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="bot-msg">Selam! I can tell you about the history of the Protestant movement, famous worship leaders, or the work of the Mekane Yesus church.</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chatInput" placeholder="Ask about worship history...">
+            <button onclick="handleChat()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

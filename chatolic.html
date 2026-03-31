@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Catholic Heritage - Ethiopia Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="catholic-page">
+
+    <div class="video-container">
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-interior-of-a-church-with-stained-glass-windows-4437-large.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <h2>Guide</h2>
+        <a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a>
+        <a href="religion.html"><i class="fas fa-cross"></i> <span>Orthodox</span></a>
+        <a href="islamic.html"><i class="fas fa-moon"></i> <span>Islamic</span></a>
+        <a href="catholic.html" class="active"><i class="fas fa-church"></i> <span>Catholic</span></a>
+    </div>
+
+    <div class="main-content">
+        <header class="app-header">
+            <h1>Catholic Heritage</h1>
+            <p>Discover the history of the Holy See in the Land of Origins</p>
+        </header>
+
+        <div class="card-container">
+            <div class="info-card">
+                <i class="fas fa-dove icon"></i>
+                <h3>The Two Rites</h3>
+                <p>Ethiopian Catholicism is unique, practicing both the ancient Ge'ez (Ethiopic) Rite and the global Latin Rite.</p>
+                <button class="explore-btn">Learn More</button>
+            </div>
+
+            <div class="info-card">
+                <i class="fas fa-archway icon"></i>
+                <h3>Holy Saviour</h3>
+                <p>The Cathedral of the Holy Saviour in Adigrat and the Nativity of B.V.M in Addis Ababa are stunning centers of faith.</p>
+                <button class="explore-btn">Visit Sites</button>
+            </div>
+
+            <div class="info-card">
+                <i class="fas fa-history icon"></i>
+                <h3>Missionary History</h3>
+                <p>From 16th-century Portuguese explorers to the 19th-century works of St. Justin de Jacobis, the "Apostle of Abyssinia."</p>
+                <button class="explore-btn">Read History</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-trigger" onclick="toggleChat()">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span>Ethiopia AI Guide</span>
+            <button onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="bot-msg">Welcome! I can tell you about Catholic cathedrals, the Ge'ez Rite, or the history of Portuguese missions in Ethiopia.</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chatInput" placeholder="Ask about the Ge'ez Rite...">
+            <button onclick="handleChat()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

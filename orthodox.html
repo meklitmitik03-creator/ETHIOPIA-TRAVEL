@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Orthodox Heritage - Ethiopia Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .panel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Video Background Styling */
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Darkens video for text readability */
+            z-index: 0;
+        }
+
+        .glass-card { z-index: 1; }
+        #sidebar { z-index: 1001; }
+        .toggle-btn { z-index: 1002; cursor: pointer; }
+    </style>
+</head>
+
+<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#b08d57; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+    <div style="text-align:center; color:white;">
+        <h1 style="margin:0;">⛪</h1>
+        <p>Tewahedo Heritage</p>
+    </div>
+</div>
+
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container" id="mainScroll">
+        
+        <section class="panel">
+            <video autoplay muted loop playsinline class="video-bg">
+                <source src="https://media.istockphoto.com/id/2214321684/video/green-domes-of-the-medhane-alem-church-at-sunrise-in-addis-ababa-ethiopia-aerial-close-up-shot.mp4?s=mp4-640x640-is&k=20&c=JDYVxuyg057nbrWG-43qOrJn8NYZXYLcrHfRQGxK8G0=" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            <div class="glass-card">
+                <i class="fas fa-scroll card-icon" style="color: #ffca28;"></i>
+                <h2>The System</h2>
+                <p>Rooted in the 4th century, the Tewahedo faith follows ancient Ge'ez liturgies and a unique biblical canon.</p>
+                <button class="explore-btn">Learn More</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&q=80'); background-size: cover;">
+            <div class="glass-card">
+                <i class="fas fa-church card-icon" style="color: #ffca28;"></i>
+                <h2>Ancient Churches</h2>
+                <p>From the rock-hewn wonders of Lalibela to the ancient Ark's home in Axum Tsion.</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://media.istockphoto.com/id/2228817333/photo/ethiopian-nun-reading-holy-book-in-a-rock-hewn-church-in-lalibela.webp?a=1&b=1&s=612x612&w=0&k=20&c=jQV27gbwBXLpAyl0W2M7csLric7_Q6cSBCMLVZoYSdA='); background-size: cover;">
+            <div class="glass-card">
+                <i class="fas fa-music card-icon" style="color: #ffca28;"></i>
+                <h2>Mezmur History</h2>
+                <p>The sacred chants of Saint Yared have resonated through Ethiopian highlands since the 6th century.</p>
+                <button class="explore-btn">Listen</button>
+            </div>
+        </section>
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <span>Orthodox AI Guide</span>
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Selam! I can tell you about St. Yared, the 11 churches of Lalibela, or Orthodox traditions.</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask about the faith..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Splash Screen Logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1500);
+        });
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            const message = input.value.trim();
+            if (!message) return;
+
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28; font-weight:bold;">You: ${message}</div>`;
+            input.value = '';
+            
+            const loadingDiv = document.createElement("div");
+            loadingDiv.className = "ai-msg";
+            loadingDiv.innerText = "AI is thinking... ⏳";
+            chatContent.appendChild(loadingDiv);
+            chatContent.scrollTop = chatContent.scrollHeight;
+
+            try {
+                const response = await fetch('https://shiny-dollop-x5gxg6gw49g43645p-3000.app.github.dev/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                loadingDiv.innerText = data.reply || data.error;
+            } catch (error) {
+                loadingDiv.innerText = "Error connecting to AI server.";
+            }
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        function handleKeyPress(event) { if (event.key === "Enter") sendMessage(); }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+    </script>
+</body>
+</html>

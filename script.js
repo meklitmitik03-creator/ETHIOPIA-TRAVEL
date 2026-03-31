@@ -33,3 +33,19 @@ app.get('/', (req, res) => {
 })
 
 app.use(express.static('public'))
+async function handleChat() {
+    const input = document.getElementById('chatInput');
+    const message = input.value;
+    if (!message) return;
+
+    // Call your local Node.js server
+    const response = await fetch('http://localhost:3000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message })
+    });
+
+    const data = await response.json();
+    // Update your chat UI with data.reply here...
+    console.log("AI says:", data.reply);
+}
