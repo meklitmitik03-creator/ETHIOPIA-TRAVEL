@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"> 
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Green Ethiopia - AI Travel Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Background Slider Logic */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .bg-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            animation: slideBG 18s infinite;
+            filter: brightness(0.5);
+        }
+
+        @keyframes slideBG {
+            0%, 33% { background-image: url('https://media.gettyimages.com/id/1753097154/photo/young-african-mother-crossing-tea-plantation-with-her-baby-central-ethiopia-africa.jpg?s=612x612&w=0&k=20&c=u3b-_gEsagqvRsL3tPUvOW7ZVgdeABha1xq4fD17Xc0='); }
+            34%, 66% { background-image: url('https://media.gettyimages.com/id/680714255/photo/male-worker-spreading-fertilizer.jpg?s=612x612&w=0&k=20&c=Rf8vUfGAyWXns2J0IGq2IYeqYodinjwDCv5pU0NVtDs='); }
+            67%, 100% { background-image: url('https://media.gettyimages.com/id/94507303/photo/fisherman-on-lake-tana.jpg?s=612x612&w=0&k=20&c=gEAHJ4anFh1-9AO3SwQF-ixgQJJgBrSwe9n3R-B7JQ0='); }
+        }
+
+        .panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background: transparent;
+            overflow: hidden;
+            transition: padding-left 0.3s ease;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 15px;
+            width: 90%;
+            max-width: 1000px;
+            height: 85vh; 
+            overflow-y: auto;
+            scrollbar-width: none;
+            margin: 0 auto;
+        }
+
+        .cards-container::-webkit-scrollbar { display: none; }
+
+        .info-card {
+            background: rgba(0, 0, 0, 0.6); 
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(49, 219, 57, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 38vh; 
+        }
+
+        .info-card h3 { margin: 0; color: #31db39; font-size: 1.5rem; text-transform: uppercase; }
+        .info-card .category-tag { font-size: 0.8rem; color: #ffca28; margin-bottom: 5px; font-weight: bold; }
+        .info-card .short-desc { font-size: 0.95rem; font-weight: 500; margin-top: 5px; }
+        
+        .explore-btn-card {
+            background: #ffca28;
+            color: #070000;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        #sidebar:not(.collapsed) ~ main.panel { padding-left: 250px; }
+        #sidebar { z-index: 1001; }
+
+        @media (max-width: 600px) {
+            #sidebar:not(.collapsed) ~ main.panel { padding-left: 0; }
+            .cards-container { grid-template-columns: 1fr; width: 95%; }
+            .info-card { height: 42vh; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-slider"></div>
+
+    <div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#1b5e20; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+        <div style="text-align:center; color:white;">
+            <h1 style="margin:0;">🌿</h1>
+            <p>Green Ethiopia AI</p>
+        </div>
+    </div>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="green.html"><i class="fas fa-leaf"></i><span class="link-text">Green Initiatives</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="panel">
+        <h2 style="color: white; margin-top: 30px; font-size: 1.5rem; text-shadow: 2px 2px 4px #000;">Sustainability & Nature</h2>
+        <div class="cards-container" id="cardsGrid"></div>
+    </main>
+
+    <script>
+        const greenData = [
+            { cat: "Initiative", title: "Green Legacy", desc: "Ethiopia's record-breaking tree planting movement.", detail: "Launched in 2019, this initiative aims to plant billions of seedlings to combat climate change and deforestation." },
+            { cat: "Agriculture", title: "Coffee Forests", desc: "The birthplace of Arabica coffee.", detail: "Wild coffee grows in the shaded rainforests of Kaffa, preserving biodiversity while supporting local farmers." },
+            { cat: "Renewable", title: "GERD Project", desc: "Africa's largest hydroelectric power plant.", detail: "The Grand Ethiopian Renaissance Dam provides clean energy, reducing reliance on fossil fuels across East Africa." },
+            { cat: "Conservation", title: "Bale Mountains", desc: "A biodiversity hotspot for rare species.", detail: "Home to the Ethiopian Wolf, this park is vital for water regulation and endemic wildlife protection." },
+            { cat: "Initiative", title: "Wheat Initiative", desc: "Aiming for national food self-sufficiency.", detail: "Large-scale irrigation projects are turning dry lands into productive green wheat fields." },
+            { cat: "Sustainability", title: "Flower Farms", desc: "Eco-friendly floriculture in Bishoftu.", detail: "Ethiopian roses are grown using modern water-recycling tech to reduce environmental impact." },
+            { cat: "Nature", title: "Simien Mountains", desc: "The 'Roof of Africa' UNESCO site.", detail: "Spectacular landscapes protected to save the Walia Ibex and Gelada Baboons." },
+            { cat: "Agriculture", title: "Teff Farming", desc: "The ancient gluten-free superfood.", detail: "Sustainable farming of Teff has sustained Ethiopia for millennia with minimal chemical use." },
+            { cat: "Renewable", title: "Ashegoda Wind Farm", desc: "Harnessing the power of the northern winds.", detail: "One of Africa's largest wind farms, located near Mekelle, providing carbon-neutral electricity." },
+            { cat: "Nature", title: "Lake Tana", desc: "The source of the Blue Nile.", detail: "Biosphere reserve protecting thousands of migratory birds and ancient island monasteries." },
+            { cat: "Initiative", title: "Urban Greenery", desc: "Addis Ababa's park revolution.", detail: "Projects like Friendship Park and Entoto Park are transforming the capital into a green city." },
+            { cat: "Conservation", title: "Awash National Park", desc: "Protecting the Rift Valley ecosystem.", detail: "Focuses on the preservation of Beisa Oryx and the dramatic Awash Falls." },
+            { cat: "Renewable", title: "Reppie Waste-to-Energy", desc: "Africa's first waste-to-energy plant.", detail: "Converting the city's rubbish into electricity, cleaning the environment while powering homes." },
+            { cat: "Agriculture", title: "Enset (False Banana)", desc: "The 'Tree against Hunger'.", detail: "A drought-resistant crop that feeds millions in southern Ethiopia and prevents soil erosion." },
+            { cat: "Nature", title: "Blue Nile Falls", desc: "Tis Abay - The Great Smoke.", detail: "A natural wonder being preserved as a key tourist and ecological landmark." }
+        ];
+
+        const grid = document.getElementById('cardsGrid');
+        greenData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'info-card';
+            card.innerHTML = `
+                <div>
+                    <div class="category-tag">${item.cat}</div>
+                    <h3>${item.title}</h3>
+                    <div class="short-desc">${item.desc}</div>
+                </div>
+                <button class="explore-btn-card" onclick="showDetail('${item.title}', '${item.detail}')">Explore Details</button>
+            `;
+            grid.appendChild(card);
+        });
+
+        function showDetail(title, detail) {
+            alert(title + ": " + detail);
+        }
+
+        function toggleSidebar() { 
+            document.getElementById('sidebar').classList.toggle('collapsed'); 
+        }
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

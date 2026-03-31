@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <meta name="theme-color" content="#b8860b">
+    <title>Kingdoms of Ethiopia - AI Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .panel {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            scroll-snap-align: start;
+        }
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none; /* Hide scrollbar for clean App look */
+        }
+        .glass-card {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 25px;
+            text-align: center;
+            color: white;
+            max-width: 85%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .card-icon { font-size: 3rem; color: #ffca28; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#3e2723; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+        <div style="text-align:center; color:white;">
+            <h1 style="margin:0;">👑</h1>
+            <p>Imperial Heritage</p>
+        </div>
+    </div>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="kingdoms.html" class="active"><i class="fas fa-crown"></i><span class="link-text">Kingdoms</span></a></li>
+            <li><a href="regions.html"><i class="fas fa-map"></i><span class="link-text">Regions</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container" id="mainScroll">
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1629995015838-ea0e985d8d1a?q=80&w=1932&auto=format&fit=crop');">
+            <div class="glass-card">
+                <i class="fas fa-gem card-icon"></i>
+                <h2>Kingdom of D'mt</h2>
+                <p>The earliest known kingdom (c. 980 BC), centered at Yeha. A civilization of advanced architecture and iron-working.</p>
+                <button class="explore-btn">Explore Yeha</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?q=80&w=1932&auto=format&fit=crop');">
+            <div class="glass-card">
+                <i class="fas fa-monument card-icon"></i>
+                <h2>Aksumite Empire</h2>
+                <p>One of the four great powers of the ancient world. Famous for its towering obelisks and being the first to adopt Christianity.</p>
+                <button class="explore-btn">See Axum</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1565019017336-943004353841?q=80&w=1932&auto=format&fit=crop');">
+            <div class="glass-card">
+                <i class="fas fa-church card-icon"></i>
+                <h2>Zagwe Dynasty</h2>
+                <p>The era of King Lalibela. A golden age of religious art and the creation of the 11 rock-hewn churches.</p>
+                <button class="explore-btn">Explore Lalibela</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1608634193723-1865aa4416ce?q=80&w=1932&auto=format&fit=crop');">
+            <div class="glass-card">
+                <i class="fas fa-chess-king card-icon"></i>
+                <h2>Solomonic Dynasty</h2>
+                <p>Tracing their lineage to King Solomon and the Queen of Sheba, this dynasty ruled until the 20th century.</p>
+                <button class="explore-btn">Read History</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1548013146-72479768bbaa?q=80&w=1932&auto=format&fit=crop');">
+            <div class="glass-card">
+                <i class="fas fa-mosque card-icon"></i>
+                <h2>Adal Sultanate</h2>
+                <p>A powerful multi-ethnic Muslim state centered in Zeila and Harar, famous for its trade and military strength.</p>
+                <button class="explore-btn">Explore Harar</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop');">
+            <div class="glass-card">
+                <i class="fas fa-coffee card-icon"></i>
+                <h2>Kingdom of Kafa</h2>
+                <p>The birthplace of Coffee. A sovereign kingdom with deep forests and complex administrative systems.</p>
+                <button class="explore-btn">Coffee Roots</button>
+            </div>
+        </section>
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>History AI Guide</span></div>
+            <div class="chat-content" id="chatContent"><div class="ai-msg">Ask me about any Ethiopian Kingdom.</div></div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask about Aksum or Adal...">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Splash Hide
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1500);
+        });
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const msg = input.value.trim();
+            if(!msg) return;
+            document.getElementById('chatContent').innerHTML += `<div class="user-msg" style="text-align:right; color:#ffca28; margin:10px;">You: ${msg}</div>`;
+            input.value = '';
+            
+            try {
+                const res = await fetch('https://shiny-dollop-x5gxg6gw49g43645p-3000.app.github.dev/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await res.json();
+                document.getElementById('chatContent').innerHTML += `<div class="ai-msg">${data.reply}</div>`;
+            } catch(e) {
+                document.getElementById('chatContent').innerHTML += `<div class="ai-msg">Server Offline.</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

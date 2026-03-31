@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
-    <meta name="theme-color" content="#d32f2f">
+    <meta name="theme-color" content="#2e7d32">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Protestant Heritage - Ethiopia Guide</title>
+    <link rel="manifest" href="manifest.json">
+    <title>Land of Origins - Ethiopia AI</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -18,7 +19,27 @@
             height: 100vh;
             background-size: cover;
             background-position: center;
-            overflow: hidden;
+            scroll-snap-align: start;
+        }
+
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
         }
 
         .glass-card { z-index: 1; }
@@ -27,10 +48,10 @@
     </style>
 </head>
 
-<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#d32f2f; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#3e2723; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
     <div style="text-align:center; color:white;">
-        <h1 style="margin:0;">📖</h1>
-        <p>Protestant Heritage</p>
+        <h1 style="margin:0;">☕</h1>
+        <p>Land of Origins</p>
     </div>
 </div>
 
@@ -42,40 +63,36 @@
         </div>
         <ul class="nav-links">
             <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
-            <li><a href="religion.html"><i class="fas fa-cross"></i><span class="link-text">Orthodox</span></a></li>
-            <li><a href="islamic.html"><i class="fas fa-moon"></i><span class="link-text">Islamic</span></a></li>
-            <li><a href="protestant.html" class="active"><i class="fas fa-bible"></i><span class="link-text">Protestant</span></a></li>
+            <li><a href="origin.html" class="active"><i class="fas fa-seedling"></i><span class="link-text">Origins</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
         </ul>
     </nav>
 
     <main class="scroll-container" id="mainScroll">
         
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/1314575709/photo/priest-reading-bible-online.jpg?s=612x612&w=0&k=20&c=e5c9FRmlFIQyDgXoFM7CD6KltctbBrmVvLRuADeIAgg=');">
+        <section class="panel">
+            <video autoplay muted loop playsinline class="video-bg">
+                <source src="https://player.vimeo.com/external/403635744.sd.mp4?s=6e3e54b670355f6574f26a100529d2f2d93e5062&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
             <div class="glass-card">
-                <i class="fas fa-book-open card-icon" style="color: #ff5252;"></i>
-                <h2>The Gospel</h2>
-                <p>Rooted in the "Sola Scriptura" tradition, the P'ent'ay faith emphasizes personal salvation and the authority of the Bible.</p>
-                <button class="explore-btn">Learn More</button>
+                <i class="fas fa-mug-hot card-icon" style="color: #ffca28;"></i>
+                <h2>Origin of Coffee</h2>
+                <p>Follow the legend of Kaldi and his dancing goats in the ancient forests of Kaffa.</p>
+                <button class="explore-btn">Coffee Ceremony</button>
             </div>
         </section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1510531704581-5b2870972060?auto=format&fit=crop&q=80');">
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1510936111840-65e151ad71bb?auto=format&fit=crop&q=80');">
             <div class="glass-card">
-                <i class="fas fa-music card-icon" style="color: #ff5252;"></i>
-                <h2>Spiritual Worship</h2>
-                <p>Experience the soulful and modern Protestant Mezmur that has transformed Ethiopian music and worship culture.</p>
-                <button class="explore-btn">Explore</button>
+                <i class="fas fa-dna card-icon" style="color: #4db6ac;"></i>
+                <h2>Origin of Life</h2>
+                <p>Meet "Dinknesh" (Lucy), our 3.2 million-year-old ancestor found in the Afar region.</p>
+                <button class="explore-btn">Meet Lucy</button>
             </div>
         </section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&q=80');">
-            <div class="glass-card">
-                <i class="fas fa-history card-icon" style="color: #ff5252;"></i>
-                <h2>Heritage</h2>
-                <p>From the early missions to the rise of massive indigenous denominations like Mekane Yesus and Meserete Kristos.</p>
-                <button class="explore-btn">See Details</button>
-            </div>
-        </section>
     </main>
 
     <div class="ai-chat-wrapper">
@@ -84,21 +101,21 @@
         </div>
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
-                <span>Protestant AI Guide</span>
+                <span>Origins AI Guide</span>
                 <i class="fa-solid fa-circle-info"></i>
             </div>
             <div class="chat-content" id="chatContent">
-                <div class="ai-msg">Selam! Ask me about the history of the P'ent'ay movement, Mekane Yesus, or famous worship songs.</div>
+                <div class="ai-msg">Ameseginalehu! Ask me about the history of coffee or human evolution in Ethiopia.</div>
             </div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Ask about the faith..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" placeholder="Ask about coffee or Lucy..." onkeypress="handleKeyPress(event)">
                 <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
     <script>
-        // Splash Screen Logic
+        // Splash logic
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
@@ -107,15 +124,16 @@
             }, 1500);
         });
 
+        // Chat Logic
         async function sendMessage() {
             const input = document.getElementById('userInput');
             const chatContent = document.getElementById('chatContent');
             const message = input.value.trim();
             if (!message) return;
 
-            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ff5252; font-weight:bold;">You: ${message}</div>`;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#2e7d32; font-weight:bold;">You: ${message}</div>`;
             input.value = '';
-            
+
             const loadingDiv = document.createElement("div");
             loadingDiv.className = "ai-msg";
             loadingDiv.innerText = "AI is thinking... ⏳";
@@ -131,7 +149,7 @@
                 const data = await response.json();
                 loadingDiv.innerText = data.reply || data.error;
             } catch (error) {
-                loadingDiv.innerText = "Error: Check your connection.";
+                loadingDiv.innerText = "Error: Server offline.";
             }
             chatContent.scrollTop = chatContent.scrollHeight;
         }
@@ -139,6 +157,14 @@
         function handleKeyPress(event) { if (event.key === "Enter") sendMessage(); }
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
         function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        // Auto Scroll (1 Minute)
+        const scrollDiv = document.getElementById('mainScroll');
+        let currentPos = 0;
+        setInterval(() => {
+            currentPos = (currentPos + window.innerHeight >= scrollDiv.scrollHeight) ? 0 : currentPos + window.innerHeight;
+            scrollDiv.scrollTo({ top: currentPos, behavior: 'smooth' });
+        }, 60000);
     </script>
 </body>
 </html>

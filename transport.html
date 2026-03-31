@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Transport - Ethiopia Guide</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -27,9 +27,8 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            transition: background-image 0.5s ease-in-out; /* 0.5s transition as requested */
-            /* Initial Image */
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media.istockphoto.com/id/1296923626/photo/plane-landing-in-addis-ababa-ethiopia-airport-with-signboard.jpg?s=612x612&w=0&k=20&c=qXnfn34_VgdKAKiv1GvGtDx9WZ2F2DG0ch-PHmSQBPI=');
+            transition: background-image 0.5s ease-in-out;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.pexels.com/photos/11136993/pexels-photo-11136993.jpeg');
         }
 
         /* MANUAL SCROLL CONTAINER */
@@ -37,29 +36,35 @@
             height: 100vh;
             overflow-y: auto;
             scroll-behavior: smooth;
-            padding-left: 60px; /* Space for the collapsed sidebar */
+            transition: padding-left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-left: 60px; /* Base for collapsed sidebar */
         }
 
-        /* GRID LAYOUT FOR 10 CARDS */
+        /* Shift content when sidebar expands */
+        body:has(#sidebar:not(.collapsed)) .scroll-container {
+            padding-left: 180px;
+        }
+
+        /* GRID LAYOUT */
         .content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-            padding: 100px 40px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 80px 20px;
             justify-items: center;
         }
 
-        /* MEDIUM SIZED EXPANDING CARDS */
+        /* CARD STYLING */
         .transport-card {
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            width: 350px; /* Medium width */
-            padding: 25px;
+            width: 320px;
+            padding: 20px;
             color: white;
-            transition: height 0.4s ease, border-color 0.4s ease;
-            height: 220px; /* Closed height */
+            transition: all 0.4s ease;
+            height: 200px;
             overflow: hidden;
             position: relative;
         }
@@ -67,58 +72,48 @@
         .transport-card.expanded { 
             height: 420px; 
             border-color: #ffcc00; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .transport-card i { color: #ffcc00; margin-bottom: 10px; }
-        .transport-card h3 { color: #ffcc00; margin: 10px 0; font-size: 1.5rem; }
-        .transport-card p { font-size: 0.95rem; line-height: 1.4; opacity: 0.9; }
+        .transport-card h3 { color: #ffcc00; margin: 10px 0; font-size: 1.3rem; }
+        .transport-card p { font-size: 0.9rem; line-height: 1.4; opacity: 0.9; }
 
-        /* BUTTONS */
         .see-more { 
             background: #ffcc00; 
             border: none; 
-            padding: 12px; 
+            padding: 10px; 
             border-radius: 8px; 
             cursor: pointer; 
             font-weight: bold; 
             width: 100%; 
-            color: #000; /* BLACK TEXT */
+            color: #000;
             margin-top: 15px;
-            transition: 0.3s;
         }
 
         .btn-group { 
-            margin-top: 20px; 
+            margin-top: 15px; 
             display: none; 
             flex-direction: column; 
-            gap: 12px; 
+            gap: 10px; 
         }
 
         .transport-card.expanded .btn-group { display: flex; }
         
-        .call-btn { 
-            background: #008844; 
-            color: white; 
-            padding: 12px; 
+        .call-btn, .contact-btn { 
+            padding: 10px; 
             border-radius: 8px; 
             text-align: center; 
             text-decoration: none; 
             font-weight: bold; 
+            font-size: 0.9rem;
         }
+        .call-btn { background: #008844; color: white; }
+        .contact-btn { background: #ee334e; color: white; }
 
-        .contact-btn { 
-            background: #ee334e; 
-            color: white; 
-            padding: 12px; 
-            border-radius: 8px; 
-            text-align: center; 
-            text-decoration: none; 
-            font-weight: bold; 
-        }
-
-        /* SIDEBAR - EXACTLY SAME AS HOME PAGE */
+        /* SIDEBAR */
         #sidebar { 
-            width: 180px; 
+            width: 150px; 
             height: 100vh; 
             position: fixed; 
             left: 0; 
@@ -128,25 +123,19 @@
             z-index: 1001; 
         }
 
-        #sidebar.collapsed { 
-            width: 60px; /* Stays as a thin bar, does not disappear */
-        }
-
+        #sidebar.collapsed { width: 70px; }
         #sidebar.collapsed .link-text { display: none; }
         
         .nav-links { list-style: none; padding: 80px 0 0 0; margin: 0; }
-        
         .nav-links li a { 
             display: flex; 
             align-items: center; 
-            padding: 20px; 
+            padding: 18px; 
             color: #000; 
             text-decoration: none; 
             font-weight: bold; 
-            white-space: nowrap;
         }
-
-        .nav-links i { min-width: 40px; font-size: 1.4rem; text-align: center; }
+        .nav-links i { min-width: 30px; font-size: 1.2rem; }
 
         .toggle-btn { 
             z-index: 1002; 
@@ -158,24 +147,32 @@
             font-size: 1.8rem; 
         }
 
-        /* CHAT BOX - SAME AS HOME */
-        .ai-chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 2000; }
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 600px) {
+            .scroll-container { padding-left: 0 !important; }
+            #sidebar { left: -180px; }
+            #sidebar.collapsed { left: -60px; } /* Hide completely on mobile until toggled */
+            #sidebar.active { left: 0; width: 200px; }
+            
+            .content-grid { padding: 80px 10px; grid-template-columns: 1fr; }
+            .transport-card { width: 90%; }
+            .transport-card h3 { font-size: 1.1rem; }
+            .transport-card p { font-size: 0.85rem; }
+        }
+
+        /* CHAT BOX */
+        .ai-chat-wrapper { position: fixed; bottom: 20px; right: 20px; z-index: 2000; }
         .chat-toggle { 
-            background: #ee334e; width: 60px; height: 60px; border-radius: 50%; 
+            background: #ee334e; width: 50px; height: 50px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
-            color: white; font-size: 24px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            color: white; font-size: 20px; cursor: pointer;
         }
         .chat-window {
-            position: absolute; bottom: 80px; right: 0; width: 320px; height: 450px;
-            background: rgba(0,0,0,0.9); border: 1px solid #ffcc00; border-radius: 15px;
-            display: none; flex-direction: column; overflow: hidden; backdrop-filter: blur(10px);
+            position: absolute; bottom: 60px; right: 0; width: 280px; height: 400px;
+            background: rgba(0,0,0,0.95); border: 1px solid #ffcc00; border-radius: 15px;
+            display: none; flex-direction: column; overflow: hidden;
         }
         .chat-window.active { display: flex; }
-        .chat-header { background: #ffcc00; color: #000; padding: 15px; font-weight: bold; }
-        .chat-content { flex: 1; padding: 15px; color: white; overflow-y: auto; font-size: 0.9rem; }
-        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid #333; }
-        .chat-input-area input { flex: 1; background: #222; border: none; padding: 10px; color: white; border-radius: 5px; }
-        .chat-input-area button { background: #ffcc00; border: none; padding: 0 15px; margin-left: 5px; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -198,8 +195,7 @@
     </nav>
 
     <main class="scroll-container">
-        <div class="content-grid">
-            
+        <div class="content-grid" id="cardContainer">
             <div class="transport-card" id="c1">
                 <i class="fas fa-taxi fa-2x"></i>
                 <h3>Yango Ethiopia</h3>
@@ -310,18 +306,124 @@
                 </div>
             </div>
 
+            <div class="transport-card" id="c11">
+                <i class="fas fa-bolt fa-2x"></i>
+                <h3>Flash Ride</h3>
+                <p>Quick urban dispatch service for short distance travel and fast pickups.</p>
+                <button class="see-more" onclick="expandCard('c11')">See More</button>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">App Download</a>
+                    <a href="tel:7111" class="call-btn"><i class="fas fa-phone"></i> Call 7111</a>
+                </div>
+            </div>
+
+            <div class="transport-card" id="c12">
+                <i class="fas fa-shield-halved fa-2x"></i>
+                <h3>Safe Ride</h3>
+                <p>Premium taxi service prioritizing passenger security and background-checked drivers.</p>
+                <button class="see-more" onclick="expandCard('c12')">See More</button>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Safety Policy</a>
+                    <a href="tel:8888" class="call-btn"><i class="fas fa-phone"></i> Call 8888</a>
+                </div>
+            </div>
+
+            <div class="transport-card" id="c13">
+                <i class="fas fa-shuttle-van fa-2x"></i>
+                <h3>Selam Bus</h3>
+                <p>One of the most trusted inter-city coach services for comfortable long travels.</p>
+                <button class="see-more" onclick="expandCard('c13')">See More</button>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Booking</a>
+                    <a href="tel:0115" class="call-btn"><i class="fas fa-phone"></i> Call Selam</a>
+                </div>
+            </div>
+
+            <div class="transport-card" id="c14">
+                <i class="fas fa-truck-fast fa-2x"></i>
+                <h3>Seregela Taxi</h3>
+                <p>A women-focused ride-hailing service empowering female drivers in Ethiopia.</p>
+                <button class="see-more" onclick="expandCard('c14')">See More</button>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Our Mission</a>
+                    <a href="tel:7878" class="call-btn"><i class="fas fa-phone"></i> Call 7878</a>
+                </div>
+            </div>
+
+            <div class="transport-card" id="c15">
+                <i class="fas fa-van-shuttle fa-2x"></i>
+                <h3>Lada Taxi</h3>
+                <p>The veteran private taxi service of Addis, reliable for airport transfers.</p>
+                <button class="see-more" onclick="expandCard('c15')">See More</button>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Rates</a>
+                    <a href="#" class="call-btn">Dispatcher</a>
+                </div>
+            </div>
+
+            <div class="transport-card" id="c16">
+                <i class="fas fa-leaf fa-2x"></i>
+                <h3>Green Transport</h3>
+                <p>Introducing electric vehicle taxi options to keep Ethiopia's air clean.</p>
+                <button class="see-more" onclick="expandCard('c16')">See More</button>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Eco Impact</a>
+                    <a href="tel:9900" class="call-btn"><i class="fas fa-phone"></i> Call Green</a>
+                </div>
+            </div>
+
+            <div class="transport-card" id="c17">
+                <i class="fas fa-user-tie fa-2x"></i>
+                <h3>Executive Car Hire</h3>
+                <p>Luxury car rentals and chauffeur services for diplomats and business travelers.</p>
+                <button class="see-more" onclick="expandCard('c17')">See More</button>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Fleet List</a>
+                    <a href="#" class="call-btn">Request Quote</a>
+                </div>
+            </div>
+
+            <div class="transport-card" id="c18">
+                <i class="fas fa-city fa-2x"></i>
+                <h3>Anbessa City Bus</h3>
+                <p>The historic public bus service connecting all corners of the capital city.</p>
+                <button class="see-more" onclick="expandCard('c18')">See More</button>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Schedule</a>
+                    <a href="#" class="call-btn">Info Desk</a>
+                </div>
+            </div>
+
+            <div class="transport-card" id="c19">
+                <i class="fas fa-location-dot fa-2x"></i>
+                <h3>Taxiye</h3>
+                <p>User-friendly ride-hailing app with shared ride options for lower costs.</p>
+                <button class="see-more" onclick="expandCard('c19')">See More</button>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Partner Up</a>
+                    <a href="tel:6060" class="call-btn"><i class="fas fa-phone"></i> Call 6060</a>
+                </div>
+            </div>
+
+            <div class="transport-card" id="c20">
+                <i class="fas fa-train-subway fa-2x"></i>
+                <h3>Addis Light Rail</h3>
+                <p>The city's metro system, a fast way to cross North-South or East-West Addis.</p>
+                <button class="see-more" onclick="expandCard('c20')">See More</button>
+                <div class="btn-group">
+                    <a href="#" class="contact-btn">Map</a>
+                    <a href="#" class="call-btn">Station List</a>
+                </div>
+            </div>
+
         </div>
     </main>
 
     <div class="ai-chat-wrapper">
-        <div class="chat-toggle" onclick="toggleChat()">
-            <i class="fa-solid fa-robot"></i>
-        </div>
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
         <div class="chat-window" id="chatWindow">
             <div class="chat-header"><span>Ethiopia AI Guide</span></div>
-            <div class="chat-content" id="chatContent">
-                <div class="ai-msg">Happy day! Where do you want to go? If you have any question ask me.</div>
-            </div>
+            <div class="chat-content">Happy day! Where do you want to go?</div>
             <div class="chat-input-area">
                 <input type="text" placeholder="Ask AI anything...">
                 <button><i class="fa-solid fa-paper-plane"></i></button>
@@ -330,17 +432,18 @@
     </div>
 
     <script>
-        // Sidebar logic
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            if (window.innerWidth <= 600) {
+                sidebar.classList.toggle('active');
+            }
         }
 
-        // Chat logic
         function toggleChat() {
             document.getElementById('chatWindow').classList.toggle('active');
         }
 
-        // Card expand logic
         function expandCard(id) {
             const card = document.getElementById(id);
             card.classList.toggle('expanded');
@@ -348,23 +451,18 @@
             btn.innerText = card.classList.contains('expanded') ? "Close" : "See More";
         }
 
-        // BACKGROUND ROTATION WITH FIXED IMAGES
         const bgLayer = document.getElementById('bgLayer');
         const images = [
-            "https://media.istockphoto.com/id/1296923626/photo/plane-landing-in-addis-ababa-ethiopia-airport-with-signboard.jpg?s=612x612&w=0&k=20&c=qXnfn34_VgdKAKiv1GvGtDx9WZ2F2DG0ch-PHmSQBPI=",
-            "https://media.istockphoto.com/id/2200627004/photo/victoria-falls-airport-terminal-building-facade-zimbabwe-travel-to-africa.jpg?s=612x612&w=0&k=20&c=KZYY4k1MxIxqgv6hL4YOJS8Rmjg1xayrRGF2n0leJ_4=",
-            "https://media.istockphoto.com/id/1202817564/photo/passenger-jet-takeoff.jpg?s=612x612&w=0&k=20&c=aTky3Qfrowqr006gtZnjJXgah-WABM9bQ3D9qFSz6rY=",
-            "https://media.istockphoto.com/id/1316560346/photo/flag-of-ethiopia-with-passport-and-toy-airplane-on-wooden-background.jpg?s=612x612&w=0&k=20&c=N8sJJPhloPtSNBRM7kOv-bow-pg84GSvfEK0XYxtKPU="
+            "https://images.pexels.com/photos/11136993/pexels-photo-11136993.jpeg",
+            "https://images.pexels.com/photos/13847081/pexels-photo-13847081.jpeg",
+            "https://media.gettyimages.com/id/148819421/photo/old-peugeot-taxis-outside-medhane-alem-cathedral.jpg?s=612x612&w=0&k=20&c=BBQxKWJu5fKUqbeleR3PvEcbHpRD6wZluIhSZCQMAUo="
         ];
         
         let imgIndex = 0;
         function rotateBackground() {
             imgIndex = (imgIndex + 1) % images.length;
-            // Apply 0.5s fade via the CSS transition property defined above
-            bgLayer.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${images[imgIndex]}')`;
+            bgLayer.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${images[imgIndex]}')`;
         }
-        
-        // Rotate every 10 seconds
         setInterval(rotateBackground, 10000);
     </script>
 </body>

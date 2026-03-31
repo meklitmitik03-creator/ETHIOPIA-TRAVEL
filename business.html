@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"> 
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Business & Economy - Ethiopia AI Travel Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Background Slider with your specific Economy images */
+        .bg-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            animation: slideBG 20s infinite;
+            filter: brightness(0.35);
+        }
+
+        @keyframes slideBG {
+            0%, 30% { background-image: url('https://images.pexels.com/photos/13275966/pexels-photo-13275966.jpeg'); }
+            33%, 63% { background-image: url('https://media.istockphoto.com/id/163113222/photo/ethiopia.jpg?b=1&s=612x612&w=0&k=20&c=pqcAHXiub3pEncV-Jac1kri2omNpPBdAM0IBC0Rqrww='); }
+            66%, 100% { background-image: url('https://images.pexels.com/photos/36713812/pexels-photo-36713812.jpeg'); }
+        }
+
+        .panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background: transparent; 
+            overflow: hidden;
+            transition: padding-left 0.3s ease;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 15px;
+            width: 90%;
+            max-width: 1000px;
+            height: 85vh; 
+            overflow-y: auto;
+            scrollbar-width: none;
+            margin: 0 auto;
+        }
+
+        .cards-container::-webkit-scrollbar { display: none; }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 38vh; 
+        }
+
+        .info-card h3 { margin: 0; color: #31db39; font-size: 1.5rem; text-transform: uppercase; }
+        .info-card .category-tag { font-size: 0.8rem; color: #ffca28; margin-bottom: 5px; font-weight: bold; }
+        .info-card .short-desc { font-size: 0.95rem; font-weight: 500; margin-top: 5px; opacity: 0.9; }
+        
+        .explore-btn-card {
+            background: #ffca28; 
+            color: #000;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        .explore-btn-card:active { transform: scale(0.95); }
+
+        /* Registration Form Overlay */
+        .registration-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+
+        .registration-form {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #31db39;
+            width: 90%;
+            max-width: 400px;
+            color: white;
+            text-align: center;
+        }
+
+        .registration-form h2 { color: #31db39; margin-bottom: 20px; font-size: 1.4rem; }
+
+        .registration-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .submit-btn {
+            background: #ffca28;
+            color: black;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        #success-msg {
+            display: none;
+            color: #31db39;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        #sidebar:not(.collapsed) ~ main.panel { padding-left: 250px; }
+
+        @media (max-width: 600px) {
+            #sidebar:not(.collapsed) ~ main.panel { padding-left: 0; }
+            .info-card { height: auto; min-height: 300px; }
+            .cards-container { grid-template-columns: 1fr; width: 95%; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-slider"></div>
+
+    <div class="registration-overlay" id="regOverlay">
+        <div class="registration-form">
+            <h2 id="regTitle">Business Inquiry</h2>
+            <input type="text" id="regName" placeholder="Full Name" required>
+            <input type="tel" id="regPhone" placeholder="Phone Number" required>
+            <input type="email" id="regEmail" placeholder="Email Address" required>
+            <input type="date" id="regDate" required>
+            <input type="text" id="regPassport" placeholder="ID / Passport Number" required>
+            <button class="submit-btn" onclick="handleRegister()">REGISTER NOW</button>
+            <div id="success-msg"></div>
+        </div>
+    </div>
+
+    <div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#2e7d32; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+        <div style="text-align:center; color:white;">
+            <h1 style="margin:0;">📈</h1>
+            <p>EthioBiz AI</p>
+        </div>
+    </div>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="economy.html"><i class="fas fa-chart-line"></i><span class="link-text">Economy</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="panel">
+        <h2 style="color: white; margin-top: 30px; font-size: 1.8rem; text-shadow: 2px 2px 4px #000; text-align: center;">Business & Economy Hubs</h2>
+        <div class="cards-container" id="cardsGrid"></div>
+    </main>
+
+    <script>
+        const economyData = [
+            { name: "Coffee Exports", cat: "Agriculture", desc: "Ethiopia is Africa's largest coffee producer, known for Arabica beans." },
+            { name: "Addis Industrial", cat: "Manufacturing", desc: "Home to large scale garment and footwear industrial parks." },
+            { name: "Gold Mining", cat: "Natural Resources", desc: "Major mining operations in Gambela and Benishangul-Gumuz regions." },
+            { name: "Ethio Telecom", cat: "Technology", desc: "One of Africa's oldest and largest telecom providers." },
+            { name: "Aviation Hub", cat: "Logistics", desc: "Ethiopian Airlines is the continent's most successful carrier." },
+            { name: "Horticulture", cat: "Agri-Business", desc: "Major exporter of roses and flowers to the European market." },
+            { name: "Textile Parks", cat: "Industry", desc: "Hawassa Industrial Park is a global model for sustainable manufacturing." },
+            { name: "FinTech Boom", cat: "Finance", desc: "Rapid expansion of mobile banking and digital payment systems." },
+            { name: "Leather Goods", cat: "Manufacturing", desc: "High-quality leather production for global fashion brands." },
+            { name: "Hydroelectric", cat: "Energy", desc: "The GERD project aims to make Ethiopia the 'Powerhouse of Africa'." },
+            { name: "Livestock", cat: "Agriculture", desc: "Ethiopia holds the largest livestock population in Africa." },
+            { name: "Wheat Initiative", cat: "Agri-Business", desc: "Moving towards self-sufficiency through irrigated wheat farming." },
+            { name: "Real Estate", cat: "Development", desc: "Addis Ababa is experiencing a massive skyscraper and residential boom." },
+            { name: "Bamboo Works", cat: "Crafts & Industry", desc: "Emerging sector in sustainable furniture and construction." },
+            { name: "Spice Trade", cat: "Agriculture", desc: "Exporting high-value spices like ginger and turmeric globally." },
+            { name: "Cement Industry", cat: "Construction", desc: "Supporting the massive infrastructure development across the country." },
+            { name: "Solar Energy", cat: "Renewables", desc: "Large-scale solar projects in the Rift Valley region." },
+            { name: "Pulse Exports", cat: "Agriculture", desc: "High demand for Ethiopian chickpeas and lentils internationally." },
+            { name: "Brewery Sector", cat: "Beverage", desc: "Rapidly growing market with several international players." },
+            { name: "Tech Startups", cat: "Innovation", desc: "Sheba Valley: Ethiopia's growing tech and startup ecosystem." },
+            // Generating remaining cards to reach 50
+            { name: "Sugar Industry", cat: "Manufacturing", desc: "Large-scale sugar estates and processing plants in Wonji." },
+            { name: "Sesame Exports", cat: "Trade", desc: "Humera sesame is prized worldwide for its quality." },
+            { name: "Oil Seeds", cat: "Agriculture", desc: "A key pillar of Ethiopia's export earnings." },
+            { name: "Mekelle Hub", cat: "Regional Economy", desc: "Northern industrial corridor focusing on engineering." },
+            { name: "Dire Dawa Zone", cat: "Free Trade", desc: "Strategically located for Djiboutian port trade." },
+            { name: "Fish Farming", cat: "Aquaculture", desc: "Rising industry around Lake Tana and Hawassa." },
+            { name: "Mineral Water", cat: "Beverage", desc: "Ambo and other local springs dominate the domestic market." },
+            { name: "Logistics Parks", cat: "Trade", desc: "Inland dry ports facilitating smoother import/export." },
+            { name: "Ecotourism", cat: "Services", desc: "High-end lodges and sustainable travel investments." },
+            { name: "Education", cat: "Human Capital", desc: "Booming private university and vocational training sector." },
+            { name: "Chemicals", cat: "Manufacturing", desc: "Production of detergents and paints for local demand." },
+            { name: "Honey & Wax", cat: "Agriculture", desc: "Ethiopia is a top global producer of organic honey." },
+            { name: "Railways", cat: "Infrastructure", desc: "Ethio-Djibouti electric railway boosting trade efficiency." },
+            { name: "Pharmaceuticals", cat: "Health Economy", desc: "Domestic production of essential medicines growing." },
+            { name: "Plastic Goods", cat: "Manufacturing", desc: "Local production of pipes and household items." },
+            { name: "Poultry", cat: "Agri-Business", desc: "Modernizing meat and egg production sectors." },
+            { name: "Digital ID", cat: "Governance", desc: "Economic formalization through national digital identity." },
+            { name: "Drylands Agri", cat: "Agriculture", desc: "Innovation in Frankincense and Myrrh production." },
+            { name: "Media Sector", cat: "Services", desc: "Expansion of satellite TV and digital media advertising." },
+            { name: "Insurance", cat: "Finance", desc: "Increasing penetration of private insurance services." },
+            { name: "Livestock Tech", cat: "Innovation", desc: "Digital tracking for export-grade cattle." },
+            { name: "Retail Malls", cat: "Commerce", desc: "Modernizing the shopping experience in urban centers." },
+            { name: "Road Networks", cat: "Infrastructure", desc: "Massive investment in expressway connectivity." },
+            { name: "Cold Chain", cat: "Logistics", desc: "Improving storage for fruit and vegetable exports." },
+            { name: "Potash Mining", cat: "Natural Resources", desc: "Major development in the Danakil Depression." },
+            { name: "Catering", cat: "Tourism", desc: "Ethiopian Airlines' massive catering hub for Africa." },
+            { name: "Tea Estates", cat: "Agriculture", desc: "High-quality black tea production in the southwest." },
+            { name: "Packaging", cat: "Industry", desc: "Local manufacturing of boxes and labels for industry." },
+            { name: "Small Scale", cat: "Micro-Biz", desc: "Support for traditional weavers and handicraft SMEs." },
+            { name: "Green Legacy", cat: "Sustainability", desc: "Investment in carbon credits and reforestation." }
+        ];
+
+        let currentBiz = "";
+        const grid = document.getElementById('cardsGrid');
+        const overlay = document.getElementById('regOverlay');
+        const successBox = document.getElementById('success-msg');
+
+        // Create 50 cards
+        economyData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'info-card';
+            card.innerHTML = `
+                <div>
+                    <div class="category-tag">${item.cat}</div>
+                    <h3>${item.name}</h3>
+                    <div class="short-desc">${item.desc}</div>
+                </div>
+                <button class="explore-btn-card" onclick="openRegistration('${item.name}')">Invest / Partner</button>
+            `;
+            grid.appendChild(card);
+        });
+
+        function openRegistration(name) {
+            currentBiz = name;
+            document.getElementById('regTitle').innerText = "Inquire: " + name;
+            overlay.style.display = 'flex';
+        }
+
+        function handleRegister() {
+            successBox.innerText = "tnx see you in " + currentBiz;
+            successBox.style.display = 'block';
+            
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                successBox.style.display = 'none';
+                // Reset inputs
+                const inputs = document.querySelectorAll('.registration-form input');
+                inputs.forEach(input => input.value = '');
+            }, 1000);
+        }
+
+        function toggleSidebar() { 
+            document.getElementById('sidebar').classList.toggle('collapsed'); 
+        }
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

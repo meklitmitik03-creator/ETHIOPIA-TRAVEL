@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"> 
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <title>Growing Cities - Ethiopia AI Travel Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Auto-Scrolling Background Logic */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .bg-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            animation: slideBG 20s infinite;
+            filter: brightness(0.4);
+        }
+
+        @keyframes slideBG {
+            0%, 30% { background-image: url('https://images.pexels.com/photos/36713810/pexels-photo-36713810.jpeg'); }
+            33%, 63% { background-image: url('https://images.pexels.com/photos/33721961/pexels-photo-33721961.jpeg'); }
+            66%, 100% { background-image: url('https://images.pexels.com/photos/31628013/pexels-photo-31628013.jpeg'); }
+        }
+
+        .panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background: transparent; 
+            overflow: hidden;
+            transition: padding-left 0.3s ease;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 15px;
+            width: 90%;
+            max-width: 1000px;
+            height: 85vh; 
+            overflow-y: auto;
+            scrollbar-width: none;
+            margin: 0 auto;
+        }
+
+        .cards-container::-webkit-scrollbar { display: none; }
+
+        .info-card {
+            background: rgba(236, 233, 233, 0.062); 
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 38vh; 
+        }
+
+        .info-card h3 { margin: 0; color: #0f0101; font-size: 1.8rem; text-transform: uppercase; }
+        .info-card .category-tag { font-size: 0.8rem; color: #ffca28; margin-bottom: 5px; font-weight: bold; }
+        .info-card .short-desc { font-size: 0.95rem; font-weight: 500; margin-top: 5px; }
+        
+        .explore-btn-card {
+            background: #ffca28; 
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        .explore-btn-card:active { transform: scale(0.95); }
+
+        /* Registration Form Styles */
+        .registration-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+
+        .registration-form {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #31db39;
+            width: 90%;
+            max-width: 400px;
+            color: white;
+            text-align: center;
+        }
+
+        .registration-form h2 { color: #31db39; margin-bottom: 20px; }
+
+        .registration-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #333;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .submit-btn {
+            background: #ffca28;
+            color: black;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        #success-msg {
+            display: none;
+            color: #31db39;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        #sidebar:not(.collapsed) ~ main.panel { padding-left: 250px; }
+        #sidebar { z-index: 1001; }
+
+        @media (max-width: 600px) {
+            #sidebar:not(.collapsed) ~ main.panel { padding-left: 0; }
+            .info-card { height: 42vh; }
+            .cards-container { grid-template-columns: 1fr; width: 95%; }
+        }
+    </style>
+</head>
+
+<div class="bg-slider"></div>
+
+<div class="registration-overlay" id="regOverlay">
+    <div class="registration-form">
+        <h2 id="regTitle">Join Shopping</h2>
+        <input type="text" placeholder="Full Name" required>
+        <input type="tel" placeholder="Phone Number" required>
+        <input type="email" placeholder="Email Address" required>
+        <input type="date" placeholder="Date" required>
+        <input type="text" placeholder="Passport Number" required>
+        <button class="submit-btn" onclick="handleRegister()">REGISTER NOW</button>
+        <div id="success-msg"></div>
+    </div>
+</div>
+
+<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#2e7d32; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+    <div style="text-align:center; color:white;">
+        <h1 style="margin:0;">🇪🇹</h1>
+        <p>EthioTravel AI</p>
+    </div>
+</div>
+
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="panel">
+        <h2 style="color: white; margin-top: 30px; font-size: 1.5rem; text-shadow: 2px 2px 4px #000;">Growing Cities of Ethiopia</h2>
+        <div class="cards-container" id="cardsGrid"></div>
+    </main>
+
+    <script>
+        const cityData = [
+            { name: "Addis Ababa", cat: "Capital", desc: "The diplomatic capital of Africa.", shop: "Visit Merkato (Africa's largest) for everything or Shiromeda for traditional hand-woven clothes." },
+            { name: "Adama", cat: "Growing City", desc: "A bustling transportation and weekend hub.", shop: "The Main Market near the train station is best for modern apparel and local textiles." },
+            { name: "Bahir Dar", cat: "Resort City", desc: "The jewel on Lake Tana.", shop: "Local boutiques along the palm-lined avenues offer high-quality leather and lake-themed souvenirs." },
+            { name: "Dire Dawa", cat: "Industrial Hub", desc: "A city with unique French colonial railway history.", shop: "Ashawa Market is the place for vibrant eastern Ethiopian fabrics and imported goods." },
+            { name: "Hawassa", cat: "Lakeside City", desc: "Famous for its fish market and industrial park.", shop: "Check out the city center malls for modern clothes and the lakeside stalls for cultural attire." },
+            { name: "Mekelle", cat: "Highland City", desc: "The northern hub of trade and industry.", shop: "The Edaga Market is famous for traditional Tigrayan embroidered dresses (Habesha Kemis)." },
+            { name: "Gondar", cat: "Historical City", desc: "The Camelot of Africa with its royal castles.", shop: "Arada Market features unique weaving styles specific to the Amhara region." },
+            { name: "Jimma", cat: "Coffee Capital", desc: "Lush city known for coffee origins.", shop: "The Central Market is great for locally crafted leather bags and coffee-related crafts." },
+            { name: "Bishoftu", cat: "Leisure Hub", desc: "Surrounded by volcanic crater lakes.", shop: "Resort-area gift shops offer premium traditional scarves and weekend-style clothing." },
+            { name: "Shashamane", cat: "Cultural Crossroad", desc: "Home to a diverse Rastafarian community.", shop: "The local market is famous for colorful knitted caps and Rastafarian-inspired apparel." },
+            { name: "Arba Minch", cat: "Nature City", desc: "Gateway to Nech Sar and the Dorze tribe.", shop: "The Dorze Highlands market is the ultimate spot for the finest hand-woven 'Shama' cloth." },
+            { name: "Dessie", cat: "Highland Trade", desc: "A strategic mountain city.", shop: "Talla Market provides warm highland woolens and traditional Habesha dresses." },
+            { name: "Jijiga", cat: "Border Trade", desc: "The heart of the Somali region's trade.", shop: "The bustling New Market is filled with colorful 'Diras' and imported silks." },
+            { name: "Hosaena", cat: "Education Hub", desc: "A rapidly growing city in the south.", shop: "Central Hosaena Market is where locals get high-quality Gurage-style traditional clothing." },
+            { name: "Sodo", cat: "Regional Hub", desc: "Commercial center of Wolayita.", shop: "The main town market is famous for vibrant Wolayita-colored cultural dresses." },
+            { name: "Dilla", cat: "Coffee Trade", desc: "Surrounded by ancient stelae and coffee farms.", shop: "Local artisans sell unique hand-made accessories and woven textiles near the city square." },
+            { name: "Asella", cat: "Athlete Town", desc: "High-altitude city that produces champions.", shop: "Shop at the Arsi Market for traditional Arsi-Oromo leather-work and jewelry." },
+            { name: "Nekemte", cat: "Western Hub", desc: "A key gateway to western Ethiopia.", shop: "Wollega Market offers beautiful Oromo cultural clothes with distinct embroidery." },
+            { name: "Debre Birhan", cat: "Industrial Gateway", desc: "One of the coolest (coldest) cities in Ethiopia.", shop: "Known for the warmest hand-made wool blankets and heavy traditional 'Buluko' wraps." },
+            { name: "Kombolcha", cat: "Logistics Hub", desc: "A center for industry and rail.", shop: "The local textile shops near the Industrial Park offer modern factory-outlet deals." },
+            { name: "Debre Markos", cat: "Agricultural Hub", desc: "Heart of the Gojjam region.", shop: "The 'Old Market' is excellent for traditional farming attire and Gojjam-style weaving." },
+            { name: "Ambo", cat: "Spa Town", desc: "Famous for its mineral water and university.", shop: "The roadside markets are great for quick finds in West-Shewa traditional accessories." },
+            { name: "Aksum", cat: "Ancient City", desc: "Home of the Ark of the Covenant.", shop: "Stalls near the Stelae Park sell ancient-style crosses and traditional white cotton clothing." },
+            { name: "Sebeta", cat: "Satellite City", desc: "Industrial expansion zone of Addis.", shop: "Modern shopping complexes are appearing rapidly along the main highway." },
+            { name: "Burayu", cat: "Western Outskirts", desc: "A rapidly urbanizing area.", shop: "Small local boutiques offer a mix of Addis trends and local Oromo styles." },
+            { name: "Gambela", cat: "River Port", desc: "Lush lowland city on the Baro River.", shop: "The river-side markets feature unique Anyuak and Nuer beaded jewelry and clothing." },
+            { name: "Assosa", cat: "Mining City", desc: "A growing hub in the Benishangul-Gumuz region.", shop: "Market stalls specialize in hand-crafted gold jewelry and regional textiles." },
+            { name: "Harar", cat: "Living Museum", desc: "Ancient walled city of 99 mosques.", shop: "The 'Shoa Gate' market is the place for intricate Harari embroidery and silver jewelry." },
+            { name: "Bale Robe", cat: "Alpine Gateway", desc: "Near the Bale Mountains National Park.", shop: "Highland markets sell warm leather-lined clothing and cultural Arsi-Bale hats." },
+            { name: "Ziway (Batu)", cat: "Lakeside Farming", desc: "Center for flowers and wine.", shop: "The Rift Valley markets offer lightweight cotton clothes perfect for the warm climate." },
+            { name: "Durame", cat: "Kembata Hub", desc: "Known for its fertile lands and honey.", shop: "Local shops offer the distinct Kembata traditional patterns on woven dresses." },
+            { name: "Goba", cat: "Mountain Town", desc: "Historic city in the Bale highlands.", shop: "Find unique high-altitude wool crafts and traditional Bale Oromo wear here." },
+            { name: "Woldia", cat: "Crossroad Town", desc: "Connecting north and east.", shop: "Strategic market for switching between Tigrayan and Amhara clothing styles." },
+            { name: "Meki", cat: "Trade Link", desc: "A busy market town on the way south.", shop: "Famous for its massive open-air produce and garment market days." },
+            { name: "Adigrat", cat: "Border Trade", desc: "Scenic city near the northern mountains.", shop: "Market stalls are filled with beautiful Tigrayan white cotton shawls (Netela)." },
+            { name: "Gode", cat: "Riverine City", desc: "Strategically located on the Shebelle River.", shop: "Local Somali shops offer imported vibrant fabrics and traditional light-weight wraps." },
+            { name: "Alaba Kulito", cat: "Spices & Art", desc: "Famous for its painted houses.", shop: "The colorful local market reflects the art of the city in its textile patterns." },
+            { name: "Mojo", cat: "Port City", desc: "Ethiopia's main dry-port hub.", shop: "A central spot for finding imported shoes and heavy-duty work apparel." },
+            { name: "Butajira", cat: "Trade Center", desc: "A lively city at the base of the Gurage mountains.", shop: "The Friday Market is legendary for Gurage-style traditional leather and cloth." },
+            { name: "Chiro", cat: "Highland Coffee", desc: "Nestled in the Chercher Mountains.", shop: "Known for Hararghe Oromo styles, featuring bright colors and bold patterns." },
+            { name: "Tepi", cat: "Tea & Spices", desc: "Deep in the southwest forests.", shop: "Look for regional 'Bench' culture attire in the verdant town market." },
+            { name: "Nekemte", cat: "Heritage Hub", desc: "Preserving Oromo cultural history.", shop: "The main museum area often hosts artisans selling high-end cultural wear." },
+            { name: "Yirgalem", cat: "Coffee Forest", desc: "A peaceful city in the Sidama region.", shop: "Sidama-style woven hats and white cotton dresses are the local specialty." },
+            { name: "Boditi", cat: "Agricultural Trade", desc: "Booming trade town in Wolayita.", shop: "A great stop-over for Wolayita embroidered textiles and modern basics." },
+            { name: "Areka", cat: "Growth Zone", desc: "One of the fastest-growing southern towns.", shop: "New street-side shops offer affordable modern clothing for the young population." },
+            { name: "Mizan Aman", cat: "Coffee Gateway", desc: "Lush southwest educational center.", shop: "The local market is filled with various cultural fabrics from 10+ ethnic groups." },
+            { name: "Debark", cat: "Mountain Gateway", desc: "The starting point for Simien treks.", shop: "Trekking gear and heavy wool traditional capes are sold throughout the town." },
+            { name: "Abomsa", cat: "Agri-Market", desc: "Located in the Arsi zone.", shop: "Features traditional Arsi Oromo beadwork and leather clothing." },
+            { name: "Leku", cat: "Sidama Gateway", desc: "Rapidly expanding southern town.", shop: "Perfect for finding the 'Tilfi' style embroidery on Sidama cultural dresses." },
+            { name: "Gimbi", cat: "Mineral & Coffee", desc: "Important town in Western Wollega.", shop: "Known for durable hand-made leather sandals and Oromo textiles." }
+        ];
+
+        let currentCity = "";
+        const grid = document.getElementById('cardsGrid');
+        const overlay = document.getElementById('regOverlay');
+        const successBox = document.getElementById('success-msg');
+
+        cityData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'info-card';
+            card.innerHTML = `
+                <div>
+                    <div class="category-tag">${item.cat}</div>
+                    <h3>${item.name}</h3>
+                    <div class="short-desc">${item.desc}</div>
+                </div>
+                <button class="explore-btn-card" onclick="openRegistration('${item.name}')">Explore Clothing</button>
+            `;
+            grid.appendChild(card);
+        });
+
+        function openRegistration(name) {
+            currentCity = name;
+            document.getElementById('regTitle').innerText = "Shopping in " + name;
+            overlay.style.display = 'flex';
+        }
+
+        function handleRegister() {
+            successBox.innerText = "tnx see you in " + currentCity;
+            successBox.style.display = 'block';
+            
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                successBox.style.display = 'none';
+                // Reset inputs
+                const inputs = document.querySelectorAll('.registration-form input');
+                inputs.forEach(input => input.value = '');
+            }, 1000);
+        }
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

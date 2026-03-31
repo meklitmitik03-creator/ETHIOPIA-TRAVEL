@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <title>Ethiopian Regions - Travel Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .panel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            scroll-snap-align: start;
+        }
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none; /* Firefox */
+        }
+        .scroll-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        #sidebar { z-index: 1001; }
+        .toggle-btn { z-index: 1002; cursor: pointer; }
+    </style>
+</head>
+
+<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#2e7d32; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+    <div style="text-align:center; color:white;">
+        <h1 style="margin:0;">🌍</h1>
+        <p>Exploring the Regions</p>
+    </div>
+</div>
+
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="regions.html" class="active"><i class="fas fa-map"></i><span class="link-text">Regions</span></a></li>
+            <li><a href="religion.html"><i class="fas fa-cross"></i><span class="link-text">Religion</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container" id="mainScroll">
+        
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.pexels.com/photos/2988410/pexels-photo-2988410.jpeg');">
+            <div class="glass-card">
+                <i class="fas fa-mountain card-icon"></i>
+                <h2>Oromia</h2>
+                <p>Heart of Ethiopia. Home to the Bale Mountains, coffee forests, and the Gadaa system.</p>
+                <a href="oromia.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.pexels.com/photos/19113133/pexels-photo-19113133.jpeg');">
+            <div class="glass-card">
+                <i class="fas fa-fort-awesome card-icon"></i>
+                <h2>Amhara</h2>
+                <p>The Land of Kings. Explore the castles of Gonder and the source of the Blue Nile.</p>
+                <a href="amhara.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.pexels.com/photos/18402554/pexels-photo-18402554.jpeg');">
+            <div class="glass-card">
+                <i class="fas fa-archway card-icon"></i>
+                <h2>Tigray</h2>
+                <p>Cradle of Civilization. Visit the ancient obelisks of Aksum and sky-high cliff churches.</p>
+                <a href="tigray.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.pexels.com/photos/25849069/pexels-photo-25849069.jpeg');">
+            <div class="glass-card">
+                <i class="fas fa-sun card-icon"></i>
+                <h2>Somali</h2>
+                <p>The Eastern Gateway. Famous for its livestock trade, nomadic heritage, and vast plains.</p>
+                <a href="somali.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1571168196623-662580790d0b?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-volcano card-icon"></i>
+                <h2>Afar</h2>
+                <p>The Danakil Depression. Visit the Erta Ale volcano and the hottest inhabited place on Earth.</p>
+                <a href="afar.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-leaf card-icon"></i>
+                <h2>Sidama</h2>
+                <p>Land of Coffee and Fichee-Chambalaalla. Famous for lush green landscapes and the city of Hawassa.</p>
+                <a href="sidama.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1544085311-11a028465b03?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-city card-icon"></i>
+                <h2>Addis Ababa</h2>
+                <p>The Political Capital of Africa. A melting pot of culture, modern skylines, and history.</p>
+                <a href="addis.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-mosque card-icon"></i>
+                <h2>Harari</h2>
+                <p>The Walled City. Step into the ancient Jugol, the fourth holiest city in Islam.</p>
+                <a href="harari.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1580211181298-96425785a494?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-train card-icon"></i>
+                <h2>Dire Dawa</h2>
+                <p>The Railway City. A unique blend of modern planning and old-world charm.</p>
+                <a href="diredawa.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-users card-icon"></i>
+                <h2>South Ethiopia</h2>
+                <p>Home to diverse ethnic groups including the Wolayta and Gamo, famous for rich cultural heritage.</p>
+                <a href="south.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1501705388883-4ed8a543392c?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-water card-icon"></i>
+                <h2>Gambela</h2>
+                <p>The Lowlands. Famous for the Baro River and amazing migratory wildlife.</p>
+                <a href="gambela.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-bolt card-icon"></i>
+                <h2>Benishangul</h2>
+                <p>Home of the Grand Ethiopian Renaissance Dam (GERD) and rich mineral deposits.</p>
+                <a href="benishangul.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1614981816670-3e65f4cfdb28?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-landmark card-icon"></i>
+                <h2>Central Ethiopia</h2>
+                <p>The cultural heartland, featuring Gurage and Silte heritages and beautiful highlands.</p>
+                <a href="central.html"><button class="explore-btn">Explore</button></a>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Region AI Guide</span></div>
+            <div class="chat-content" id="chatContent"><div class="ai-msg">Ask me about Oromia, Tigray, or Harar!</div></div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI anything..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1500);
+        });
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            const message = input.value.trim();
+            if (!message) return;
+
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#2e7d32; font-weight:bold;">You: ${message}</div>`;
+            input.value = '';
+            
+            try {
+                const response = await fetch('https://shiny-dollop-x5gxg6gw49g43645p-3000.app.github.dev/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                chatContent.innerHTML += `<div class="ai-msg">${data.reply}</div>`;
+            } catch (error) {
+                chatContent.innerHTML += `<div class="ai-msg">Server error. Please try again.</div>`;
+            }
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        function handleKeyPress(event) { if (event.key === "Enter") sendMessage(); }
+
+        // Auto vertical scroll logic
+        const scrollDiv = document.getElementById('mainScroll');
+        let currentPos = 0;
+        setInterval(() => {
+            currentPos = (currentPos + window.innerHeight >= scrollDiv.scrollHeight) ? 0 : currentPos + window.innerHeight;
+            scrollDiv.scrollTo({ top: currentPos, behavior: 'smooth' });
+        }, 60000);
+    </script>
+</body>
+</html>

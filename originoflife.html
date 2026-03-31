@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <meta name="theme-color" content="#8d6e63">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Origin of Life - Ethiopia AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .panel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            scroll-snap-align: start;
+        }
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+        }
+        .scroll-container::-webkit-scrollbar { display: none; }
+
+        /* Earthy Paleontology Theme */
+        .glass-card {
+            background: rgba(46, 33, 27, 0.75); /* Dark Earthy Tone */
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 30px;
+            text-align: center;
+            color: #efead8;
+            max-width: 85%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+        .card-icon { color: #d4a373; font-size: 3rem; margin-bottom: 1rem; }
+        .explore-btn { background: #d4a373; color: #2e211b; }
+    </style>
+</head>
+
+<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#5d4037; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+    <div style="text-align:center; color:white;">
+        <h1 style="margin:0;">🦴</h1>
+        <p>Cradle of Mankind</p>
+    </div>
+</div>
+
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="origin.html"><i class="fas fa-arrow-left"></i><span class="link-text">Origins</span></a></li>
+            <li><a href="originoflife.html" class="active"><i class="fas fa-dna"></i><span class="link-text">Evolution</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container" id="mainScroll">
+        
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1510936111840-65e151ad71bb?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-earth-africa card-icon"></i>
+                <h2>The Great Rift Valley</h2>
+                <p>Known as the "Cradle of Mankind," the Afar region in Ethiopia is the world's most significant site for studying human evolution.</p>
+                <button class="explore-btn">Discover the Valley</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-skull card-icon"></i>
+                <h2>Dinknesh: "You are Marvelous"</h2>
+                <p>Discovered in 1974, Lucy (Australopithecus afarensis) lived 3.2 million years ago and proved that our ancestors walked upright.</p>
+                <button class="explore-btn">Meet Lucy</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1444491741275-3747c53c99b4?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-history card-icon"></i>
+                <h2>Ardi: 4.4 Million Years Old</h2>
+                <p>Ardipithecus ramidus (Ardi) pushed back the human timeline even further, offering a glimpse into life before Lucy.</p>
+                <button class="explore-btn">See the Findings</button>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-hammer card-icon"></i>
+                <h2>Ancient Technology</h2>
+                <p>Ethiopia is home to the world's oldest stone tools (2.6 million years old), marking the dawn of human innovation and culture.</p>
+                <button class="explore-btn">Explore Tools</button>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Evolution AI Guide</span></div>
+            <div class="chat-content" id="chatContent"><div class="ai-msg">Ask me about Lucy, Ardi, or the Afar region!</div></div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask about our ancestors..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1500);
+        });
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            const message = input.value.trim();
+            if (!message) return;
+
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#d4a373; font-weight:bold;">You: ${message}</div>`;
+            input.value = '';
+
+            try {
+                const response = await fetch('https://shiny-dollop-x5gxg6gw49g43645p-3000.app.github.dev/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                chatContent.innerHTML += `<div class="ai-msg">${data.reply}</div>`;
+            } catch (e) {
+                chatContent.innerHTML += `<div class="ai-msg">Connection error.</div>`;
+            }
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        function handleKeyPress(event) { if (event.key === "Enter") sendMessage(); }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+    </script>
+</body>
+</html>

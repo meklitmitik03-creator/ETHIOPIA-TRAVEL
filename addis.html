@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"> 
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <title>Addis Ababa - Ethiopia AI Travel Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.pexels.com/photos/30177512/pexels-photo-30177512.jpeg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            transition: padding-left 0.3s ease; /* Smooth transition when sidebar moves */
+        }
+
+        /* 2-Column Grid showing 4 cards at a time */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 15px;
+            width: 90%;
+            max-width: 1000px;
+            height: 85vh; 
+            overflow-y: auto;
+            scrollbar-width: none;
+            margin: 0 auto; /* Keeps cards centered */
+        }
+
+        .cards-container::-webkit-scrollbar { display: none; }
+
+        /* Black Card Theme */
+        .info-card {
+            background: rgba(230, 223, 223, 0); 
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(17, 1, 1, 0.952);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 38vh; 
+        }
+
+        .info-card h3 { margin: 0; color: #31db39; font-size: 1.5rem; text-transform: uppercase; }
+        .info-card .category-tag { font-size: 0.8rem; color: #ffca28; margin-bottom: 5px; font-weight: bold; }
+        .info-card .short-desc { font-size: 0.95rem; font-weight: 500; margin-top: 5px; }
+        
+        /* Yellow Explore Button */
+        .explore-btn-card {
+            background: #ffca28;
+            color: #070000;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        .explore-btn-card:active { transform: scale(0.95); }
+
+        /* FIX: Push content right when sidebar is open to prevent hiding cards */
+        #sidebar:not(.collapsed) ~ main.panel {
+            padding-left: 250px; /* Adjust this to match your sidebar width */
+        }
+
+        #sidebar { z-index: 1001; }
+        .toggle-btn { z-index: 1002; cursor: pointer; }
+
+        @media (max-width: 600px) {
+            #sidebar:not(.collapsed) ~ main.panel { padding-left: 0; } /* On mobile, sidebar usually overlays */
+            .info-card { height: 40vh; }
+        }
+    </style>
+</head>
+
+<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#2e7d32; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+    <div style="text-align:center; color:white;">
+        <h1 style="margin:0;">🇪🇹</h1>
+        <p>EthioTravel AI</p>
+    </div>
+</div>
+
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="panel">
+        <h2 style="color: white; margin-top: 30px; font-size: 1.5rem;">Addis Districts & Living</h2>
+        
+        <div class="cards-container" id="cardsGrid">
+            </div>
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Addis AI Assistant</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Ask me about any Sub-city or Real Estate project in Addis!</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask about Addis..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const addisData = [
+            // 20 SUB CITIES
+            { cat: "Sub-City", title: "Bole", desc: "Commercial gateway and home to the international airport.", detail: "Bole is the most modern district, hosting major malls, hotels, and the city's primary gateway to the world." },
+            { cat: "Sub-City", title: "Kirkos", desc: "The diplomatic heart hosting the African Union HQ.", detail: "Home to the UNECA and AU, this area is the center of African diplomacy and grand international conferences." },
+            { cat: "Sub-City", title: "Arada", desc: "The historic soul including Piazza and City Hall.", detail: "Experience the old Addis with its Italian architecture, traditional gold shops, and the seat of city government." },
+            { cat: "Sub-City", title: "Lideta", desc: "A modernizing hub with high-court and federal offices.", detail: "Characterized by its newly built modern apartment blocks and legal institutions." },
+            { cat: "Sub-City", title: "Yeka", desc: "A mountainous district with lush residential areas.", detail: "Yeka is known for its elevation, offering fresh air and premium housing on the hillsides." },
+            { cat: "Sub-City", title: "Nifas Silk", desc: "The industrial backbone of the capital.", detail: "A key logistics and industrial zone that powers the city's economy." },
+            { cat: "Sub-City", title: "Kolfe Keranio", desc: "A densely populated trade and residential gateway.", detail: "A vibrant area serving as a major entry point for goods coming from western Ethiopia." },
+            { cat: "Sub-City", title: "Addis Ketema", desc: "Home to Merkato, Africa's largest market.", detail: "The busiest district in the city, where tradition and trade meet in the legendary Merkato maze." },
+            { cat: "Sub-City", title: "Akaki Kality", desc: "The industrial port and manufacturing zone.", detail: "Crucial for international trade, this sub-city handles the bulk of Ethiopia's industrial output." },
+            { cat: "Sub-City", title: "Gullele", desc: "Famous for Entoto and botanical gardens.", detail: "A green sub-city that serves as the 'lungs' of Addis with its massive eucalyptus forests." },
+            { cat: "Sub-City", title: "Lemi Kura", desc: "The newest sub-city for rapid urban expansion.", detail: "Developing at lightning speed to accommodate the growing population of the capital." },
+            { cat: "Sub-City", title: "Old Airport", desc: "Prestigious residential zone for embassies.", detail: "Known for high security, large villas, and international schools." },
+            { cat: "Sub-City", title: "Kazanchis", desc: "Business district known for Ethio-Jazz.", detail: "Where modern office buildings stand alongside legendary music venues." },
+            { cat: "Sub-City", title: "Gerji", desc: "A booming residential area with a youthful vibe.", detail: "Popular for its cafes, restaurants, and active local community." },
+            { cat: "Sub-City", title: "Megenagna", desc: "The central transportation hub.", detail: "The main crossroads of the city, connecting the Light Rail with bus routes." },
+            { cat: "Sub-City", title: "Sarbet", desc: "Quiet neighborhood with equestrian clubs.", detail: "A leafy area preferred by many international residents and horse lovers." },
+            { cat: "Sub-City", title: "CMC", desc: "Modern residential hub known for villa compounds.", detail: "A well-planned area with gated communities and quiet streets." },
+            { cat: "Sub-City", title: "Ayat", desc: "Leading the eastern expansion of housing.", detail: "A major landmark for residential development projects in the city." },
+            { cat: "Sub-City", title: "Jemo", desc: "A large-scale condominium project community.", detail: "A massive residential district that exemplifies modern high-density urban living." },
+            { cat: "Sub-City", title: "Lebu", desc: "Fast-growing district near the new railway line.", detail: "Connected to the Addis-Djibouti rail, making it a strategic future trade hub." },
+
+            // 10 REAL ESTATE
+            { cat: "Real Estate", title: "Eagle Hills (La Gare)", desc: "A luxury development in the city center.", detail: "A multi-billion dollar project transforming the historic railway station into a high-end lifestyle hub." },
+            { cat: "Real Estate", title: "Ayat Real Estate", desc: "The pioneer in modern housing.", detail: "Famous for building massive gated communities that defined the city's growth." },
+            { cat: "Real Estate", title: "Gift Real Estate", desc: "Luxury villas and apartment complexes.", detail: "A brand synonymous with family-friendly gated community living." },
+            { cat: "Real Estate", title: "Noah Real Estate", desc: "Modern urban apartments provider.", detail: "Focuses on high-quality vertical living in central locations." },
+            { cat: "Real Estate", title: "Flintstone Homes", desc: "Unique architectural designs.", detail: "Known for creative financing and modern aesthetic apartment buildings." },
+            { cat: "Real Estate", title: "Metropolitan", desc: "High-end luxury with global standards.", detail: "Bringing Turkish craftsmanship and luxury finishes to the Addis market." },
+            { cat: "Real Estate", title: "Sunshine Investment", desc: "Villas and infrastructure leaders.", detail: "One of the most trusted names in Ethiopian construction and luxury housing." },
+            { cat: "Real Estate", title: "Yotek Real Estate", desc: "Sustainable living spaces.", detail: "Building eco-conscious and durable residences across the city." },
+            { cat: "Real Estate", title: "Emebet Real Estate", desc: "Boutique apartments in Bole.", detail: "Specializing in premium, high-privacy residences for top-tier clients." },
+            { cat: "Real Estate", title: "Ovid Real Estate", desc: "Innovative construction tech.", detail: "Using aluminum formwork to build high-quality homes faster than ever." },
+
+            // 20 TOWNS
+            { cat: "Town/Area", title: "Sululta", desc: "Athlete training camps hub.", detail: "A high-altitude town that produces the world's best long-distance runners." },
+            { cat: "Town/Area", title: "Legetafo", desc: "Upscale satellite town.", detail: "Located just outside Addis, it's the preferred spot for luxury villa owners." },
+            { cat: "Town/Area", title: "Burayu", desc: "The western gateway.", detail: "A culturally rich town that connects the capital to the Oromia region." },
+            { cat: "Town/Area", title: "Sebeta", desc: "Industrial and dairy hub.", detail: "A major economic center with a mix of factories and traditional farms." },
+            { cat: "Town/Area", title: "Bishoftu", desc: "Resort town with crater lakes.", detail: "The weekend getaway spot for Addis residents, famous for its 7 lakes." },
+            { cat: "Town/Area", title: "Dukem", desc: "Heart of the Industry Zone.", detail: "Hosts the largest industrial park in the region, driving national export." },
+            { cat: "Town/Area", title: "Sendafa", desc: "Home to the police academy.", detail: "A peaceful town with rolling green hills and essential training centers." },
+            { cat: "Town/Area", title: "Gelalan", desc: "Rising industrial area.", detail: "Positioned perfectly along the expressway for future growth." },
+            { cat: "Town/Area", title: "Haik", desc: "Scenic outskirts.", detail: "A quiet area for those looking to escape the bustle of the city center." },
+            { cat: "Town/Area", title: "Holeta", desc: "Agricultural research center.", detail: "Famous for its flowers and large-scale agricultural investment." },
+            { cat: "Town/Area", title: "Alem Gena", desc: "Southwestern trade junction.", detail: "A buzzing trade town on the path to Jimma and the south." },
+            { cat: "Town/Area", title: "Kotebe", desc: "Educational and residential zone.", detail: "Known for its cooler climate and famous training colleges." },
+            { cat: "Town/Area", title: "Summit", desc: "Modern villas at high elevation.", detail: "A trendy area for young professionals and new families." },
+            { cat: "Town/Area", title: "Tuludimtu", desc: "Southern urban frontier.", detail: "The site of massive new condominium and infrastructure projects." },
+            { cat: "Town/Area", title: "Hana Mariam", desc: "Vibrant local commerce hub.", detail: "A neighborhood pulsing with local market energy and community life." },
+            { cat: "Town/Area", title: "Mojo", desc: "Essential import dry-port.", detail: "The logistics heart through which most of Ethiopia's goods travel." },
+            { cat: "Town/Area", title: "Modjo", desc: "Strategic Rift Valley path.", detail: "A town that serves as the bridge between the capital and the south." },
+            { cat: "Town/Area", title: "Tulu Fara", desc: "Rural-urban transition zone.", detail: "Where the city meets the country, showing the rapid spread of Addis." },
+            { cat: "Town/Area", title: "Gelan", desc: "Fastest developing industrial town.", detail: "A hub for warehousing and manufacturing just outside the city limits." },
+            { cat: "Town/Area", title: "Chancho", desc: "Northern gate for stone production.", detail: "Essential for the city's construction boom, providing the raw materials for buildings." }
+        ];
+
+        const grid = document.getElementById('cardsGrid');
+        addisData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'info-card';
+            card.innerHTML = `
+                <div>
+                    <div class="category-tag">${item.cat}</div>
+                    <h3>${item.title}</h3>
+                    <div class="short-desc">${item.desc}</div>
+                </div>
+                <button class="explore-btn-card" onclick="showDetail('${item.title}', '${item.detail}')">Explore</button>
+            `;
+            grid.appendChild(card);
+        });
+
+        function showDetail(title, detail) {
+            alert(title + ": " + detail);
+        }
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1500);
+        });
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            const message = input.value.trim();
+            if (!message) return;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#2e7d32; font-weight:bold;">You: ${message}</div>`;
+            input.value = '';
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        function handleKeyPress(event) { if (event.key === "Enter") sendMessage(); }
+    </script>
+</body>
+</html>

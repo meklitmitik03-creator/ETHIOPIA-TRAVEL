@@ -15,26 +15,40 @@
             background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1523966211575-eb4a01e7dd51?w=1000&auto=format&fit=crop&q=80');
         }
 
-        .scroll-container { height: 100vh; overflow-y: auto; padding-left: 60px; scroll-behavior: smooth; }
+        /* MOBILE FRIENDLY SCROLL CONTAINER */
+        .scroll-container { 
+            height: 100vh; 
+            overflow-y: auto; 
+            padding-left: 70px; /* Space for collapsed sidebar */
+            transition: padding-left 0.5s ease; 
+            scroll-behavior: smooth; 
+        }
+
+        /* Shift content when sidebar is expanded */
+        .sidebar-expanded + .scroll-container { padding-left: 250px; }
 
         .content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
             gap: 25px;
-            padding: 100px 40px;
+            padding: 80px 20px;
             justify-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         /* CONTACT CARDS */
         .contact-card {
-            background: #000;
+            background: rgba(0, 0, 0, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            width: 300px;
+            width: 100%;
+            max-width: 300px;
             padding: 30px;
             color: #fff;
             text-align: center;
             transition: 0.4s ease;
+            backdrop-filter: blur(5px);
         }
 
         .contact-card:hover { border-color: #ffcc00; transform: translateY(-5px); }
@@ -55,13 +69,17 @@
         .social-link:hover { background: #fff; }
 
         /* COLORS FOR ICONS */
-        .fa-instagram { color: #E1306C; }
+        .fa-instagram { color: #e60953; }
         .fa-telegram { color: #0088cc; }
         .fa-facebook { color: #1877F2; }
         .fa-x-twitter { color: #fff; }
+        .fa-youtube { color: #FF0000; }
+        .fa-tiktok { color: #fff; }
+        .fa-whatsapp { color: #11b64d; }
+        .fa-linkedin { color: #0077B5; }
 
         /* SIDEBAR */
-        #sidebar { width: 250px; height: 100vh; position: fixed; left: 0; top: 0; background: linear-gradient(to bottom, #008844, #ffcc00, #ee334e); transition: 0.5s; z-index: 1001; }
+        #sidebar { width: 150px; height: 100vh; position: fixed; left: 0; top: 0; background: linear-gradient(to bottom, #008844, #ffcc00, #ee334e); transition: 0.5s; z-index: 1001; }
         #sidebar.collapsed { width: 70px; }
         #sidebar.collapsed .link-text { display: none; }
         .nav-links { list-style: none; padding: 80px 0 0 0; margin: 0; }
@@ -75,6 +93,14 @@
         .chat-window { position: absolute; bottom: 80px; right: 0; width: 300px; background: #000; border: 1px solid #ffcc00; border-radius: 15px; display: none; flex-direction: column; overflow: hidden; }
         .chat-window.active { display: flex; }
         .chat-header { background: #ffcc00; color: #000; padding: 15px; font-weight: bold; }
+
+        /* MOBILE OVERRIDES */
+        @media (max-width: 600px) {
+            .scroll-container { padding-left: 0 !important; }
+            #sidebar { left: -250px; }
+            #sidebar.active { left: 0; width: 200px; }
+            .toggle-btn { left: 10px; color: #ffcc00; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 5px; }
+        }
     </style>
 </head>
 <body>
@@ -92,7 +118,7 @@
         </ul>
     </nav>
 
-    <main class="scroll-container">
+    <main class="scroll-container" id="mainContainer">
         <div class="content-grid">
             
             <div class="contact-card">
@@ -110,6 +136,13 @@
             </div>
 
             <div class="contact-card">
+                <i class="fab fa-whatsapp"></i>
+                <h3>WhatsApp</h3>
+                <p>Direct message for inquiries.</p>
+                <a href="#" class="social-link">Coming Soon</a>
+            </div>
+
+            <div class="contact-card">
                 <i class="fab fa-facebook"></i>
                 <h3>Facebook</h3>
                 <p>Like our official page.</p>
@@ -120,6 +153,27 @@
                 <i class="fab fa-x-twitter"></i>
                 <h3>X / Twitter</h3>
                 <p>Get real-time news.</p>
+                <a href="#" class="social-link">Coming Soon</a>
+            </div>
+
+            <div class="contact-card">
+                <i class="fab fa-tiktok"></i>
+                <h3>TikTok</h3>
+                <p>Watch short travel clips.</p>
+                <a href="#" class="social-link">Coming Soon</a>
+            </div>
+
+            <div class="contact-card">
+                <i class="fab fa-youtube"></i>
+                <h3>YouTube</h3>
+                <p>Watch full documentaries.</p>
+                <a href="#" class="social-link">Coming Soon</a>
+            </div>
+
+            <div class="contact-card">
+                <i class="fab fa-linkedin"></i>
+                <h3>LinkedIn</h3>
+                <p>Professional networking.</p>
                 <a href="#" class="social-link">Coming Soon</a>
             </div>
 
@@ -135,7 +189,25 @@
     </div>
 
     <script>
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleSidebar() { 
+            const sidebar = document.getElementById('sidebar');
+            const main = document.getElementById('mainContainer');
+            
+            sidebar.classList.toggle('collapsed');
+            
+            // For mobile view
+            if (window.innerWidth <= 600) {
+                sidebar.classList.toggle('active');
+            } else {
+                // Adjust content padding based on sidebar state for Desktop
+                if (sidebar.classList.contains('collapsed')) {
+                    main.style.paddingLeft = "70px";
+                } else {
+                    main.style.paddingLeft = "250px";
+                }
+            }
+        }
+        
         function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
     </script>
 </body>

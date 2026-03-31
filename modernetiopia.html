@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"> 
+    <meta name="theme-color" content="#2e7d32">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <title>Ethiopia AI Travel Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .panel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+        }
+
+        .video-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            background: black; /* Fallback */
+        }
+
+        #sidebar { z-index: 1001; }
+        .toggle-btn { z-index: 1002; cursor: pointer; }
+        
+        /* Ensure the container allows snapping */
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+        .panel { scroll-snap-align: start; }
+    </style>
+</head>
+
+<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#2e7d32; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+    <div style="text-align:center; color:white;">
+        <h1 style="margin:0;">🇪🇹</h1>
+        <p>EthioTravel AI</p>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            splash.style.opacity = '0';
+            setTimeout(() => splash.remove(), 500);
+        }, 1500);
+    });
+</script>
+
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container" id="mainScroll">
+        
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/33721958/pexels-photo-33721958.jpeg');">
+            <div class="glass-card">
+                <i class="fas fa-city card-icon"></i>
+                <h2>Capital: Addis Ababa</h2>
+                <p>The diplomatic hub of Africa and a soaring metropolis.</p>
+                <a href="addis.html"><button class="explore-btn">See Addis</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.pexels.com/photos/31617701/pexels-photo-31617701.jpeg');">
+            <div class="glass-card">
+                <i class="fas fa-map-marked-alt card-icon"></i>
+                <h2>Growing Cities</h2>
+                <p>From Bahir Dar to Hawassa: Urban centers of tomorrow.</p>
+                <a href="cities.html"><button class="explore-btn">View Cities</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.pexels.com/photos/30177512/pexels-photo-30177512.jpeg');">
+            <div class="glass-card">
+                <i class="fas fa-briefcase card-icon"></i>
+                <h2>Business & Economy</h2>
+                <p>A land of investment, trade, and economic transformation.</p>
+                <a href="business.html"><button class="explore-btn">Market Info</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://media.istockphoto.com/id/2164827814/photo/african-union-headquarters-addis-ababa-ethiopia.jpg?b=1&s=612x612&w=0&k=20&c=3Jwuc3T48yTgGLVewh48hDqMCuUbI55Ml3adZID5FTs=');">
+            <div class="glass-card">
+                <i class="fas fa-microchip card-icon"></i>
+                <h2>Technology & Innovation</h2>
+                <p>Leading the digital revolution with tech hubs and space science.</p>
+                <a href="technology.html"><button class="explore-btn">Tech Focus</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://media.istockphoto.com/id/1482209083/photo/aerial-overview-of-addis-abeba-city-the-capital-of-ethiopia-showing-brand-new-buildings-and.jpg?b=1&s=612x612&w=0&k=20&c=3Ud_OVyGCZsLGkpPOw9g5mKm9Lvg3xAwBHu4BEA5hWg=');">
+            <div class="glass-card">
+                <i class="fas fa-graduation-cap card-icon"></i>
+                <h2>Education & Youth Power</h2>
+                <p>Empowering millions of young minds for a brighter future.</p>
+                <a href="education.html"><button class="explore-btn">Education</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://plus.unsplash.com/premium_photo-1697729902269-70f031f22531?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-seedling card-icon"></i>
+                <h2>Green Ethiopia</h2>
+                <p>Leading the world in renewable energy and reforestation.</p>
+                <a href="greenethiopia.html"><button class="explore-btn">Our Vision</button></a>
+            </div>
+        </section>
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <span>Ethiopia AI Guide</span>
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Ameseginalehu! How can I help you explore Ethiopia today?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI anything..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const chatContent = document.getElementById('chatContent');
+    const message = input.value.trim();
+
+    if (!message) return;
+
+    chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#2e7d32; font-weight:bold;">You: ${message}</div>`;
+    input.value = '';
+
+    const loadingDiv = document.createElement("div");
+    loadingDiv.className = "ai-msg";
+    loadingDiv.innerText = "AI is thinking... ⏳";
+    chatContent.appendChild(loadingDiv);
+    chatContent.scrollTop = chatContent.scrollHeight;
+
+    try {
+        const response = await fetch('https://shiny-dollop-x5gxg6gw49g43645p-3000.app.github.dev/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
+        });
+        const data = await response.json();
+        loadingDiv.innerText = data.reply || data.error;
+    } catch (error) {
+        loadingDiv.innerText = "Error connecting to AI.";
+    }
+    chatContent.scrollTop = chatContent.scrollHeight;
+}
+
+function handleKeyPress(event) {
+    if (event.key === "Enter") { sendMessage(); }
+}
+
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+}
+
+function toggleChat() {
+    document.getElementById('chatWindow').classList.toggle('active');
+}
+
+// Auto Scroll Logic
+const scrollDiv = document.getElementById('mainScroll');
+let currentPos = 0;
+setInterval(() => {
+    currentPos = (currentPos + window.innerHeight >= scrollDiv.scrollHeight) ? 0 : currentPos + window.innerHeight;
+    scrollDiv.scrollTo({ top: currentPos, behavior: 'smooth' });
+}, 60000);
+    </script>
+</body>
+</html>
