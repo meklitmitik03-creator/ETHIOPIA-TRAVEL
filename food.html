@@ -3,184 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ethiopian Food - EthioTravel AI</title>
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Ethiopian Cuisine - EthioTravel AI</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background: #000; color: white; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        body { margin: 0; background: #000; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
         
-        /* Manual Scroll - No Scrollbar */
-        .main-scroll-wrapper {
+        /* Sidebar & Content Shift Logic */
+        #sidebar { z-index: 1001; transition: 0.5s; width: 250px; position: fixed; left: 0; top: 0; height: 100vh; }
+        #sidebar.collapsed { width: 70px; }
+
+        .scroll-container {
             height: 100vh;
-            overflow-y: auto;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none;  /* IE/Edge */
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+            margin-left: 250px; 
+            transition: margin-left 0.5s ease;
         }
-        .main-scroll-wrapper::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+        #sidebar.collapsed ~ .scroll-container { margin-left: 70px; }
+        .scroll-container::-webkit-scrollbar { display: none; }
 
-        /* Search Bar Sticky */
-        .search-area {
-            position: sticky;
-            top: 0;
-            background: rgba(0,0,0,0.9);
-            padding: 80px 20px 20px 80px;
-            z-index: 100;
+        .panel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            scroll-snap-align: start;
+        }
+
+        /* Glass Card Design */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 35px;
+            border-radius: 25px;
             text-align: center;
-        }
-        .search-bar {
-            width: 100%; max-width: 500px; padding: 15px 25px;
-            border-radius: 50px; border: 1px solid #333;
-            background: #111; color: white; outline: none;
-        }
-
-        /* Food Grid */
-        .food-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            padding: 20px 20px 100px 100px;
+            max-width: 380px;
+            width: 85%;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            color: white;
         }
 
-        .food-card {
-            background: #161616; border-radius: 15px; overflow: hidden;
-            border: 1px solid #222; transition: 0.3s;
-        }
-        .food-card:hover { border-color: #ffca28; }
-        .food-card img { width: 100%; height: 220px; object-fit: cover; }
-        .food-info { padding: 15px; }
-        .food-info h3 { margin: 0; color: #ffca28; }
-        .culture-text { font-size: 0.8rem; color: #888; margin: 5px 0; }
+        .card-icon { font-size: 3rem; color: #ffca28; margin-bottom: 15px; }
+        .glass-card h2 { margin: 10px 0; font-size: 1.8rem; text-transform: uppercase; }
+        .glass-card p { font-size: 1rem; opacity: 0.9; margin-bottom: 20px; }
 
-        .order-btn {
-            width: 100%; padding: 12px; margin-top: 10px;
-            background: #ffca28; border: none; border-radius: 8px;
-            font-weight: bold; cursor: pointer;
+        .explore-btn {
+            padding: 12px 30px;
+            background: #ffca28;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #000;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
+        .explore-btn:hover { transform: scale(1.1); background: #fff; }
 
-        /* Order Popup */
-        #orderPopup {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 5000; justify-content: center; align-items: center;
+        /* Mobile Viewport Fix */
+        @media (max-width: 768px) {
+            .scroll-container, #sidebar.collapsed ~ .scroll-container { margin-left: 0; }
+            #sidebar { left: -250px; }
+            #sidebar.active { left: 0; }
         }
-        .popup-card {
-            background: #1a1a1a; padding: 30px; border-radius: 20px;
-            width: 90%; max-width: 380px; border: 1px solid #ffca28; text-align: center;
-        }
-        .popup-card input {
-            width: 90%; padding: 12px; margin: 10px 0;
-            background: #222; border: 1px solid #444; color: white; border-radius: 8px;
-        }
-
-        /* Sidebar & Chat (RESTORING ORIGINAL STRUCTURE) */
-        .sidebar.collapsed { width: 60px; }
-        .sidebar.collapsed .link-text { display: none; }
-        #sidebar { z-index: 1001; }
-        .ai-chat-wrapper { z-index: 3000; }
     </style>
 </head>
 <body>
+    </div>
 
     <nav class="sidebar collapsed" id="sidebar">
-        <div class="toggle-btn" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-        </div>
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
         <ul class="nav-links">
             <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
             <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
-            <li><a href="food.html" style="color:#ffca28"><i class="fas fa-utensils"></i><span class="link-text">Food</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li>
         </ul>
     </nav>
 
-    <div class="main-scroll-wrapper">
-        <div class="search-area">
-            <input type="text" id="foodSearch" class="search-bar" placeholder="Search Kitfo, Shiro, Tibs..." onkeyup="filterFood()">
-        </div>
-
-        <div class="food-grid" id="foodGrid">
+    <main class="scroll-container" id="mainScroll">
+        
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://media.gettyimages.com/id/1205377808/photo/injera-plate-traditional-meal-ethiopia.jpg?s=612x612&w=0&k=20&c=fhhU9xNcnctn4J0ORRSrvgV8exF1pFSZEufH6Diw7K0=');">
+            <div class="glass-card">
+                <i class="fas fa-bowl-food card-icon"></i>
+                <h2>Traditional</h2>
+                <p>Experience the soul of Ethiopia through Injera and Beyaynetu.</p>
+                <a href="traditional_food.html" class="explore-btn">Explore</a>
             </div>
-    </div>
-
-    <div id="orderPopup">
-        <div class="popup-card" id="popupContent">
-            <h2 style="color:#ffca28">Complete Your Order</h2>
-            <input type="text" id="name" placeholder="Full Name">
-            <input type="text" id="phone" placeholder="Phone Number">
-            <input type="text" id="loc" placeholder="Delivery Location (City/Street)">
-            <button class="order-btn" onclick="processOrder()">Confirm Order</button>
-        </div>
-    </div>
+        </section>
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/jpeg;base64,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');">
+            <div class="glass-card">
+                <i class="fas fa-bowl-food card-icon"></i>
+                <h2>Fast Food</h2>
+                <p>Discover the delicious and convenient options available in Ethiopia.</p>
+                <a href="fastfood.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+        </main>
 
     <div class="ai-chat-wrapper">
-        <div class="chat-toggle" onclick="toggleChat()">
-            <i class="fa-solid fa-robot"></i>
-        </div>
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
         <div class="chat-window" id="chatWindow">
-            <div class="chat-header"><span>Ethiopia Food AI</span></div>
+            <div class="chat-header"><span>Cuisine AI</span></div>
             <div class="chat-content" id="chatContent">
-                <div class="ai-msg">Ask me anything about these 100 dishes!</div>
+                <div class="ai-msg">Ameseginalehu! I can help you find the best food in Ethiopia. Ask me anything!</div>
             </div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <input type="text" id="userInput" placeholder="Ask about food..." onkeypress="if(event.key==='Enter') sendMessage()">
                 <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. DATA FOR 100 CARDS
-        const dishes = [
-            {n: "Kitfo", c: "Gurage", l: "Wolkite", i: "https://media.istockphoto.com/id/1514288265/photo/several-ethiopian-entrees.jpg?s=612x612&w=0&k=20&c=HGEJTPRNh_yKOii1tuP_yv6xu-McXl7QjME3dbNwr0M="},
-            {n: "Shiro Wat", c: "Oromo", l: "Jimma", i: "https://media.istockphoto.com/id/454977029/photo/ethiopian-feast.jpg?s=612x612&w=0&k=20&c=dIiqQqgvsoaTYcEwpJnC27Da7eedmC3RiBiWz--9Wfw="},
-            {n: "Doro Wat", c: "Amhara", l: "Addis Ababa", i: "https://media.istockphoto.com/id/1514286669/photo/bowl-of-doro-wat.jpg?s=612x612&w=0&k=20&c=ro46aZ2akatSFlMrS_Po2yy0NvxthaptsTIYqgoQXJY="},
-            {n: "Beef Tibs", c: "General", l: "Adama", i: "https://media.istockphoto.com/id/1514288000/photo/ethiopian-combination-platter.jpg?s=612x612&w=0&k=20&c=FONW4wguKdiRx89VSaKunp8m2f679b0tSZUnBhpFVs4="},
-            {n: "Beyaynetu", c: "Orthodox", l: "Axum", i: "https://media.istockphoto.com/id/1623067219/photo/injera-is-a-sourdough-flatbread-made-from-teff-flour-served-with-filling-close-up-on-the.jpg?s=612x612&w=0&k=20&c=xlcoiXvMxG_SqGSTKYABpo3nWInIj5q2cI4ODjOdlUI="}
-        ];
-
-        const grid = document.getElementById('foodGrid');
-        for (let i = 0; i < 100; i++) {
-            let item = dishes[i % dishes.length];
-            grid.innerHTML += `
-                <div class="food-card">
-                    <img src="${item.i}&sig=${i}" alt="Food">
-                    <div class="food-info">
-                        <h3>${item.n} #${i+1}</h3>
-                        <p class="culture-text">Culture: ${item.c} | Origin: ${item.l}</p>
-                        <button class="order-btn" onclick="openOrder()">Order Now</button>
-                    </div>
-                </div>`;
-        }
-
-        // 2. ORDER FLOW
-        function openOrder() { document.getElementById('orderPopup').style.display = 'flex'; }
-        
-        function processOrder() {
-            const content = document.getElementById('popupContent');
-            content.innerHTML = `<h2 style="color:#4caf50">Order Successful!</h2><p>It will be there soon.</p>`;
+        // Splash screen removal
+        window.addEventListener('load', () => {
             setTimeout(() => {
-                document.getElementById('orderPopup').style.display = 'none';
-                location.reload(); // Returns to normal
-            }, 1000);
-        }
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 1500);
+        });
 
-        // 3. UI LOGIC (RESTORED)
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
-        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
-
-        function filterFood() {
-            let input = document.getElementById('foodSearch').value.toLowerCase();
-            let cards = document.getElementsByClassName('food-card');
-            for (let card of cards) {
-                let title = card.querySelector('h3').innerText.toLowerCase();
-                card.style.display = title.includes(input) ? "block" : "none";
+        // Sidebar Toggle
+        function toggleSidebar() { 
+            const sb = document.getElementById('sidebar');
+            sb.classList.toggle('collapsed');
+            if (window.innerWidth <= 768) {
+                sb.classList.toggle('active');
             }
         }
 
+        // Chat Toggle
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        // Auto Vertical Scroll (Every 1 minute)
+        const scrollDiv = document.getElementById('mainScroll');
+        let currentPos = 0;
+        setInterval(() => {
+            currentPos = (currentPos + window.innerHeight >= scrollDiv.scrollHeight) ? 0 : currentPos + window.innerHeight;
+            scrollDiv.scrollTo({ top: currentPos, behavior: 'smooth' });
+        }, 60000);
+
+        // AI Message Logic
         async function sendMessage() {
             const input = document.getElementById('userInput');
             const chatContent = document.getElementById('chatContent');
-            if(!input.value.trim()) return;
-            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28;">You: ${input.value}</div>`;
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#2e7d32; font-weight:bold;">You: ${message}</div>`;
             input.value = '';
+
+            const loadingDiv = document.createElement("div");
+            loadingDiv.className = "ai-msg";
+            loadingDiv.innerText = "Searching for recipes... ⏳";
+            chatContent.appendChild(loadingDiv);
+            chatContent.scrollTop = chatContent.scrollHeight;
+
+            try {
+                const response = await fetch('https://shiny-dollop-x5gxg6gw49g43645p-3000.app.github.dev/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                loadingDiv.innerText = data.reply || data.error;
+            } catch (error) {
+                loadingDiv.innerText = "AI is currently resting. Please try again soon!";
+            }
             chatContent.scrollTop = chatContent.scrollHeight;
         }
     </script>

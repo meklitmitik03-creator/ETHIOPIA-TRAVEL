@@ -4,78 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ethiopian Drinks - EthioTravel AI</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background: #000; color: white; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        :root {
+            --ethio-green: #2e7d32;
+            --ethio-yellow: #ffca28;
+            --ethio-red: #f44336;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body { 
+            margin: 0; 
+            background: #000; 
+            font-family: 'Segoe UI', sans-serif; 
+            overflow: hidden; 
+            color: white; 
+        }
         
-        /* Manual Scroll - Hidden Scrollbar */
-        .main-scroll-wrapper {
-            height: 100vh;
+        /* SIDEBAR WITH ETHIOPIAN FLAG GRADIENT */
+        #sidebar { 
+            z-index: 2000; 
+            transition: 0.5s ease; 
+            width: 250px; 
+            position: fixed; 
+            left: 0; top: 0; 
+            height: 100vh; 
+            background: linear-gradient(180deg, var(--ethio-green) 0%, var(--ethio-yellow) 50%, var(--ethio-red) 100%); 
+        }
+        #sidebar.collapsed { width: 70px; }
+        .nav-links { list-style: none; padding: 80px 0 0 0; margin: 0; }
+        .nav-links li a { 
+            display: flex; align-items: center; padding: 15px 25px; 
+            color: #000; text-decoration: none; font-weight: bold; transition: 0.3s; 
+        }
+        .nav-links li a:hover { background: rgba(0,0,0,0.15); }
+        .link-text { margin-left: 20px; transition: 0.3s; }
+        #sidebar.collapsed .link-text { opacity: 0; pointer-events: none; }
+        .toggle-btn { position: absolute; top: 25px; left: 23px; cursor: pointer; font-size: 1.5rem; color: #000; }
+
+        /* CONTENT WRAPPER */
+        .content-wrapper { 
+            margin-left: 250px; 
+            height: 100vh; 
+            transition: 0.5s ease; 
+            display: flex; 
+            flex-direction: column;
+            background: #000;
+        }
+        #sidebar.collapsed ~ .content-wrapper { margin-left: 70px; }
+
+        /* GRID: EXACTLY 4 CARDS VISIBLE (2x2) */
+        .place-grid {
+            flex: 1;
             overflow-y: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .main-scroll-wrapper::-webkit-scrollbar { display: none; }
-
-        /* Sticky Search */
-        .search-area {
-            position: sticky;
-            top: 0;
-            background: rgba(0,0,0,0.9);
-            padding: 80px 20px 20px 80px;
-            z-index: 100;
-            text-align: center;
-        }
-        .search-bar {
-            width: 100%; max-width: 500px; padding: 15px 25px;
-            border-radius: 50px; border: 1px solid #333;
-            background: #111; color: white; outline: none;
-        }
-
-        /* Grid */
-        .drink-grid {
+            padding: 15px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            padding: 20px 20px 100px 100px;
+            grid-template-columns: repeat(2, 1fr); 
+            grid-auto-rows: calc(45vh - 20px); 
+            gap: 15px;
+            scroll-snap-type: y mandatory;
         }
 
-        .drink-card {
-            background: #161616; border-radius: 15px; overflow: hidden;
-            border: 1px solid #222; transition: 0.3s;
+        .place-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            display: flex;
+            scroll-snap-align: start;
+            transition: transform 0.3s;
         }
-        .drink-card:hover { border-color: #ffca28; transform: translateY(-5px); }
-        .drink-card img { width: 100%; height: 220px; object-fit: cover; }
-        .drink-info { padding: 15px; }
-        .drink-info h3 { margin: 0; color: #ffca28; }
-        .culture-tag { font-size: 0.8rem; color: #888; margin: 5px 0; display: block; }
+        .place-card:hover { transform: scale(1.02); border-color: var(--ethio-yellow); }
 
-        .order-btn {
-            width: 100%; padding: 12px; margin-top: 10px;
-            background: #ffca28; border: none; border-radius: 8px;
-            font-weight: bold; cursor: pointer; color: #000;
+        .place-img { width: 45%; height: 100%; object-fit: cover; }
+        .place-info { 
+            padding: 15px; width: 55%; 
+            display: flex; flex-direction: column; justify-content: center; 
+        }
+        .place-info h3 { color: var(--ethio-yellow); margin: 0 0 5px 0; font-size: 1.1rem; text-transform: uppercase; }
+        .place-info span { color: var(--ethio-green); font-size: 0.8rem; font-weight: bold; margin-bottom: 8px; display: block;}
+        .place-info p { font-size: 0.75rem; opacity: 0.8; margin: 0; line-height: 1.3; }
+
+        /* AI Chat Button */
+        .chat-toggle { 
+            position: fixed; bottom: 20px; right: 20px; 
+            width: 55px; height: 55px; background: var(--ethio-red); 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-size: 1.5rem; cursor: pointer; z-index: 3000; 
         }
 
-        /* Order Popup */
-        #orderPopup {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 5000; justify-content: center; align-items: center;
+        @media (max-width: 768px) {
+            .place-grid { grid-template-columns: 1fr; grid-auto-rows: calc(45vh - 30px); }
+            .content-wrapper { margin-left: 0; }
+            #sidebar { left: -250px; }
+            #sidebar.active { left: 0; }
         }
-        .popup-card {
-            background: #1a1a1a; padding: 30px; border-radius: 20px;
-            width: 90%; max-width: 380px; border: 1px solid #ffca28; text-align: center;
-        }
-        .popup-card input {
-            width: 100%; padding: 12px; margin: 10px 0; box-sizing: border-box;
-            background: #222; border: 1px solid #444; color: white; border-radius: 8px;
-        }
-
-        /* Sidebar & Chat (Locked Structure) */
-        .sidebar.collapsed { width: 60px; }
-        .sidebar.collapsed .link-text { display: none; }
-        #sidebar { z-index: 1001; }
-        .ai-chat-wrapper { z-index: 3000; }
     </style>
 </head>
 <body>
@@ -83,108 +107,77 @@
     <nav class="sidebar collapsed" id="sidebar">
         <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
         <ul class="nav-links">
-            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
-            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
-            <li><a href="food.html"><i class="fas fa-utensils"></i><span class="link-text">Food</span></a></li>
-            <li><a href="drink.html" style="color:#ffca28"><i class="fas fa-mug-hot"></i><span class="link-text">Drink</span></a></li>
+            <li><a href="#"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="#"><i class="fas fa-utensils"></i><span class="link-text">Food</span></a></li>
+            <li><a href="#" style="color:#000"><i class="fas fa-glass-cheers"></i><span class="link-text">Drinks</span></a></li>
         </ul>
     </nav>
 
-    <div class="main-scroll-wrapper">
-        <div class="search-area">
-            <input type="text" id="drinkSearch" class="search-bar" placeholder="Search 50 Traditional Drinks..." onkeyup="filterDrinks()">
-        </div>
-
-        <div class="drink-grid" id="drinkGrid">
-            </div>
+    <div class="content-wrapper">
+        <main class="place-grid" id="grid"></main>
     </div>
 
-    <div id="orderPopup">
-        <div class="popup-card" id="popupContent">
-            <h2 style="color:#ffca28">Drink Order</h2>
-            <input type="text" id="orderName" placeholder="Your Name">
-            <input type="text" id="orderPhone" placeholder="Phone Number">
-            <input type="text" id="orderLoc" placeholder="Delivery Location">
-            <button class="order-btn" onclick="confirmOrder()">Confirm Order</button>
-        </div>
-    </div>
-
-    <div class="ai-chat-wrapper">
-        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header"><span>Drink Expert AI</span></div>
-            <div class="chat-content" id="chatContent">
-                <div class="ai-msg">Would you like to try some authentic Ethiopian Coffee or Tej?</div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
-                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
+    <div class="chat-toggle"><i class="fa-solid fa-robot"></i></div>
 
     <script>
-        // 50 UNIQUE DRINK DATA
-        const drinkList = [
-            {n:"Buna (Coffee)", c:"Kaffa", l:"Jimma", i:"https://media.istockphoto.com/id/469689803/photo/traditional-ethiopian-coffee.jpg?s=612x612&w=0&k=20&c=ns9qlaeohrOaArcjxujMn2nG2Kfd83w6qnjvuiG49VE="},
-            {n:"Tej (Honey Wine)", c:"Amhara", l:"Addis Ababa", i:"https://images.unsplash.com/photo-1584916201218-f4242ceb4809"},
-            {n:"Tella", c:"Highlands", l:"Gondar", i:"https://images.unsplash.com/photo-1535958636474-b021ee887b13"},
-            {n:"Areke", c:"Traditional Distillery", l:"Debre Birhan", i:"https://images.unsplash.com/photo-1614313511387-1436a4480ebb"},
-            {n:"Birz", c:"Non-Alcoholic", l:"Dessie", i:"https://images.unsplash.com/photo-1621506289937-98e28099d82a"},
-            {n:"Macchiato", c:"Italian Influence", l:"Addis Ababa", i:"https://images.unsplash.com/photo-1485808191679-5f86510681a2"}
+        const drinkData = [
+            { n: "Buna", t: "Coffee", d: "Traditional Ethiopian coffee, the heart of social life.", i: "fa-mug-hot" },
+            { n: "Tej", t: "Honey Wine", d: "Potent honey wine fermented with Gesho leaves.", i: "fa-glass-whiskey" },
+            { n: "Tella", t: "Traditional Beer", d: "Traditional highland beer brewed from barley or corn.", i: "fa-beer" },
+            { n: "Areke", t: "Spirit", d: "A powerful grain-distilled spirit, often spiced.", i: "fa-flask" },
+            { n: "Birz", t: "Sweet Water", d: "Sweet, non-alcoholic honey water refreshment.", i: "fa-wine-glass-alt" },
+            { n: "Bulla", t: "Traditional Drink", d: "A thick, nutritious drink made from Enset root.", i: "fa-glass-whiskey" },
+            { n: "Shai", t: "Spiced Tea", d: "Strong black tea served with cinnamon and cloves.", i: "fa-leaf" },
+            { n: "Kuti", t: "Leaf Tea", d: "Tea made from roasted coffee leaves.", i: "fa-mug-saucer" },
+            { n: "Keribo", t: "Fermented Barley", d: "Non-alcoholic fermented drink made from roasted barley.", i: "fa-glass-martini-alt" },
+            { n: "Keneto", t: "Barley Drink", d: "A light, refreshing barley-based traditional beverage.", i: "fa-wine-bottle" },
+            { n: "Hoja", t: "Coffee Husk", d: "Coffee husk tea, often mixed with milk.", i: "fa-fill-drip" },
+            { n: "Spiced Milk", t: "Milk Brew", d: "Fresh milk boiled with ginger and cardamom.", i: "fa-bottle-water" },
+            { n: "Borde", t: "Cereal Drink", d: "A thick, cereal-based fermented food-drink.", i: "fa-bowl-rice" },
+            { n: "Shameta", t: "Cultural Drink", d: "A traditional thick drink common in the Gurage region.", i: "fa-glass-citrus" },
+            { n: "Gesho Juice", t: "Herbal", d: "Bitter herbal infusion used for medicinal properties.", i: "fa-seedling" },
+            { n: "Jebena Buna", t: "Ceremonial Coffee", d: "Clay pot brewed coffee with frankincense aroma.", i: "fa-fire-burner" },
+            { n: "Honey Shai", t: "Sweet Tea", d: "Traditional tea sweetened with organic highland honey.", i: "fa-honey-pot" },
+            { n: "Wild Herb Tea", t: "Herbal Tea", d: "Infusion of Tena Adam and other highland herbs.", i: "fa-mortar-pestle" },
+            { n: "Barley Birz", t: "Honey Barley", d: "Barley water sweetened with honey and lemon.", i: "fa-droplet" },
+            { n: "Degue", t: "Millet Drink", d: "A fermented millet-based drink from Southern Ethiopia.", i: "fa-wheat-awn" },
+            { n: "Filtering Tella", t: "Clear Beer", d: "The clear 'Gere' stage of traditional beer brewing.", i: "fa-filter" },
+            { n: "Niter Kibbe Chai", t: "Butter Tea", d: "Special tea with a drop of spiced clarified butter.", i: "fa-hot-cup" },
+            { n: "Ginger Shai", t: "Spiced Tea", d: "Strong ginger-infused tea for cold mornings.", i: "fa-wind" },
+            { n: "Black Areke", t: "Strong Spirit", d: "Double-distilled powerful traditional spirit.", i: "fa-skull-crossbones" },
+            { n: "Spiced Tej", t: "Aged Mead", d: "Aged honey wine with extra herbal spices.", i: "fa-vial-circle-check" },
+            { n: "White Tella", t: "Wheat Beer", d: "A lighter version of traditional beer using wheat.", i: "fa-cloud" },
+            { n: "Forest Tea", t: "Nature Infusion", d: "Herbal tea sourced from the Harenna forest.", i: "fa-tree" },
+            { n: "Lemon Birz", t: "Citrus Refreshment", d: "Traditional honey water with a citrus twist.", i: "fa-lemon" },
+            { n: "Dry Areke", t: "Pure Spirit", d: "Unsweetened pure traditional distillation.", i: "fa-droplet-slash" },
+            { n: "Royal Tej", t: "Premium Mead", d: "Premium honey wine reserved for special ceremonies.", i: "fa-crown" }
         ];
 
-        const grid = document.getElementById('drinkGrid');
-        
-        for (let i = 0; i < 50; i++) {
-            let base = drinkList[i % drinkList.length];
-            let name = `${base.n} #${i+1}`;
-            let imgUrl = `${base.i}?auto=format&fit=crop&q=60&w=500&sig=${i+200}`;
+        const grid = document.getElementById('grid');
 
-            grid.innerHTML += `
-                <div class="drink-card">
-                    <img src="${imgUrl}" alt="${name}">
-                    <div class="drink-info">
-                        <h3>${name}</h3>
-                        <span class="culture-tag"><b>Culture:</b> ${base.c} | <b>City:</b> ${base.l}</span>
-                        <button class="order-btn" onclick="openOrder()">Order Now</button>
+        function initDrinks() {
+            drinkData.forEach((drink, index) => {
+                const card = document.createElement('div');
+                card.className = 'place-card';
+                card.innerHTML = `
+                    <img src="https://picsum.photos/seed/${index+300}/400/500" class="place-img" alt="${drink.n}">
+                    <div class="place-info">
+                        <span>${drink.t}</span>
+                        <h3>${drink.n}</h3>
+                        <p>${drink.d}</p>
                     </div>
-                </div>`;
+                `;
+                grid.appendChild(card);
+            });
         }
 
-        // ORDER LOGIC
-        function openOrder() { document.getElementById('orderPopup').style.display = 'flex'; }
-        
-        function confirmOrder() {
-            const content = document.getElementById('popupContent');
-            content.innerHTML = `<h2 style="color:#4caf50">Order Successful!</h2><p>Your drink will be there soon.</p>`;
-            setTimeout(() => {
-                document.getElementById('orderPopup').style.display = 'none';
-                location.reload(); 
-            }, 1000);
+        function toggleSidebar() { 
+            const sb = document.getElementById('sidebar');
+            sb.classList.toggle('collapsed');
+            if (window.innerWidth <= 768) sb.classList.toggle('active');
         }
 
-        // UI LOGIC
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
-        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
-
-        function filterDrinks() {
-            let input = document.getElementById('drinkSearch').value.toLowerCase();
-            let cards = document.getElementsByClassName('drink-card');
-            for (let card of cards) {
-                let title = card.querySelector('h3').innerText.toLowerCase();
-                card.style.display = title.includes(input) ? "block" : "none";
-            }
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById('userInput');
-            const chatContent = document.getElementById('chatContent');
-            if(!input.value.trim()) return;
-            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28;">You: ${input.value}</div>`;
-            input.value = '';
-            chatContent.scrollTop = chatContent.scrollHeight;
-        }
+        initDrinks();
     </script>
 </body>
 </html>

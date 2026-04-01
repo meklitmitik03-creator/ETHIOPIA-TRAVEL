@@ -7,7 +7,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
-    <title>Ethiopia AI Travel Guide</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -48,12 +47,6 @@
         .panel { scroll-snap-align: start; }
     </style>
 </head>
-
-<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#2e7d32; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
-    <div style="text-align:center; color:white;">
-        <h1 style="margin:0;">🇪🇹</h1>
-        <p>EthioTravel AI</p>
-    </div>
 </div>
 
 <script>
@@ -73,12 +66,14 @@
             <i class="fas fa-bars"></i>
         </div>
         <ul class="nav-links">
-            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
-            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
-            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
-            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
-            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
-            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+                <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+                <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+                <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+                <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+                <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+                <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+                <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+                <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li>
         </ul>
     </nav>
 
@@ -102,41 +97,6 @@
             </div>
         </section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.pexels.com/photos/30177512/pexels-photo-30177512.jpeg');">
-            <div class="glass-card">
-                <i class="fas fa-briefcase card-icon"></i>
-                <h2>Business & Economy</h2>
-                <p>A land of investment, trade, and economic transformation.</p>
-                <a href="business.html"><button class="explore-btn">Market Info</button></a>
-            </div>
-        </section>
-
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://media.istockphoto.com/id/2164827814/photo/african-union-headquarters-addis-ababa-ethiopia.jpg?b=1&s=612x612&w=0&k=20&c=3Jwuc3T48yTgGLVewh48hDqMCuUbI55Ml3adZID5FTs=');">
-            <div class="glass-card">
-                <i class="fas fa-microchip card-icon"></i>
-                <h2>Technology & Innovation</h2>
-                <p>Leading the digital revolution with tech hubs and space science.</p>
-                <a href="technology.html"><button class="explore-btn">Tech Focus</button></a>
-            </div>
-        </section>
-
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://media.istockphoto.com/id/1482209083/photo/aerial-overview-of-addis-abeba-city-the-capital-of-ethiopia-showing-brand-new-buildings-and.jpg?b=1&s=612x612&w=0&k=20&c=3Ud_OVyGCZsLGkpPOw9g5mKm9Lvg3xAwBHu4BEA5hWg=');">
-            <div class="glass-card">
-                <i class="fas fa-graduation-cap card-icon"></i>
-                <h2>Education & Youth Power</h2>
-                <p>Empowering millions of young minds for a brighter future.</p>
-                <a href="education.html"><button class="explore-btn">Education</button></a>
-            </div>
-        </section>
-
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://plus.unsplash.com/premium_photo-1697729902269-70f031f22531?auto=format&fit=crop&q=80');">
-            <div class="glass-card">
-                <i class="fas fa-seedling card-icon"></i>
-                <h2>Green Ethiopia</h2>
-                <p>Leading the world in renewable energy and reforestation.</p>
-                <a href="greenethiopia.html"><button class="explore-btn">Our Vision</button></a>
-            </div>
-        </section>
     </main>
 
     <div class="ai-chat-wrapper">

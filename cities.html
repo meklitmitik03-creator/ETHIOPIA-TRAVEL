@@ -7,7 +7,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
-    <title>Growing Cities - Ethiopia AI Travel Guide</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -177,12 +176,6 @@
         <div id="success-msg"></div>
     </div>
 </div>
-
-<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#2e7d32; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
-    <div style="text-align:center; color:white;">
-        <h1 style="margin:0;">🇪🇹</h1>
-        <p>EthioTravel AI</p>
-    </div>
 </div>
 
 <body>
@@ -197,11 +190,13 @@
             <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
             <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
             <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li>
         </ul>
     </nav>
 
     <main class="panel">
-        <h2 style="color: white; margin-top: 30px; font-size: 1.5rem; text-shadow: 2px 2px 4px #000;">Growing Cities of Ethiopia</h2>
+        <h2 style="color: rgba(43, 243, 233, 0.493); margin-top: 40px; font-size: 1.5rem; text-shadow: 2px 2px 4px #af515100;">Growing Cities of Ethiopia</h2>
         <div class="cards-container" id="cardsGrid"></div>
     </main>
 
@@ -222,42 +217,7 @@
             { name: "Jijiga", cat: "Border Trade", desc: "The heart of the Somali region's trade.", shop: "The bustling New Market is filled with colorful 'Diras' and imported silks." },
             { name: "Hosaena", cat: "Education Hub", desc: "A rapidly growing city in the south.", shop: "Central Hosaena Market is where locals get high-quality Gurage-style traditional clothing." },
             { name: "Sodo", cat: "Regional Hub", desc: "Commercial center of Wolayita.", shop: "The main town market is famous for vibrant Wolayita-colored cultural dresses." },
-            { name: "Dilla", cat: "Coffee Trade", desc: "Surrounded by ancient stelae and coffee farms.", shop: "Local artisans sell unique hand-made accessories and woven textiles near the city square." },
-            { name: "Asella", cat: "Athlete Town", desc: "High-altitude city that produces champions.", shop: "Shop at the Arsi Market for traditional Arsi-Oromo leather-work and jewelry." },
-            { name: "Nekemte", cat: "Western Hub", desc: "A key gateway to western Ethiopia.", shop: "Wollega Market offers beautiful Oromo cultural clothes with distinct embroidery." },
-            { name: "Debre Birhan", cat: "Industrial Gateway", desc: "One of the coolest (coldest) cities in Ethiopia.", shop: "Known for the warmest hand-made wool blankets and heavy traditional 'Buluko' wraps." },
-            { name: "Kombolcha", cat: "Logistics Hub", desc: "A center for industry and rail.", shop: "The local textile shops near the Industrial Park offer modern factory-outlet deals." },
-            { name: "Debre Markos", cat: "Agricultural Hub", desc: "Heart of the Gojjam region.", shop: "The 'Old Market' is excellent for traditional farming attire and Gojjam-style weaving." },
-            { name: "Ambo", cat: "Spa Town", desc: "Famous for its mineral water and university.", shop: "The roadside markets are great for quick finds in West-Shewa traditional accessories." },
-            { name: "Aksum", cat: "Ancient City", desc: "Home of the Ark of the Covenant.", shop: "Stalls near the Stelae Park sell ancient-style crosses and traditional white cotton clothing." },
-            { name: "Sebeta", cat: "Satellite City", desc: "Industrial expansion zone of Addis.", shop: "Modern shopping complexes are appearing rapidly along the main highway." },
-            { name: "Burayu", cat: "Western Outskirts", desc: "A rapidly urbanizing area.", shop: "Small local boutiques offer a mix of Addis trends and local Oromo styles." },
-            { name: "Gambela", cat: "River Port", desc: "Lush lowland city on the Baro River.", shop: "The river-side markets feature unique Anyuak and Nuer beaded jewelry and clothing." },
-            { name: "Assosa", cat: "Mining City", desc: "A growing hub in the Benishangul-Gumuz region.", shop: "Market stalls specialize in hand-crafted gold jewelry and regional textiles." },
-            { name: "Harar", cat: "Living Museum", desc: "Ancient walled city of 99 mosques.", shop: "The 'Shoa Gate' market is the place for intricate Harari embroidery and silver jewelry." },
-            { name: "Bale Robe", cat: "Alpine Gateway", desc: "Near the Bale Mountains National Park.", shop: "Highland markets sell warm leather-lined clothing and cultural Arsi-Bale hats." },
-            { name: "Ziway (Batu)", cat: "Lakeside Farming", desc: "Center for flowers and wine.", shop: "The Rift Valley markets offer lightweight cotton clothes perfect for the warm climate." },
-            { name: "Durame", cat: "Kembata Hub", desc: "Known for its fertile lands and honey.", shop: "Local shops offer the distinct Kembata traditional patterns on woven dresses." },
-            { name: "Goba", cat: "Mountain Town", desc: "Historic city in the Bale highlands.", shop: "Find unique high-altitude wool crafts and traditional Bale Oromo wear here." },
-            { name: "Woldia", cat: "Crossroad Town", desc: "Connecting north and east.", shop: "Strategic market for switching between Tigrayan and Amhara clothing styles." },
-            { name: "Meki", cat: "Trade Link", desc: "A busy market town on the way south.", shop: "Famous for its massive open-air produce and garment market days." },
-            { name: "Adigrat", cat: "Border Trade", desc: "Scenic city near the northern mountains.", shop: "Market stalls are filled with beautiful Tigrayan white cotton shawls (Netela)." },
-            { name: "Gode", cat: "Riverine City", desc: "Strategically located on the Shebelle River.", shop: "Local Somali shops offer imported vibrant fabrics and traditional light-weight wraps." },
-            { name: "Alaba Kulito", cat: "Spices & Art", desc: "Famous for its painted houses.", shop: "The colorful local market reflects the art of the city in its textile patterns." },
-            { name: "Mojo", cat: "Port City", desc: "Ethiopia's main dry-port hub.", shop: "A central spot for finding imported shoes and heavy-duty work apparel." },
-            { name: "Butajira", cat: "Trade Center", desc: "A lively city at the base of the Gurage mountains.", shop: "The Friday Market is legendary for Gurage-style traditional leather and cloth." },
-            { name: "Chiro", cat: "Highland Coffee", desc: "Nestled in the Chercher Mountains.", shop: "Known for Hararghe Oromo styles, featuring bright colors and bold patterns." },
-            { name: "Tepi", cat: "Tea & Spices", desc: "Deep in the southwest forests.", shop: "Look for regional 'Bench' culture attire in the verdant town market." },
-            { name: "Nekemte", cat: "Heritage Hub", desc: "Preserving Oromo cultural history.", shop: "The main museum area often hosts artisans selling high-end cultural wear." },
-            { name: "Yirgalem", cat: "Coffee Forest", desc: "A peaceful city in the Sidama region.", shop: "Sidama-style woven hats and white cotton dresses are the local specialty." },
-            { name: "Boditi", cat: "Agricultural Trade", desc: "Booming trade town in Wolayita.", shop: "A great stop-over for Wolayita embroidered textiles and modern basics." },
-            { name: "Areka", cat: "Growth Zone", desc: "One of the fastest-growing southern towns.", shop: "New street-side shops offer affordable modern clothing for the young population." },
-            { name: "Mizan Aman", cat: "Coffee Gateway", desc: "Lush southwest educational center.", shop: "The local market is filled with various cultural fabrics from 10+ ethnic groups." },
-            { name: "Debark", cat: "Mountain Gateway", desc: "The starting point for Simien treks.", shop: "Trekking gear and heavy wool traditional capes are sold throughout the town." },
-            { name: "Abomsa", cat: "Agri-Market", desc: "Located in the Arsi zone.", shop: "Features traditional Arsi Oromo beadwork and leather clothing." },
-            { name: "Leku", cat: "Sidama Gateway", desc: "Rapidly expanding southern town.", shop: "Perfect for finding the 'Tilfi' style embroidery on Sidama cultural dresses." },
-            { name: "Gimbi", cat: "Mineral & Coffee", desc: "Important town in Western Wollega.", shop: "Known for durable hand-made leather sandals and Oromo textiles." }
-        ];
+    ];
 
         let currentCity = "";
         const grid = document.getElementById('cardsGrid');
@@ -273,7 +233,7 @@
                     <h3>${item.name}</h3>
                     <div class="short-desc">${item.desc}</div>
                 </div>
-                <button class="explore-btn-card" onclick="openRegistration('${item.name}')">Explore Clothing</button>
+                
             `;
             grid.appendChild(card);
         });
