@@ -1,0 +1,157 @@
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museums of Ethiopia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ethio-green: #2e7d32;
+            --ethio-yellow: #fcd116;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: #0a0a0a;
+            color: white;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            /* Ensure the body itself can scroll */
+            overflow-y: auto; 
+        }
+
+        /* The Main Scrollable Area */
+        .main-content {
+            margin-left: 80px; /* Space for your sidebar */
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .museum-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+            /* This ensures the grid grows with content */
+            padding-bottom: 100px; 
+        }
+
+        .museum-card {
+            position: relative;
+            height: 350px;
+            border-radius: 15px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid var(--glass);
+            transition: all 0.5s ease;
+        }
+
+        /* When 'Explore' is clicked, the card takes both columns */
+        .museum-card.expanded {
+            grid-column: span 2;
+            height: 500px;
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .description {
+            display: none; /* Hidden by default */
+            margin: 15px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #ccc;
+        }
+
+        .expanded .description {
+            display: block; /* Show when expanded */
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-explore { background: var(--ethio-yellow); color: black; }
+        .btn-locate { background: var(--ethio-green); color: white; }
+
+        @media (max-width: 768px) {
+            .museum-grid { grid-template-columns: 1fr; }
+            .museum-card.expanded { grid-column: span 1; }
+            .main-content { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <h1 style="text-align:center; color:var(--ethio-yellow);">National Museums</h1>
+        
+        <div class="museum-grid" id="museumGrid">
+            </div>
+    </div>
+
+    <script>
+        const museums = [
+            { name: "National Museum of Ethiopia", img: "https://images.unsplash.com/photo-1518998053502-51dc5c91c0a0?w=600", desc: "Located near Amist Kilo, this museum houses the famous 3.2 million-year-old fossil 'Lucy'." },
+            { name: "Red Terror Martyrs Museum", img: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=600", desc: "A memorial museum in Meskel Square dedicated to those who suffered under the Derg regime." },
+            { name: "Ethnological Museum", img: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600", desc: "Based in the former palace of Haile Selassie, showing the cultures of all Ethiopian tribes." },
+            { name: "Unity Park Museum", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600", desc: "A massive complex featuring the Grand Palace and various historical pavilions." },
+            { name: "Zoma Museum", img: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600", desc: "An architectural wonder built with traditional mud and straw, focusing on sustainable art." },
+            { name: "Adwa Victory Memorial", img: "https://images.unsplash.com/photo-1523805081730-61444927f07c?w=600", desc: "A new landmark in Piazza commemorating the victory of Adwa." }
+        ];
+
+        function init() {
+            const grid = document.getElementById('museumGrid');
+            museums.forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'museum-card';
+                card.style.backgroundImage = `url('${m.img}')`;
+                card.innerHTML = `
+                    <div class="card-overlay">
+                        <h2>${m.name}</h2>
+                        <div class="description">${m.desc}</div>
+                        <div class="btn-group">
+                            <button class="btn btn-explore" onclick="toggleExplore(this)">Explore</button>
+                            <button class="btn btn-locate" onclick="goToLocation('${m.name}')">Locate</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleExplore(btn) {
+            const card = btn.closest('.museum-card');
+            card.classList.toggle('expanded');
+            btn.innerText = card.classList.contains('expanded') ? "Close" : "Explore";
+        }
+
+        function goToLocation(name) {
+            // Redirects to location.html and passes the name in the URL
+            window.location.href = `location.html?museum=${encodeURIComponent(name)}`;
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

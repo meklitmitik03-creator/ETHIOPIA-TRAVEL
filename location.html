@@ -180,6 +180,22 @@
     </div>
 
     <script>
+        // Add this inside location.html script
+window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const targetPlace = params.get('find');
+
+    if (targetPlace) {
+        // 1. Find your search input and put the museum name in it
+        const searchInput = document.querySelector('.search-card input');
+        if (searchInput) {
+            searchInput.value = targetPlace;
+            // 2. Automatically trigger your search function
+            // (Assumes you have a function called searchPlace or a search button)
+            document.querySelector('.search-card button').click(); 
+        }
+    }
+});
         // BACKGROUND ROTATION
         const images = [
             'https://media.gettyimages.com/id/1160878535/photo/female-delivery-person-accepts-next-ride.jpg?s=612x612&w=0&k=20&c=pb_uArSFbDD79FParH9-llRLaCycWffVZ-9VDzo7n5c=',
