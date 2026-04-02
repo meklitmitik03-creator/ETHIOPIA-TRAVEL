@@ -1,0 +1,222 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Oromia - EthioTravel AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ethio-red: #2e2525;
+            --ethio-yellow: #f5eded;
+            --ethio-green: #030f08;
+            --glass: rgba(255, 255, 255, 0.15);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            background: #111;
+            overflow-x: hidden;
+        }
+
+        /* Multi-Image Background Background */
+        .hero-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(rgba(248, 250, 249, 0.7), rgba(236, 232, 232, 0.7)),
+                url('https://images.unsplash.com/photo-1625255178547-44af3d0718c3?w=1200'),
+                url('https://media.istockphoto.com/id/962473214/photo/landscape-of-langano-lake-coastline-oromia-ethiopia.jpg?s=1024x1024'),
+                url('https://media.istockphoto.com/id/2227525338/photo/woman-from-borana-tribe-carrying-her-baby-ethiopia-africa.webp?a=1&b=1&s=612x612');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: brightness(0.8);
+        }
+
+        /* Sidebar Styling from your design */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; height: 100%;
+            background:linear-gradient(green , yellow , red );
+            width: 150px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            border-right: 2px solid var(black)
+        }
+        .sidebar.collapsed { width: 70px; }
+        .sidebar.collapsed .link-text { display: none; }
+        
+        .nav-links { list-style: none; padding: 20px 0; margin: 0; }
+        .nav-links li { padding: 15px 25px; }
+        .nav-links a { color: rgb(32, 11, 11); text-decoration: none; display: flex; align-items: left; }
+        .nav-links i { width: 25px; color: var(--ethio-green); }
+
+        .toggle-btn { 
+            padding: 20px; text-align: center; color: var(--ethio-yellow); 
+            font-size: 1.5rem; cursor: pointer; 
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 80px;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        .glass-section {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        h1 { font-size: 4rem; color: var(--ethio-yellow); margin-bottom: 10px; }
+        
+        /* 50 Line Paragraph Container */
+        .text-block {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: justify;
+            column-count: 2;
+            column-gap: 40px;
+        }
+
+        /* Food Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .food-box {
+            background: rgba(223, 11, 11, 0.6);
+            border-bottom: 4px solid var(--ethio-green);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .food-box:hover { transform: translateY(-10px); background: rgba(0,0,0,0.8); }
+        .food-box i { font-size: 2rem; color: var(--ethio-red); margin-bottom: 10px; }
+
+        /* Chatbox from your design */
+        .chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 1005; }
+        .chat-toggle { 
+            width: 60px; height: 60px; background: var(--ethio-green); 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-size: 1.5rem; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .chat-window {
+            position: absolute; bottom: 80px; right: 0;
+            width: 300px; height: 400px; background: white;
+            border-radius: 15px; display: none; flex-direction: column;
+            overflow: hidden; color: #333;
+        }
+        .chat-window.active { display: flex; }
+        .chat-header { background: var(--ethio-green); color: white; padding: 15px; font-weight: bold; }
+        .chat-content { flex: 1; padding: 15px; overflow-y: auto; background: #f5f5f5; }
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid #ddd; }
+        .chat-input-area input { flex: 1; border: none; padding: 5px; outline: none; }
+        
+        @media (max-width: 768px) {
+            .text-block { column-count: 1; }
+            .main-content { margin-left: 70px; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-bg"></div>
+<nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li> 
+            <li><a href="donationhub.html"><i class="fas fa-hand-holding-heart"></i><span class="link-text">Donate</span></a></li>
+            <li><a href="emergency.html"><i class="fas fa-phone"></i><span class="link-text"></span></a></li>
+            
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <section class="glass-section">
+            <h1>Oromia</h1>
+            <h3>Heart of the Horn of Africa</h3>
+            <div class="text-block">
+                Oromia is a land of breathtaking contrasts and profound historical significance, serving as the largest regional state in Ethiopia. It spans from the lush, verdant highlands of the west to the arid, golden plains of the east. The Oromo people, the largest ethnic group in the nation, possess a rich cultural heritage rooted in the Gadaa system, an ancient and complex democratic governance structure recognized by UNESCO. This region is the birthplace of coffee, specifically the Kaffa region, where the legendary goats discovered the energizing properties of the red berries. Oromia’s landscapes are dotted with spectacular natural wonders, including the Bale Mountains, home to the rare Ethiopian wolf and Nyala. The Rift Valley lakes, such as Langano and Ziway, provide sanctuary for countless species of birds and offer serene retreats. Historically, Oromia has been a crossroads of trade and migration, blending various traditions into a unique tapestry of identity. The Oromo language, Afaan Oromoo, is a melodic Cushitic tongue spoken by millions across East Africa. Music and dance, such as the energetic Ragada and the graceful Shaggooyyee, reflect the vibrant spirit of the people. Oromia is also a powerhouse of agriculture, producing much of the country's grain, pulses, and world-renowned Arabica coffee. The architecture varies from the modern skylines of Adama to the traditional round huts of the rural pastoralists. Every corner of Oromia tells a story of resilience, hospitality, and a deep connection to the earth. From the sprawling metropolis of Finfinne (Addis Ababa) to the sacred groves where elders meet, the air is filled with the scent of frankincense and the sounds of community. The Irreecha festival, a massive celebration of Thanksgiving, sees millions gather by water bodies to welcome the spring. In the valleys of the south, the Borana Oromo maintain ancient wells that have sustained life for centuries. The diversity of Oromia is its strength, bringing together highlands and lowlands under a single identity. It is a region where history is not just in books but lived through oral traditions and daily rituals. Visitors are often struck by the warmth of the people, who offer "Buna" (coffee) as a universal sign of friendship. The Oromia region is not just a geographical area; it is the soul of the Ethiopian experience. Its forests provide the oxygen for the nation, and its rivers feed the lands beyond its borders. As Ethiopia moves into the future, Oromia remains the central pillar of its economic and cultural evolution. To know Oromia is to understand the very essence of Africa’s endurance and beauty.
+            </div>
+        </section>
+
+        <section class="glass-section">
+            <h2 style="color: var(--ethio-yellow);"><i class="fas fa-utensils"></i> 10 Iconic Ethiopian & Oromo Foods</h2>
+            <div class="food-grid">
+                <div class="food-box"><h3>Injera</h3><p>The sourdough flatbread base of every meal.</p></div>
+                <div class="food-box"><h3>Ancootee</h3><p>A nutritious root vegetable unique to Wallagga.</p></div>
+                <div class="food-box"><h3>Chuko</h3><p>Delicious barley mixed with spiced clarified butter.</p></div>
+                <div class="food-box"><h3>Buna</h3><p>Traditional coffee served with popcorn.</p></div>
+                <div class="food-box"><h3>Caccabsaa</h3><p>Shredded flatbread fried with Berbere and Niter Kibbeh.</p></div>
+                <div class="food-box"><h3>Waadii</h3><p>Succulent grilled goat or beef, a highland favorite.</p></div>
+                <div class="food-box"><h3>Ittoo</h3><p>Flavorful stews ranging from spicy lentils to meat.</p></div>
+                <div class="food-box"><h3>Marqa</h3><p>Thick barley porridge with a pool of spicy butter.</p></div>
+                <div class="food-box"><h3>Data</h3><p>A spicy green chili dip that adds heat to any dish.</p></div>
+                <div class="food-box"><h3>Qince</h3><p>Cracked wheat boiled and seasoned with spiced butter.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <div class="chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Oromia AI Guide</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Ask me about Oromia's culture or food!</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { 
+            document.getElementById('sidebar').classList.toggle('collapsed'); 
+        }
+        function toggleChat() { 
+            document.getElementById('chatWindow').classList.toggle('active'); 
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if (!input.value.trim()) return;
+
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#2e7d32; font-weight:bold;">You: ${input.value}</div>`;
+            const msg = input.value; input.value = '';
+
+            // Simulated response for this demo
+            setTimeout(() => {
+                chatContent.innerHTML += `<div class="ai-msg" style="margin:10px; color:#333;">Oromia is famous for its hospitality and coffee! Is there anything specific you want to know about the Gadaa system?</div>`;
+                chatContent.scrollTop = chatContent.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>     

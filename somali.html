@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Somali Region - EthioTravel AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ethio-red: #2e2525;
+            --ethio-yellow: #f5eded;
+            --ethio-green: #030f08;
+            --glass: rgba(255, 255, 255, 0.15);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            background: #111;
+            overflow-x: hidden;
+        }
+
+        /* Multi-Image Background for Somali Region */
+        .hero-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+                url('https://images.unsplash.com/photo-1549410183-9366df041071?q=80&w=1470&auto=format&fit=crop'),
+                url('https://images.unsplash.com/photo-1523805081446-993951f42d11?q=80&w=1470&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: brightness(0.9);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; height: 100%;
+            background: linear-gradient(green, yellow, red);
+            width: 150px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            border-right: 2px solid black;
+        }
+        .sidebar.collapsed { width: 70px; }
+        .sidebar.collapsed .link-text { display: none; }
+        
+        .nav-links { list-style: none; padding: 20px 0; margin: 0; }
+        .nav-links li { padding: 15px 25px; }
+        .nav-links a { color: rgb(32, 11, 11); text-decoration: none; display: flex; align-items: center; font-weight: bold; }
+        .nav-links i { width: 25px; font-size: 1.2rem; margin-right: 10px; }
+
+        .toggle-btn { 
+            padding: 20px; text-align: center; color: black; 
+            font-size: 1.5rem; cursor: pointer; 
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 160px;
+            padding: 40px;
+            max-width: 1200px;
+            transition: margin-left 0.3s ease;
+        }
+        .sidebar.collapsed + .main-content { margin-left: 80px; }
+
+        .glass-section {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        h1 { font-size: 4rem; color: #4169E1; margin-bottom: 10px; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+        h3 { color: #ffffff; letter-spacing: 2px; }
+        
+        .text-block {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: justify;
+            column-count: 2;
+            column-gap: 40px;
+        }
+
+        /* Food Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .food-box {
+            background: rgba(65, 105, 225, 0.4); /* Royal Blue glass */
+            border-bottom: 4px solid #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .food-box:hover { transform: translateY(-10px); background: rgba(0,0,0,0.8); }
+        .food-box h3 { color: #ffffff; }
+
+        /* Chatbox */
+        .chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 1005; }
+        .chat-toggle { 
+            width: 60px; height: 60px; background: #4169E1; 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-size: 1.5rem; cursor: pointer;
+        }
+        .chat-window {
+            position: absolute; bottom: 80px; right: 0;
+            width: 320px; height: 450px; background: white;
+            border-radius: 15px; display: none; flex-direction: column;
+            overflow: hidden; color: #333;
+        }
+        .chat-window.active { display: flex; }
+        .chat-header { background: #4169E1; color: white; padding: 15px; font-weight: bold; }
+        .chat-content { flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; }
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid #ddd; }
+        .chat-input-area input { flex: 1; border: none; padding: 8px; outline: none; }
+        
+        @media (max-width: 768px) {
+            .text-block { column-count: 1; }
+            .main-content { margin-left: 80px; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-bg"></div>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li> 
+            <li><a href="donationhub.html"><i class="fas fa-hand-holding-heart"></i><span class="link-text">Donate</span></a></li>
+            <li><a href="emergency.html"><i class="fas fa-phone"></i><span class="link-text">Emergency</span></a></li>
+            
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <section class="glass-section">
+            <h1>Somali Region</h1>
+            <h3>The Gateway to the East</h3>
+            <div class="text-block">
+                The Somali Region of Ethiopia, often referred to as the Ogaden, is a land of vast horizons and a proud pastoralist spirit. As the second-largest regional state, it stretches across the eastern part of the country, bordering Somalia, Djibouti, and Kenya. The region is predominantly inhabited by the Somali people, who share a rich linguistic and cultural heritage centered on oral poetry, livestock rearing, and the Islamic faith. For centuries, the nomadic lifestyle has defined the rhythm of life here, with families moving across the arid plains with their camels—the "ships of the desert." The camel is more than just livestock; it is a symbol of wealth, survival, and identity, providing milk, transport, and dowries. Jigjiga, the regional capital, is a rapidly growing city that blends traditional Somali commerce with modern Ethiopian governance. The region is home to the Shebelle and Juba rivers, which bring life to the surrounding agricultural pockets in an otherwise semi-desert environment. History in the Somali Region is preserved through the "Gabay," a sophisticated form of alliterative poetry that recounts genealogies, battles, and the beauty of the landscape. The people are known for their resilience and deep-rooted sense of hospitality; a traveler in the Somali plains is rarely left without milk or shelter. Traditional clothing includes the "Macawiis" (sarong) for men and the vibrant "Dirac" or "Guntiino" for women, reflecting the region's connection to ancient Indian Ocean trade routes. Architecture in the rural areas often features the "Aqal," a portable, dome-shaped tent made of woven mats and wooden poles, designed for the nomadic life. The Somali Region plays a vital role in Ethiopia’s economy through its massive livestock exports, which supply markets across the Middle East. Geographically, the area holds significant potential for natural gas and oil, promising a new era of industrial development. Religion plays a central role in daily life, with mosques serving as the heart of community gatherings and judicial elders (Xeer) resolving disputes through ancient customary law. Despite the harsh climate, the beauty of the region is undeniable, from the red sands of the Haud to the limestone hills of the north. The Somali culture is one of the most cohesive in East Africa, bound by a single language and a shared history of endurance. As Ethiopia develops its eastern corridor, the Somali Region stands as a strategic bridge between the highlands and the sea. To visit the Somali Region is to witness the harmony between man and a challenging environment. It is a land where the call to prayer echoes across the wind-swept plains, and the stars at night shine brighter than anywhere else in the Horn.
+            </div>
+        </section>
+
+        <section class="glass-section">
+            <h2 style="color: #4169E1;"><i class="fas fa-utensils"></i> 10 Iconic Somali Culinary Delights</h2>
+            <div class="food-grid">
+                <div class="food-box"><h3>Bariis Iskukaris</h3><p>Fragrant basmati rice cooked with spices, raisins, and often served with a banana.</p></div>
+                <div class="food-box"><h3>Muqmad</h3><p>Preserved beef jerky cubes fried in clarified butter (Subag), a travel staple.</p></div>
+                <div class="food-box"><h3>Canjeero</h3><p>Similar to injera but smaller and sweeter, often eaten with tea and sugar for breakfast.</p></div>
+                <div class="food-box"><h3>Suqaar</h3><p>Small cubes of beef or goat sautéed with vegetables and aromatic spices.</p></div>
+                <div class="food-box"><h3>Camel Milk</h3><p>Rich, frothy, and highly nutritious; the lifeblood of the Somali nomadic diet.</p></div>
+                <div class="food-box"><h3>Sambusa</h3><p>Deep-fried pastry triangles filled with spiced meat or lentils.</p></div>
+                <div class="food-box"><h3>Malawah</h3><p>A sweet, crepe-like pancake often drizzled with honey and butter.</p></div>
+                <div class="food-box"><h3>Shaah</h3><p>Spiced Somali tea brewed with ginger, cardamom, cinnamon, and plenty of sugar.</p></div>
+                <div class="food-box"><h3>Basto</h3><p>Somali-style pasta, a legacy of Italian influence, served with a spicy meat sauce.</p></div>
+                <div class="food-box"><h3>Kalluun</h3><p>Spiced grilled fish, popular in the riverine and urban areas of the region.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <div class="chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Somali Region AI Guide</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Soo dhowoow (Welcome)! Ask me about Somali camels, Jigjiga, or the delicious Bariis!</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if (!input.value.trim()) return;
+
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#4169E1; font-weight:bold;">You: ${input.value}</div>`;
+            const msg = input.value; input.value = '';
+
+            setTimeout(() => {
+                chatContent.innerHTML += `<div class="ai-msg" style="margin:10px; color:#333;">The Somali region is famous for its nomadic culture! Did you know camels are so important that there are over 100 words for them in the Somali language?</div>`;
+                chatContent.scrollTop = chatContent.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

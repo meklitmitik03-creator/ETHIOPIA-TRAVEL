@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Harari Region - EthioTravel AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ethio-red: #2e2525;
+            --ethio-yellow: #f5eded;
+            --ethio-green: #030f08;
+            --glass: rgba(255, 255, 255, 0.15);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            background: #111;
+            overflow-x: hidden;
+        }
+
+        /* Background for Harar - City of Saints */
+        .hero-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('https://images.unsplash.com/photo-1543348123-956690f3910b?q=80&w=1470&auto=format&fit=crop'),
+                url('https://images.unsplash.com/photo-1581446704185-9856f6f9660c?q=80&w=1470&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: brightness(0.9);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; height: 100%;
+            background: linear-gradient(green, yellow, red);
+            width: 150px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            border-right: 2px solid black;
+        }
+        .sidebar.collapsed { width: 70px; }
+        .sidebar.collapsed .link-text { display: none; }
+        
+        .nav-links { list-style: none; padding: 20px 0; margin: 0; }
+        .nav-links li { padding: 15px 25px; }
+        .nav-links a { color: rgb(32, 11, 11); text-decoration: none; display: flex; align-items: center; font-weight: bold; }
+        .nav-links i { width: 25px; font-size: 1.2rem; margin-right: 10px; }
+
+        .toggle-btn { 
+            padding: 20px; text-align: center; color: black; 
+            font-size: 1.5rem; cursor: pointer; 
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 160px;
+            padding: 40px;
+            max-width: 1200px;
+            transition: margin-left 0.3s ease;
+        }
+        .sidebar.collapsed + .main-content { margin-left: 80px; }
+
+        .glass-section {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        h1 { font-size: 4rem; color: #FFD700; margin-bottom: 10px; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+        h3 { color: #ffffff; letter-spacing: 2px; }
+        
+        .text-block {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: justify;
+            column-count: 2;
+            column-gap: 40px;
+        }
+
+        /* Food Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .food-box {
+            background: rgba(128, 0, 128, 0.5); /* Harari Purple glass */
+            border-bottom: 4px solid #FFD700;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .food-box:hover { transform: translateY(-10px); background: rgba(0,0,0,0.8); }
+        .food-box h3 { color: #FFD700; }
+
+        /* Chatbox */
+        .chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 1005; }
+        .chat-toggle { 
+            width: 60px; height: 60px; background: #800080; 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-size: 1.5rem; color: white; cursor: pointer;
+        }
+        .chat-window {
+            position: absolute; bottom: 80px; right: 0;
+            width: 320px; height: 450px; background: white;
+            border-radius: 15px; display: none; flex-direction: column;
+            overflow: hidden; color: #333;
+        }
+        .chat-window.active { display: flex; }
+        .chat-header { background: #800080; color: white; padding: 15px; font-weight: bold; }
+        .chat-content { flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; }
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid #ddd; }
+        .chat-input-area input { flex: 1; border: none; padding: 8px; outline: none; }
+        
+        @media (max-width: 768px) {
+            .text-block { column-count: 1; }
+            .main-content { margin-left: 80px; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-bg"></div>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li> 
+            <li><a href="donationhub.html"><i class="fas fa-hand-holding-heart"></i><span class="link-text">Donate</span></a></li>
+            <li><a href="emergency.html"><i class="fas fa-phone"></i><span class="link-text">Emergency</span></a></li>
+            
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <section class="glass-section">
+            <h1>Harar</h1>
+            <h3>The Living City of Peace and Saints</h3>
+            <div class="text-block">
+                The Harari Region is a jewel of history nestled in the eastern highlands of Ethiopia, centered around the ancient walled city of Harar Jugol. Known as the fourth holiest city in Islam, Harar is home to 82 mosques and 102 shrines, all contained within five historic gates that have stood for centuries. The city was once a major commercial hub, connecting trade routes between the Ethiopian highlands, the Gulf of Aden, and the Arabian Peninsula. The Harari people, or Gey Usu (People of the City), possess a unique and sophisticated culture that is reflected in their language, Harari, and their colorful architectural style. Inside the walls, the houses are masterpieces of traditional design, with intricate interior niches called "Taqet" used to display ceremonial bowls and baskets. Harar is world-famous for its coffee, often considered some of the finest in the world, with a distinct fruity aroma that reflects the region’s fertile soil. One of the most captivating traditions in Harar is the nightly feeding of wild hyenas, a ritual that has existed for generations to maintain peace between the city and the wild. The women of Harar are renowned for their vibrant, multi-colored dresses and their mastery of basketry, which is considered a high art form. Walking through the narrow, winding alleys of Jugol is like stepping back in time, where the scent of frankincense and spices fills the air. Harar has long been a place of religious tolerance and intellectual pursuit, attracting scholars and poets from across the Islamic world. The great French poet Arthur Rimbaud even made Harar his home in the late 19th century, fascinated by its mystery and charm. The region’s geography is a lush mix of khat plantations, coffee forests, and citrus groves, benefiting from a mild and pleasant climate. Harari hospitality is expressed through the "Barkat," a sense of spiritual blessing shared through communal meals and coffee ceremonies. The city's gates—Assumiy, Argobba, Suqutat, Badro, and Asmadin—each tell a story of the Sultanates that once ruled this land. Despite its small size, Harar’s influence on Ethiopian history and global trade is monumental. It remains a UNESCO World Heritage site, protected not just for its stones, but for the living culture that thrives within them. The spirit of "Gey" is one of elegance, discipline, and a deep connection to the divine. To experience Harar is to find a sanctuary of peace in a rapidly changing world. It is a city that belongs to the past, the present, and the future all at once.
+            </div>
+        </section>
+
+        <section class="glass-section">
+            <h2 style="color: #FFD700;"><i class="fas fa-utensils"></i> 10 Iconic Harari Flavors</h2>
+            <div class="food-grid">
+                <div class="food-box"><h3>Hulbat Marax</h3><p>A thick, savory stew made with meat and fenugreek, a signature Harari dish.</p></div>
+                <div class="food-box"><h3>Mutabbaq</h3><p>Thin layers of pastry filled with spiced meat and eggs, then folded and fried.</p></div>
+                <div class="food-box"><h3>Harari Coffee</h3><p>World-class Arabica coffee, often served with a touch of salt or butter in the traditional way.</p></div>
+                <div class="food-box"><h3>Fatira</h3><p>A large, flat pancake often served with honey or scrambled eggs for breakfast.</p></div>
+                <div class="food-box"><h3>Ishishir</h3><p>Spiced Harari beef jerky, usually served with bread or as a snack during gatherings.</p></div>
+                <div class="food-box"><h3>Khat</h3><p>While not a food, the ritual chewing of these leaves is central to Harari social life.</p></div>
+                <div class="food-box"><h3>Harari Baskets</h3><p>Decorative baskets used to serve "Geyssue," the traditional city bread.</p></div>
+                <div class="food-box"><h3>Bariis</h3><p>Spiced rice dishes influenced by trade with the Arab world and India.</p></div>
+                <div class="food-box"><h3>Doro Wat</h3><p>The Harari version of the chicken stew, known for its unique blend of eastern spices.</p></div>
+                <div class="food-box"><h3>Sweets</h3><p>Traditional pastries like Baklawa, reflecting the city's diverse historical influences.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <div class="chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Harar AI Guide</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Aman! Welcome to Harar. Ask me about the 5 gates, the hyena man, or our famous coffee!</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if (!input.value.trim()) return;
+
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#800080; font-weight:bold;">You: ${input.value}</div>`;
+            const msg = input.value; input.value = '';
+
+            setTimeout(() => {
+                chatContent.innerHTML += `<div class="ai-msg" style="margin:10px; color:#333;">Harar is the 4th holiest city in Islam! Did you know the walls of Jugol were built between the 13th and 16th centuries?</div>`;
+                chatContent.scrollTop = chatContent.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

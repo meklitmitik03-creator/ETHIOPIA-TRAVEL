@@ -1,161 +1,310 @@
+Jo, [4/2/2026 8:38 PM]
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
-    <meta name="theme-color" content="#b8860b">
-    <title>Kingdoms of Ethiopia - AI Guide</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .panel {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            scroll-snap-align: start;
-        }
-        .scroll-container {
-            height: 100vh;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scrollbar-width: none; /* Hide scrollbar for clean App look */
-        }
-        .glass-card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2.5rem;
-            border-radius: 25px;
-            text-align: center;
-            color: white;
-            max-width: 85%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .card-icon { font-size: 3rem; color: #ffca28; margin-bottom: 1rem; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#b8860b">
+<title>Kingdoms of Ethiopia - AI Guide</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+/* 🌍 GLOBAL */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+
+body{
+background:black;
+color:white;
+overflow:hidden;
+}
+
+/* 🔥 SPLASH */
+#splash-screen{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:radial-gradient(circle,#3e2723,#000);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+transition:opacity .6s ease;
+}
+
+/* 🔥 SIDEBAR FIXED */
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:70px;
+height:100%;
+background:rgba(0,0,0,0.85);
+backdrop-filter:blur(10px);
+z-index:1000;
+transition:.3s;
+border-right:1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar:hover{
+width:220px;
+}
+
+.nav-links{
+list-style:none;
+padding-top:80px;
+}
+
+.nav-links li a{
+display:flex;
+align-items:center;
+gap:12px;
+color:white;
+text-decoration:none;
+padding:15px;
+transition:.3s;
+}
+
+.nav-links li a:hover{
+background:rgba(255,202,40,0.2);
+}
+
+/* 🌄 SCROLL */
+.scroll-container{
+height:100vh;
+overflow-y:scroll;
+scroll-snap-type:y mandatory;
+}
+
+/* 🌍 PANEL FIXED BACKGROUND */
+.panel{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+scroll-snap-align:start;
+position:relative;
+
+/* FIX: fallback gradient + image safe load */
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+
+animation:slowZoom 25s infinite alternate;
+}
+
+@keyframes slowZoom{
+0%{transform:scale(1);}
+100%{transform:scale(1.05);}
+}
+
+/* 🌟 CARD */
+.glass-card{
+background:rgba(0,0,0,0.55);
+backdrop-filter:blur(12px);
+padding:2.2rem;
+border-radius:22px;
+text-align:center;
+max-width:85%;
+border:1px solid rgba(255,255,255,0.12);
+box-shadow:0 10px 40px rgba(0,0,0,0.6);
+}
+
+.explore-btn{
+margin-top:12px;
+padding:10px 18px;
+border:none;
+background:#ffca28;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+transition:.3s;
+}
+
+.explore-btn:hover{
+transform:scale(1.05);
+}
+
+/* 🔥 DETAIL VIEW UPGRADED */
+#detailView{
+position:fixed;
+inset:0;
+background:linear-gradient(135deg,#0f0f0f,#1b1b1b);
+z-index:99999;
+display:none;
+overflow-y:auto;
+padding:40px;
+}
+
+.back-btn{
+position:fixed;
+top:20px;
+left:20px;
+background:#ffca28;
+border:none;
+padding:10px 15px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+z-index:100000;
+}
+
+.detail-box{
+max-width:900px;
+margin:auto;
+padding:30px;
+background:rgba(255,255,255,0.05);
+border-radius:20px;
+border:1px solid rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+line-height:1.8;
+}
+
+.detail-box h1{
+color:#ffca28;
+margin-bottom:10px;
+}
+
+.section{
+margin-top:15px;
+padding:15px;
+background:rgba(255,255,255,0.03);
+border-radius:10px;
+border-left:3px solid #ffca28;
+}
+
+</style>
 </head>
+
 <body>
 
-    <div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#3e2723; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
-        <div style="text-align:center; color:white;">
-            <h1 style="margin:0;">👑</h1>
-            <p>Imperial Heritage</p>
-        </div>
-    </div>
+<!-- SPLASH -->
+<div id="splash-screen">
+<div style="text-align:center;">
+<h1>👑</h1>
+<p>Imperial Heritage of Ethiopia</p>
+</div>
+</div>
 
-    <nav class="sidebar" id="sidebar">
-        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
-        <ul class="nav-links">
-            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
-            <li><a href="kingdoms.html" class="active"><i class="fas fa-crown"></i><span class="link-text">Kingdoms</span></a></li>
-            <li><a href="regions.html"><i class="fas fa-map"></i><span class="link-text">Regions</span></a></li>
-        </ul>
-    </nav>
+<!-- SIDEBAR -->
+<nav class="sidebar">
+<ul class="nav-links">
+<li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+<li><a href="#"><i class="fas fa-crown"></i> Kingdoms</a></li>
+<li><a href="#"><i class="fas fa-map"></i> Regions</a></li>
+</ul>
+</nav>
 
-    <main class="scroll-container" id="mainScroll">
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1629995015838-ea0e985d8d1a?q=80&w=1932&auto=format&fit=crop');">
-            <div class="glass-card">
-                <i class="fas fa-gem card-icon"></i>
-                <h2>Kingdom of D'mt</h2>
-                <p>The earliest known kingdom (c. 980 BC), centered at Yeha. A civilization of advanced architecture and iron-working.</p>
-                <button class="explore-btn">Explore Yeha</button>
-            </div>
-        </section>
+<!-- MAIN -->
+<main class="scroll-container">
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?q=80&w=1932&auto=format&fit=crop');">
-            <div class="glass-card">
-                <i class="fas fa-monument card-icon"></i>
-                <h2>Aksumite Empire</h2>
-                <p>One of the four great powers of the ancient world. Famous for its towering obelisks and being the first to adopt Christianity.</p>
-                <button class="explore-btn">See Axum</button>
-            </div>
-        </section>
+<section class="panel" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1629995015838-ea0e985d8d1a');">
+<div class="glass-card">
+<h2>Kingdom of D'mt</h2>
+<p>Earliest civilization in Ethiopia.</p>
+<button class="explore-btn" onclick="openDetail('dmt')">Explore Yeha</button>
+</div>
+</section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1565019017336-943004353841?q=80&w=1932&auto=format&fit=crop');">
-            <div class="glass-card">
-                <i class="fas fa-church card-icon"></i>
-                <h2>Zagwe Dynasty</h2>
-                <p>The era of King Lalibela. A golden age of religious art and the creation of the 11 rock-hewn churches.</p>
-                <button class="explore-btn">Explore Lalibela</button>
-            </div>
-        </section>
+Jo, [4/2/2026 8:38 PM]
+<section class="panel" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1590050752117-238cb0fb12b1');">
+<div class="glass-card">
+<h2>Aksumite Empire</h2>
+<p>One of ancient world's great powers.</p>
+<button class="explore-btn" onclick="openDetail('aksum')">See Axum</button>
+</div>
+</section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1608634193723-1865aa4416ce?q=80&w=1932&auto=format&fit=crop');">
-            <div class="glass-card">
-                <i class="fas fa-chess-king card-icon"></i>
-                <h2>Solomonic Dynasty</h2>
-                <p>Tracing their lineage to King Solomon and the Queen of Sheba, this dynasty ruled until the 20th century.</p>
-                <button class="explore-btn">Read History</button>
-            </div>
-        </section>
+<section class="panel" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1565019017336-943004353841');">
+<div class="glass-card">
+<h2>Zagwe Dynasty</h2>
+<p>Lalibela rock churches.</p>
+<button class="explore-btn" onclick="openDetail('zagwe')">Explore</button>
+</div>
+</section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1548013146-72479768bbaa?q=80&w=1932&auto=format&fit=crop');">
-            <div class="glass-card">
-                <i class="fas fa-mosque card-icon"></i>
-                <h2>Adal Sultanate</h2>
-                <p>A powerful multi-ethnic Muslim state centered in Zeila and Harar, famous for its trade and military strength.</p>
-                <button class="explore-btn">Explore Harar</button>
-            </div>
-        </section>
+<section class="panel" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1608634193723-1865aa4416ce');">
+<div class="glass-card">
+<h2>Solomonic Dynasty</h2>
+<p>Line of Kings from Solomon.</p>
+<button class="explore-btn" onclick="openDetail('solomon')">Read</button>
+</div>
+</section>
 
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop');">
-            <div class="glass-card">
-                <i class="fas fa-coffee card-icon"></i>
-                <h2>Kingdom of Kafa</h2>
-                <p>The birthplace of Coffee. A sovereign kingdom with deep forests and complex administrative systems.</p>
-                <button class="explore-btn">Coffee Roots</button>
-            </div>
-        </section>
-    </main>
+<section class="panel" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1548013146-72479768bbaa');">
+<div class="glass-card">
+<h2>Adal Sultanate</h2>
+<p>Powerful Horn of Africa state.</p>
+<button class="explore-btn" onclick="openDetail('adal')">Explore</button>
+</div>
+</section>
 
-    <div class="ai-chat-wrapper">
-        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header"><span>History AI Guide</span></div>
-            <div class="chat-content" id="chatContent"><div class="ai-msg">Ask me about any Ethiopian Kingdom.</div></div>
-            <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Ask about Aksum or Adal...">
-                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
+<section class="panel" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085');">
+<div class="glass-card">
+<h2>Kingdom of Kafa</h2>
+<p>Birthplace of Coffee.</p>
+<button class="explore-btn" onclick="openDetail('kafa')">Coffee Roots</button>
+</div>
+</section>
 
-    <script>
-        // Splash Hide
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
-                setTimeout(() => splash.remove(), 500);
-            }, 1500);
-        });
+</main>
 
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
-        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+<!-- DETAIL -->
+<div id="detailView">
+<button class="back-btn" onclick="closeDetail()">← Back</button>
+<div class="detail-box" id="detailContent"></div>
+</div>
 
-        async function sendMessage() {
-            const input = document.getElementById('userInput');
-            const msg = input.value.trim();
-            if(!msg) return;
-            document.getElementById('chatContent').innerHTML += `<div class="user-msg" style="text-align:right; color:#ffca28; margin:10px;">You: ${msg}</div>`;
-            input.value = '';
-            
-            try {
-                const res = await fetch('https://shiny-dollop-x5gxg6gw49g43645p-3000.app.github.dev/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: msg })
-                });
-                const data = await res.json();
-                document.getElementById('chatContent').innerHTML += `<div class="ai-msg">${data.reply}</div>`;
-            } catch(e) {
-                document.getElementById('chatContent').innerHTML += `<div class="ai-msg">Server Offline.</div>`;
-            }
-        }
-    </script>
+<script>
+
+// SPLASH
+window.onload=()=>{
+setTimeout(()=>{
+document.getElementById('splash-screen').style.opacity='0';
+setTimeout(()=>document.getElementById('splash-screen').remove(),600);
+},1500);
+}
+
+// DATA (IMPROVED)
+const data={
+dmt:`<h1>Kingdom of D'mt</h1>
+<div class="section">📍 Location: Northern Ethiopia (Yeha)</div>
+<div class="section">🏺 Known for early stone architecture and iron tools</div>
+<div class="section">🤝 Trade with South Arabia influenced culture</div>`,
+
+aksum:`<h1>Aksumite Empire</h1>
+<div class="section">🏛 Famous obelisks & monuments</div>
+<div class="section">✝️ First African empire to adopt Christianity</div>
+<div class="section">🌍 Controlled Red Sea trade routes</div>`,
+
+zagwe:`<h1>Zagwe Dynasty</h1>
+<div class="section">⛪️ Lalibela rock-hewn churches</div>
+<div class="section">👑 Religious golden age of Ethiopia</div>`,
+
+solomon:`<h1>Solomonic Dynasty</h1>
+<div class="section">👑 Claimed lineage from King Solomon</div>
+<div class="section">📜 Ruled Ethiopia for centuries</div>`,
+
+adal:`<h1>Adal Sultanate</h1>
+<div class="section">⚔️ Led by Ahmed Gragn</div>
+<div class="section">🌍 Strong trade + military power</div>`,
+
+kafa:`<h1>Kingdom of Kafa</h1>
+<div class="section">☕️ Birthplace of Coffee</div>
+<div class="section">🌳 Dense rainforest kingdom</div>`
+};
+
+function openDetail(key){
+document.getElementById("detailContent").innerHTML=data[key];
+document.getElementById("detailView").style.display="block";
+}
+
+function closeDetail(){
+document.getElementById("detailView").style.display="none";
+}
+
+</script>
+
 </body>
 </html>

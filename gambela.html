@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gambela Region - EthioTravel AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ethio-red: #2e2525;
+            --ethio-yellow: #f5eded;
+            --ethio-green: #030f08;
+            --glass: rgba(255, 255, 255, 0.12);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            background: #05161a;
+            overflow-x: hidden;
+        }
+
+        /* Background for Gambela - The Riverine Frontier */
+        .hero-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=1331&auto=format&fit=crop'),
+                url('https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=1471&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: brightness(0.8);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; height: 100%;
+            background: linear-gradient(green, yellow, red);
+            width: 150px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            border-right: 2px solid black;
+        }
+        .sidebar.collapsed { width: 70px; }
+        .sidebar.collapsed .link-text { display: none; }
+        
+        .nav-links { list-style: none; padding: 20px 0; margin: 0; }
+        .nav-links li { padding: 15px 25px; }
+        .nav-links a { color: rgb(32, 11, 11); text-decoration: none; display: flex; align-items: center; font-weight: bold; }
+        .nav-links i { width: 25px; font-size: 1.2rem; margin-right: 10px; }
+
+        .toggle-btn { 
+            padding: 20px; text-align: center; color: black; 
+            font-size: 1.5rem; cursor: pointer; 
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 160px;
+            padding: 40px;
+            max-width: 1200px;
+            transition: margin-left 0.3s ease;
+        }
+        .sidebar.collapsed + .main-content { margin-left: 80px; }
+
+        .glass-section {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        h1 { font-size: 4rem; color: #20B2AA; margin-bottom: 10px; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+        h3 { color: #ffffff; letter-spacing: 2px; }
+        
+        .text-block {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: justify;
+            column-count: 2;
+            column-gap: 40px;
+        }
+
+        /* Food Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .food-box {
+            background: rgba(0, 128, 128, 0.4); /* Teal glass */
+            border-bottom: 4px solid #CD7F32;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .food-box:hover { transform: translateY(-10px); background: rgba(0,0,0,0.8); }
+        .food-box h3 { color: #20B2AA; }
+
+        /* Chatbox */
+        .chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 1005; }
+        .chat-toggle { 
+            width: 60px; height: 60px; background: #008080; 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-size: 1.5rem; color: white; cursor: pointer;
+        }
+        .chat-window {
+            position: absolute; bottom: 80px; right: 0;
+            width: 320px; height: 450px; background: white;
+            border-radius: 15px; display: none; flex-direction: column;
+            overflow: hidden; color: #333;
+        }
+        .chat-window.active { display: flex; }
+        .chat-header { background: #008080; color: white; padding: 15px; font-weight: bold; }
+        .chat-content { flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; }
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid #ddd; }
+        .chat-input-area input { flex: 1; border: none; padding: 8px; outline: none; }
+        
+        @media (max-width: 768px) {
+            .text-block { column-count: 1; }
+            .main-content { margin-left: 80px; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-bg"></div>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li> 
+            <li><a href="donationhub.html"><i class="fas fa-hand-holding-heart"></i><span class="link-text">Donate</span></a></li>
+            <li><a href="emergency.html"><i class="fas fa-phone"></i><span class="link-text">Emergency</span></a></li>
+            
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <section class="glass-section">
+            <h1>Gambela</h1>
+            <h3>The Land of Great Rivers and High Grass</h3>
+            <div class="text-block">
+                The Gambela region is a unique lowland frontier in the far west of Ethiopia, where the highlands drop away to meet the hot, humid plains of the Nile Basin. This is a land defined by water, primarily the mighty Baro River (Openo), which historically served as Ethiopia’s only navigable waterway and a bustling inland port for trade with Sudan. The region is home to the Nilotic peoples, including the Anywaa (Anuak), Nuer, Majang, Komo, and Puo, whose cultures are deeply tied to the river and the vast floodplains. The Anywaa are traditionally master fishermen and agriculturists living along the riverbanks, while the Nuer are renowned pastoralists whose lives revolve around their prized cattle. Gambela National Park is one of Ethiopia's best-kept secrets, hosting Africa's second-largest mammal migration as thousands of white-eared kob move across the savannah in a spectacular display of nature. The landscape is a lush mix of tropical forests, swamps, and high elephant grass that can reach over three meters tall. In Gambela town, the regional capital, the atmosphere is vibrant and distinct from the rest of the country, with palm-lined streets and a heat that invites a slower, more communal pace of life. The architecture often features beautifully thatched conical huts designed to stay cool in the tropical climate. History in Gambela is marked by its role as an international gateway during the early 20th century, when British steamboats would dock at the pier. Today, the region is a vital agricultural hub, producing rice, cotton, and various tropical fruits in its fertile, well-watered soil. The Anywaa culture is famous for its intricate beadwork and the "Agwaa" royal tradition, while the Nuer are known for their resilience and deep-rooted social structures. Traditional music often features the rhythmic beating of heavy drums and melodic wind instruments made from local wood. Community life in Gambela is centered on the river, which provides not just food and transport, but a spiritual connection to the land. Despite the challenges of its remote location, Gambela is a place of immense natural wealth and cultural pride. It represents the tropical soul of Ethiopia, where the sun sets over wide, slow-moving waters and the air is filled with the calls of exotic birds. To visit Gambela is to experience a different side of Ethiopia—one that is wild, watery, and welcoming.
+            </div>
+        </section>
+
+        <section class="glass-section">
+            <h2 style="color: #20B2AA;"><i class="fas fa-utensils"></i> 10 Flavors of the Gambela Lowlands</h2>
+            <div class="food-grid">
+                <div class="food-box"><h3>Nile Perch</h3><p>Freshly caught from the Baro River, usually grilled or fried with local spices.</p></div>
+                <div class="food-box"><h3>Sorghum Porridge</h3><p>A thick, nutritious staple eaten by both the Nuer and Anywaa people.</p></div>
+                <div class="food-box"><h3>Dried Fish</h3><p>Fish preserved in the sun, used to add deep flavor to stews and soups.</p></div>
+                <div class="food-box"><h3>Maize Bread</h3><p>A hearty flatbread made from the region's abundant corn harvests.</p></div>
+                <div class="food-box"><h3>Tropical Fruits</h3><p>Fresh mangoes, papayas, and bananas that thrive in the humid climate.</p></div>
+                <div class="food-box"><h3>Nuer Milk</h3><p>Fresh or fermented cow's milk, central to the pastoralist Nuer diet.</p></div>
+                <div class="food-box"><h3>Rice Dishes</h3><p>Locally grown rice served with spicy vegetable or meat sauces.</p></div>
+                <div class="food-box"><h3>Honey Wine</h3><p>A unique lowland version of mead, brewed using forest honey.</p></div>
+                <div class="food-box"><h3>Pumpkin Stew</h3><p>A savory dish made from large pumpkins grown in river-side gardens.</p></div>
+                <div class="food-box"><h3>Roasted Nuts</h3><p>Peanuts and other groundnuts used as snacks or crushed into sauces.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <div class="chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Gambela AI Guide</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Welcome! Ask me about the Baro River, the great Kob migration, or Gambela's history!</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if (!input.value.trim()) return;
+
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#008080; font-weight:bold;">You: ${input.value}</div>`;
+            const msg = input.value; input.value = '';
+
+            setTimeout(() => {
+                chatContent.innerHTML += `<div class="ai-msg" style="margin:10px; color:#333;">Did you know Gambela was an important inland port for British steamboats coming from Khartoum?</div>`;
+                chatContent.scrollTop = chatContent.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

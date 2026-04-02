@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sidama Region - EthioTravel AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ethio-red: #2e2525;
+            --ethio-yellow: #f5eded;
+            --ethio-green: #030f08;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            background: #1b140a;
+            overflow-x: hidden;
+        }
+
+        /* Background for Sidama - The Coffee Heartland */
+        .hero-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+                url('https://images.unsplash.com/photo-1559056191-4917a1195462?q=80&w=1470&auto=format&fit=crop'),
+                url('https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?q=80&w=1467&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; height: 100%;
+            background: linear-gradient(green, yellow, red);
+            width: 150px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            border-right: 2px solid black;
+        }
+        .sidebar.collapsed { width: 70px; }
+        .sidebar.collapsed .link-text { display: none; }
+        
+        .nav-links { list-style: none; padding: 20px 0; margin: 0; }
+        .nav-links li { padding: 15px 25px; }
+        .nav-links a { color: rgb(32, 11, 11); text-decoration: none; display: flex; align-items: center; font-weight: bold; }
+        .nav-links i { width: 25px; font-size: 1.2rem; margin-right: 10px; }
+
+        .toggle-btn { 
+            padding: 20px; text-align: center; color: black; 
+            font-size: 1.5rem; cursor: pointer; 
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 160px;
+            padding: 40px;
+            max-width: 1200px;
+            transition: margin-left 0.3s ease;
+        }
+        .sidebar.collapsed + .main-content { margin-left: 80px; }
+
+        .glass-section {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        h1 { font-size: 4rem; color: #D2691E; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        h3 { color: #fdfdfd; letter-spacing: 3px; font-weight: 300; }
+        
+        .text-block {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: justify;
+            column-count: 2;
+            column-gap: 40px;
+            color: #efefef;
+        }
+
+        /* Food Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .food-box {
+            background: rgba(210, 105, 30, 0.2); /* Chocolate Brown glass */
+            border-top: 4px solid #D2691E;
+            padding: 20px;
+            border-radius: 12px;
+            transition: transform 0.3s;
+        }
+
+        .food-box:hover { transform: translateY(-5px); background: rgba(0,0,0,0.8); }
+        .food-box h3 { color: #D2691E; margin-top: 0; }
+
+        /* Chatbox */
+        .chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 1005; }
+        .chat-toggle { 
+            width: 60px; height: 60px; background: #D2691E; 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-size: 1.5rem; color: white; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .chat-window {
+            position: absolute; bottom: 80px; right: 0;
+            width: 320px; height: 450px; background: white;
+            border-radius: 15px; display: none; flex-direction: column;
+            overflow: hidden; color: #333;
+        }
+        .chat-window.active { display: flex; }
+        .chat-header { background: #D2691E; color: white; padding: 15px; font-weight: bold; }
+        
+        @media (max-width: 768px) {
+            .text-block { column-count: 1; }
+            .main-content { margin-left: 80px; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-bg"></div>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+           <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li> 
+            <li><a href="donationhub.html"><i class="fas fa-hand-holding-heart"></i><span class="link-text">Donate</span></a></li>
+            <li><a href="emergency.html"><i class="fas fa-phone"></i><span class="link-text">Emergency</span></a></li>
+             
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <section class="glass-section">
+            <h1>Sidama</h1>
+            <h3>Home of the New Year and the Golden Bean</h3>
+            <div class="text-block">
+                The Sidama Regional State is a land of lush, high-altitude plateaus and emerald-green valleys, recognized globally as one of the most prestigious coffee-growing regions in the world. Located in the northern part of the Great Rift Valley, Sidama is home to the Sidama people, whose culture is a harmonious blend of agricultural wisdom and deep spiritual tradition. The region is famously known for its "Yirgacheffe" and "Sidama" coffee profiles, which are the backbone of the local economy and a source of immense national pride. Beyond the coffee forests, Sidama is celebrated for its unique New Year festival, Fichee-Chambalaalla, which is inscribed on UNESCO’s Representative List of the Intangible Cultural Heritage of Humanity. This festival is more than a celebration; it is a time for communal reconciliation, justice, and the restoration of social harmony, guided by the traditional "Ayyaanto" (astrologers) who determine the exact date of the new year based on the moon and stars. Hawassa, the regional capital, is one of Ethiopia's most beautiful and fastest-growing cities, sitting on the shores of Lake Hawassa. The city is a hub for tourism and industry, offering a tranquil environment where the wildlife, like marabou storks and hippos, coexists with modern urban life. The Sidama people also practice a sophisticated Enset (false banana) culture, utilizing every part of the plant for food, shade, and building materials. The traditional "Luwa" age-grade system remains a cornerstone of Sidama social organization, teaching the youth about responsibility, bravery, and leadership. Geographically, the region benefits from abundant rainfall and fertile soil, making it a garden that feeds much of the country with its corn, honey, and organic produce. The architecture of Sidama often features beautifully woven conical huts that stay remarkably cool during the day and warm at night. To visit Sidama is to walk through a landscape that feels eternal—where the morning mist rises over coffee trees and the spirit of "Halaale" (the Sidama concept of truth and righteousness) governs daily life. It is a region that honors its past while leading the way into Ethiopia's modern economic future.
+            </div>
+        </section>
+
+        <section class="glass-section">
+            <h2 style="color: #D2691E;"><i class="fas fa-mug-hot"></i> 10 Iconic Sidama Tastes</h2>
+            <div class="food-grid">
+                <div class="food-box"><h3>Sidama Coffee</h3><p>World-renowned Arabica coffee with distinct citrus and floral notes, prepared traditionally.</p></div>
+                <div class="food-box"><h3>Bulla Porridge</h3><p>A smooth, energy-rich dish extracted from the Enset plant, often served with butter.</p></div>
+                <div class="food-box"><h3>Wassa</h3><p>The Sidama version of Enset bread, fermented to perfection and cooked over an open fire.</p></div>
+                <div class="food-box"><h3>Burrisame</h3><p>A flavorful blend of roasted grains and legumes, a popular snack in rural areas.</p></div>
+                <div class="food-box"><h3>Spiced Butter</h3><p>Known as "Kibbeh," it is infused with local herbs and used to enrich almost every meal.</p></div>
+                <div class="food-box"><h3>Fish from Lake Hawassa</h3><p>Fresh tilapia and catfish, often served spicy or grilled near the water's edge.</p></div>
+                <div class="food-box"><h3>Sidama Honey</h3><p>Pure forest honey, collected from traditional hives and known for its medicinal properties.</p></div>
+                <div class="food-box"><h3>Mofie</h3><p>A special porridge made from Enset juice and milk, often prepared for new mothers or guests.</p></div>
+                <div class="food-box"><h3>Godere (Taro)</h3><p>Root vegetables boiled and served with "Data," the spicy green pepper dip.</p></div>
+                <div class="food-box"><h3>Organic Mangoes</h3><p>Large, sweet mangoes harvested from the sun-drenched lower altitudes of the region.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <div class="chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Sidama Guide AI</span></div>
+            <div class="chat-content" style="padding:15px; height:350px; overflow-y:auto; color:#333;">
+                <div class="ai-msg">Nabbabo! Ask me about Lake Hawassa, our coffee forests, or the Fichee-Chambalaalla festival!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+    </script>
+</body>
+</html>

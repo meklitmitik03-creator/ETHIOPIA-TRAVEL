@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Amhara Region - EthioTravel AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ethio-red: #2e2525;
+            --ethio-yellow: #f5eded;
+            --ethio-green: #030f08;
+            --glass: rgba(255, 255, 255, 0.15);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            background: #111;
+            overflow-x: hidden;
+        }
+
+        /* Multi-Image Background for Amhara */
+        .hero-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('https://media.istockphoto.com/id/1301078653/photo/historic-fasilides-castle-in-gondar-ethiopia.jpg?s=612x612&w=0&k=20&c=xmmIwll1OQgLXq97l0w2k8YR2LAE5U6qcZ3NYueZ7qI='),
+                url('https://media.istockphoto.com/id/1343840509/photo/portrait-of-african-woman-east-africa.jpg?s=612x612&w=0&k=20&c=lmAbYxwI-ZGs9aP9AstJXwqi8a5xQZJ-W8db3wXkv7k=');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: brightness(0.9);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; height: 100%;
+            background: linear-gradient(green, yellow, red);
+            width: 150px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            border-right: 2px solid black;
+        }
+        .sidebar.collapsed { width: 70px; }
+        .sidebar.collapsed .link-text { display: none; }
+        
+        .nav-links { list-style: none; padding: 20px 0; margin: 0; }
+        .nav-links li { padding: 15px 25px; }
+        .nav-links a { color: rgb(32, 11, 11); text-decoration: none; display: flex; align-items: center; font-weight: bold; }
+        .nav-links i { width: 25px; font-size: 1.2rem; margin-right: 10px; }
+
+        .toggle-btn { 
+            padding: 20px; text-align: center; color: black; 
+            font-size: 1.5rem; cursor: pointer; 
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 160px;
+            padding: 40px;
+            max-width: 1200px;
+            transition: margin-left 0.3s ease;
+        }
+        .sidebar.collapsed + .main-content { margin-left: 80px; }
+
+        .glass-section {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        h1 { font-size: 4rem; color: #FFCD00; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        h3 { color: #ffffff; letter-spacing: 2px; }
+        
+        /* 50 Line Text Layout */
+        .text-block {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: justify;
+            column-count: 2;
+            column-gap: 40px;
+        }
+
+        /* Food Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .food-box {
+            background: rgba(139, 0, 0, 0.7); /* Deep Red glass */
+            border-bottom: 4px solid #FFCD00;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .food-box:hover { transform: translateY(-10px); background: rgba(0,0,0,0.8); }
+        .food-box h3 { color: #FFCD00; margin-top: 0; }
+        .food-box p { font-size: 0.95rem; line-height: 1.4; }
+
+        /* Chatbox */
+        .chat-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 1005; }
+        .chat-toggle { 
+            width: 60px; height: 60px; background: #009739; 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-size: 1.5rem; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .chat-window {
+            position: absolute; bottom: 80px; right: 0;
+            width: 320px; height: 450px; background: white;
+            border-radius: 15px; display: none; flex-direction: column;
+            overflow: hidden; color: #333; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .chat-window.active { display: flex; }
+        .chat-header { background: #009739; color: white; padding: 15px; font-weight: bold; }
+        .chat-content { flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; }
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid #ddd; }
+        .chat-input-area input { flex: 1; border: none; padding: 8px; outline: none; }
+        
+        @media (max-width: 768px) {
+            .text-block { column-count: 1; }
+            .main-content { margin-left: 80px; padding: 20px; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-bg"></div>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li> 
+            <li><a href="donationhub.html"><i class="fas fa-hand-holding-heart"></i><span class="link-text">Donate</span></a></li>
+            <li><a href="emergency.html"><i class="fas fa-phone"></i><span class="link-text">Emergency</span></a></li>
+            
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <section class="glass-section">
+            <h1>Amhara Region</h1>
+            <h3>The Land of Castles and Kings</h3>
+            <div class="text-block">
+                The Amhara region stands as the historic soul of Ethiopia, a land defined by its soaring Semien Mountains and the ancient legacy of the Solomonic dynasty. This majestic territory is home to the Amhara people, whose language, Amharic, serves as the working tongue of the nation. It is here that one finds the "Camelot of Africa," the city of Gondar, where seventeenth-century castles built by Emperor Fasilides still pierce the skyline. Further north, the rock-hewn churches of Lalibela, carved from solid volcanic rock in the 12th century, remain a testament to human ingenuity and spiritual devotion. The region is cradled by Lake Tana, the largest lake in Ethiopia and the source of the Blue Nile, where ancient monasteries on hidden islands protect centuries-old manuscripts. Amhara culture is deeply intertwined with the Ethiopian Orthodox Tewahedo Church, influencing everything from the white cotton "Shama" clothing to the intricate liturgical music. The landscapes are dramatic, featuring Ras Dashen, the highest peak in the country, where the endemic Walia Ibex and Gelada Baboon roam the cliffs. Agriculture is the backbone of the region, with fertile valleys producing teff, the tiny grain used to make the national staple, injera. Bahir Dar, the regional capital, is a garden city lined with palm trees and blooming flowers, serving as a gateway to the spectacular Blue Nile Falls. Amhara history is a saga of emperors like Menelik II and Haile Selassie, who shaped the modern borders of Ethiopia. The art of the region is famous for its vibrant hagiography and religious paintings found on the walls of churches like Debre Berhan Selassie. Social life revolves around the coffee ceremony and the communal breaking of bread, symbolizing peace and unity. The energetic "Eskista" dance, characterized by intense shoulder movements, captures the rhythmic heartbeat of the people. Throughout the year, massive festivals like Timkat (Epiphany) transform the streets into seas of colorful umbrellas and white robes. Education and literature have flourished here for centuries, with the "Qene" poetry being a highly respected intellectual art form. Despite its ancient roots, the region is modernizing rapidly, balancing its preservation of UNESCO World Heritage sites with new industries. The Blue Nile, known locally as the Abbay, is more than just water; it is a symbol of national pride and survival. Amhara is a place where every mountain pass has a story of a battle fought or a kingdom born. Visitors are greeted with the greeting "Tadias," followed by overwhelming hospitality and spicy meat stews. From the plateau of Wollo to the gorges of Gojjam, the diversity of the land is matched only by the resilience of its people. To step into Amhara is to step back in time while witnessing the pulse of a nation moving toward its future.
+            </div>
+        </section>
+
+        <section class="glass-section">
+            <h2 style="color: #FFCD00;"><i class="fas fa-utensils"></i> 10 Iconic Amhara Culinary Specialties</h2>
+            <div class="food-grid">
+                <div class="food-box"><h3>Doro Wat</h3><p>The famous spicy chicken stew with boiled eggs, often called the national dish.</p></div>
+                <div class="food-box"><h3>Siga Wat</h3><p>Slow-cooked beef stew seasoned with heavy Berbere spice blends.</p></div>
+                <div class="food-box"><h3>Gomen</h3><p>Collard greens sautéed with garlic, ginger, and spiced butter (Kibbeh).</p></div>
+                <div class="food-box"><h3>Kitfo</h3><p>Minced raw or rare beef warmed in spiced butter and Mitmita chili.</p></div>
+                <div class="food-box"><h3>Shiro Tegabino</h3><p>Thick, bubbling chickpea flour stew served in a clay pot.</p></div>
+                <div class="food-box"><h3>Beyeaynetu</h3><p>A colorful platter of various vegetable and lentil stews on Injera.</p></div>
+                <div class="food-box"><h3>Kurupt meat</h3><p>Freshly slaughtered raw beef cubes, a delicacy for special occasions.</p></div>
+                <div class="food-box"><h3>Injera</h3><p>The thin, fermented pancake made from ancient Teff grain.</p></div>
+                <div class="food-box"><h3>Tej</h3><p>Traditional honey wine, often served in a flask called a Berille.</p></div>
+                <div class="food-box"><h3>Genfo</h3><p>A stiff porridge made from barley or wheat, served with a volcano of butter.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <div class="chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Amhara AI Guide</span></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg">Welcome to the Amhara Region! Ask me about Gondar, Lalibela, or our delicious Doro Wat.</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { 
+            document.getElementById('sidebar').classList.toggle('collapsed'); 
+        }
+        function toggleChat() { 
+            document.getElementById('chatWindow').classList.toggle('active'); 
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if (!input.value.trim()) return;
+
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#009739; font-weight:bold;">You: ${input.value}</div>`;
+            const msg = input.value; input.value = '';
+
+            setTimeout(() => {
+                chatContent.innerHTML += `<div class="ai-msg" style="margin:10px; color:#333; border-left: 3px solid #009739; padding-left: 10px;">The Amhara region is rich in history! Did you know Lalibela has 11 rock-hewn churches?</div>`;
+                chatContent.scrollTop = chatContent.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

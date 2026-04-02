@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sacred Mezmur - Ethiopian Orthodox</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --deep-red: #4a0404;
+            --glass: rgba(0, 0, 0, 0.7);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Background: Golden Sunset at an Orthodox Church */
+        .hero-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)),
+                url('https://images.unsplash.com/photo-1543348123-956690f3910b?q=80&w=1470&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Sidebar Styling (Matching your previous pages) */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; height: 100%;
+            background: linear-gradient(green, yellow, red);
+            width: 150px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            border-right: 2px solid black;
+        }
+        .sidebar.collapsed { width: 70px; }
+        .sidebar.collapsed .link-text { display: none; }
+        .nav-links { list-style: none; padding: 20px 0; margin: 0; }
+        .nav-links li { padding: 15px 25px; }
+        .nav-links a { color: #1a1a1a; text-decoration: none; display: flex; align-items: center; font-weight: bold; }
+        .nav-links i { width: 25px; font-size: 1.2rem; margin-right: 10px; }
+        .toggle-btn { padding: 20px; text-align: center; color: black; font-size: 1.5rem; cursor: pointer; }
+
+        /* Scroll Snap Container */
+        .main-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            margin-left: 70px;
+            transition: margin-left 0.3s;
+        }
+
+        .section {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .content-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--gold);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        h1 { font-size: 2.5rem; color: var(--gold); margin-bottom: 10px; }
+        p { color: #ccc; margin-bottom: 25px; line-height: 1.6; }
+
+        .spotify-wrapper {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #282828;
+        }
+
+        /* Splash Screen */
+        #splash {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: #1a0202; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="splash">
+        <h1 style="font-size: 4rem;">🎶</h1>
+        <p style="letter-spacing: 3px; color: gold;">TEWAHEDO ZEMA</p>
+    </div>
+
+    <div class="hero-bg"></div>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="orthodox.html"><i class="fas fa-cross"></i><span class="link-text">Systems</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-map"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li>
+            <li><a href="emergency.html"><i class="fas fa-phone"></i><span class="link-text">Help</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="main-container">
+        <section class="section">
+            <div class="content-card">
+                <h1>Mahibere Kidusan</h1>
+                <p>Authentic Sunday School Mezmurs featuring the Kebero and Snasel.</p>
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX6XmGqG4R6zO?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="content-card">
+                <h1>The Begena</h1>
+                <p>Meditative spiritual chants used primarily during the seasons of Fasting and Lent.</p>
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/artist/3F7r3aA7v5Rk5vJ6Y8Xm2W?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="content-card">
+                <h1>Ancient Chants</h1>
+                <p>Listen to the legacy of Saint Yared, performed by the Debteras of the Highlands.</p>
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2Z1zP8m8M8m8M8m8M8m8M8?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Toggle Sidebar
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        // Hide Splash
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('splash').style.opacity = '0';
+                setTimeout(() => document.getElementById('splash').remove(), 800);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

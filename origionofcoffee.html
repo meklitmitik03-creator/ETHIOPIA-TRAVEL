@@ -7,9 +7,74 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Origin of Coffee - Ethiopia AI</title>
-    <link rel="stylesheet" href="style.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        :root {
+            --ethio-green: #2e7d32;
+            --ethio-yellow: #ffca28;
+            --ethio-red: #f44336;
+            --coffee-brown: #3e2723;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: white;
+            overflow: hidden; /* Necessary for the scroll-snap container */
+        }
+
+        /* --- FIXED SIDEBAR STYLES --- */
+        #sidebar { 
+            z-index: 3000; 
+            transition: 0.5s ease; 
+            width: 250px; 
+            position: fixed; 
+            left: 0; top: 0; 
+            height: 100vh; 
+            background: linear-gradient(180deg, var(--ethio-green) 0%, var(--ethio-yellow) 50%, var(--ethio-red) 100%); 
+        }
+
+        #sidebar.collapsed { width: 70px; }
+        
+        .nav-links { list-style: none; padding: 80px 0 0 0; margin: 0; }
+        
+        .nav-links li a { 
+            display: flex; align-items: center; padding: 15px 25px; 
+            color: #000; text-decoration: none; font-weight: bold; transition: 0.3s; 
+            white-space: nowrap;
+        }
+        
+        .nav-links li a:hover { background: rgba(0,0,0,0.15); }
+        
+        .link-text { margin-left: 20px; transition: 0.3s; }
+        
+        #sidebar.collapsed .link-text { opacity: 0; pointer-events: none; }
+        
+        .toggle-btn { 
+            position: absolute; top: 25px; left: 23px; 
+            cursor: pointer; font-size: 1.5rem; color: #000; 
+        }
+
+        /* --- MAIN CONTENT & PANELS --- */
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+            margin-left: 70px; /* Aligns with collapsed sidebar by default */
+            transition: margin-left 0.5s ease;
+        }
+
+        /* When sidebar is expanded, push content */
+        body:not(.collapsed-mode) .scroll-container {
+            /* If you want the content to move when expanded, use this logic */
+        }
+
+        .scroll-container::-webkit-scrollbar { display: none; }
+
         .panel {
             position: relative;
             display: flex;
@@ -20,45 +85,75 @@
             background-position: center;
             scroll-snap-align: start;
         }
-        .scroll-container {
-            height: 100vh;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scrollbar-width: none;
-        }
-        .scroll-container::-webkit-scrollbar { display: none; }
 
-        /* Themed Glass Card */
         .glass-card {
-            background: rgba(62, 39, 35, 0.7); /* Deep Coffee Brown */
+            background: rgba(62, 39, 35, 0.8); 
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 2.5rem;
             border-radius: 30px;
             text-align: center;
             color: #f5f5f5;
-            max-width: 85%;
+            width: 80%;
+            max-width: 500px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
-        .card-icon { color: #ffca28; font-size: 3rem; margin-bottom: 1rem; }
+
+        .card-icon { color: var(--ethio-yellow); font-size: 3rem; margin-bottom: 1rem; }
+
+        .explore-btn {
+            padding: 12px 25px;
+            background: var(--ethio-yellow);
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        .explore-btn:hover { transform: scale(1.1); background: white; }
+
+        /* AI CHAT STYLES (Placeholder for your existing chat CSS) */
+        .chat-toggle { position: fixed; bottom: 20px; right: 20px; background: var(--ethio-green); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; z-index: 4000; }
+        .chat-window { position: fixed; bottom: 90px; right: 20px; width: 300px; height: 400px; background: white; border-radius: 20px; display: none; flex-direction: column; z-index: 4000; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .chat-window.active { display: flex; }
+        .chat-header { background: var(--coffee-brown); color: white; padding: 15px; font-weight: bold; }
+        .chat-content { flex: 1; padding: 15px; overflow-y: auto; color: #333; font-size: 0.9rem; }
+        .chat-input-area { display: flex; border-top: 1px solid #ddd; }
+        .chat-input-area input { flex: 1; border: none; padding: 10px; outline: none; }
+        .chat-input-area button { background: var(--ethio-yellow); border: none; padding: 10px 15px; cursor: pointer; }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .scroll-container { margin-left: 0; }
+            #sidebar { left: -250px; }
+            #sidebar.active { left: 0; }
+        }
     </style>
 </head>
 
-<div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#3e2723; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
-    <div style="text-align:center; color:white;">
-        <h1 style="margin:0;">☕</h1>
-        <p>Discovering Coffee's Soul</p>
-    </div>
-</div>
-
 <body>
 
-    <nav class="sidebar" id="sidebar">
+    <div id="splash-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#3e2723; display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s;">
+        <div style="text-align:center; color:white;">
+            <h1 style="margin:0; font-size: 3rem;">☕</h1>
+            <p style="letter-spacing: 2px;">Discovering Coffee's Soul</p>
+        </div>
+    </div>
+
+    <nav id="sidebar" class="collapsed">
         <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
         <ul class="nav-links">
             <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
-            <li><a href="origin.html"><i class="fas fa-seedling"></i><span class="link-text">Origins</span></a></li>
-            <li><a href="originofcoffee.html" class="active"><i class="fas fa-mug-hot"></i><span class="link-text">Coffee History</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="originofcoffee.html"><i class="fas fa-mug-hot"></i><span class="link-text">Coffee</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li> 
+            <li><a href="emergency.html"><i class="fas fa-phone-alt"></i><span class="link-text">Emergency</span></a></li>
         </ul>
     </nav>
 
@@ -68,7 +163,7 @@
             <div class="glass-card">
                 <i class="fas fa-mountain card-icon"></i>
                 <h2>The Legend of Kaldi</h2>
-                <p>Around 850 AD, a goat herder named Kaldi noticed his goats dancing with energy after eating red berries from a bush in the Kaffa highlands.</p>
+                <p>Around 850 AD, a goat herder named Kaldi noticed his goats dancing with energy after eating red berries in the Kaffa highlands.</p>
                 <button class="explore-btn">Read Legend</button>
             </div>
         </section>
@@ -94,18 +189,9 @@
         <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80');">
             <div class="glass-card">
                 <i class="fas fa-leaf card-icon"></i>
-                <h2>The Birthplace of Arabica</h2>
+                <h2>Birthplace of Arabica</h2>
                 <p>Ethiopia is the only place on Earth where coffee grows wild. Thousands of varieties exist in the rainforests of the Southwest.</p>
                 <button class="explore-btn">Forest Varieties</button>
-            </div>
-        </section>
-
-        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80');">
-            <div class="glass-card">
-                <i class="fas fa-globe card-icon"></i>
-                <h2>Ethiopia to the World</h2>
-                <p>From Harar to Sidamo and Yirgacheffe, Ethiopia’s "Green Gold" fuels the global coffee market with the highest quality beans.</p>
-                <button class="explore-btn">Economic Impact</button>
             </div>
         </section>
 
@@ -115,7 +201,9 @@
         <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
         <div class="chat-window" id="chatWindow">
             <div class="chat-header"><span>Buna AI Expert</span></div>
-            <div class="chat-content" id="chatContent"><div class="ai-msg">Ask me about the Kaldi legend or the three rounds of the ceremony!</div></div>
+            <div class="chat-content" id="chatContent">
+                <div class="ai-msg" style="background:#eee; padding:10px; border-radius:10px; margin-bottom:10px;">Ask me about the Kaldi legend or the three rounds of the ceremony!</div>
+            </div>
             <div class="chat-input-area">
                 <input type="text" id="userInput" placeholder="Ask about coffee..." onkeypress="handleKeyPress(event)">
                 <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
@@ -124,6 +212,7 @@
     </div>
 
     <script>
+        // Splash screen handler
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
@@ -132,32 +221,38 @@
             }, 1500);
         });
 
+        // Sidebar logic
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            sb.classList.toggle('collapsed');
+            // If on mobile, also toggle active class
+            if (window.innerWidth <= 768) {
+                sb.classList.toggle('active');
+            }
+        }
+
+        // Chat logic
+        function toggleChat() {
+            document.getElementById('chatWindow').classList.toggle('active');
+        }
+
         async function sendMessage() {
             const input = document.getElementById('userInput');
             const chatContent = document.getElementById('chatContent');
             const message = input.value.trim();
             if (!message) return;
 
-            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:#ffca28; font-weight:bold;">You: ${message}</div>`;
+            chatContent.innerHTML += `<div class="user-msg" style="text-align:right; margin:10px; color:brown; font-weight:bold;">You: ${message}</div>`;
             input.value = '';
 
-            try {
-                const response = await fetch('https://shiny-dollop-x5gxg6gw49g43645p-3000.app.github.dev/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: message })
-                });
-                const data = await response.json();
-                chatContent.innerHTML += `<div class="ai-msg">${data.reply}</div>`;
-            } catch (e) {
-                chatContent.innerHTML += `<div class="ai-msg">AI is currently offline.</div>`;
-            }
-            chatContent.scrollTop = chatContent.scrollHeight;
+            // Simulated response logic
+            setTimeout(() => {
+                chatContent.innerHTML += `<div class="ai-msg" style="background:#eee; padding:10px; border-radius:10px; margin-bottom:10px;">That's a great question about Ethiopian coffee! I'm an AI specialized in Buna history.</div>`;
+                chatContent.scrollTop = chatContent.scrollHeight;
+            }, 1000);
         }
 
         function handleKeyPress(event) { if (event.key === "Enter") sendMessage(); }
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
-        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
     </script>
 </body>
 </html>

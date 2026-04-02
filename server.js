@@ -26,7 +26,7 @@ app.post('/chat', async (req, res) => {
     const result = await model.generateContent({ prompt });
 
     // Get the text from the result (latest API usually uses output_text)
-    const reply = result.output_text  result.outputText  "No response from AI";
+    const reply = result.output_text || result.outputText || "No response from AI";
 
     res.json({ reply });
   } catch (error) {
@@ -38,5 +38,5 @@ app.post('/chat', async (req, res) => {
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(Server running on port ${PORT});
+  console.log(`Server running on port ${PORT}`);
 });
