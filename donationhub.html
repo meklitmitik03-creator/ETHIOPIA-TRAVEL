@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donation Hub - Ethiopia Aid Network</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+    --ethio-green:#2e7d32;
+    --ethio-yellow:#ffca28;
+    --ethio-red:#f44336;
+    --glass: rgba(255,255,255,0.08);
+}
+
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background:#000;
+    color:#fff;
+    overflow:hidden;
+}
+
+/* SIDEBAR */
+#sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:150px;
+    height:100vh;
+    background:linear-gradient(180deg,var(--ethio-green),var(--ethio-yellow),var(--ethio-red));
+    transition:0.4s;
+}
+
+#sidebar.collapsed{width:70px;}
+
+.toggle{
+    position:absolute;
+    top:20px;
+    left:20px;
+    font-size:20px;
+    cursor:pointer;
+    color:#000;
+}
+
+.menu{
+    margin-top:80px;
+    list-style:none;
+    padding:0;
+}
+
+.menu li a{
+    display:flex;
+    padding:15px;
+    color:#000;
+    font-weight:bold;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.menu li a:hover{
+    background:rgba(0,0,0,0.2);
+}
+
+.text{margin-left:15px;}
+#sidebar.collapsed .text{display:none;}
+
+/* CONTENT */
+.content{
+    margin-left:150px;
+    height:100vh;
+    transition:0.4s;
+    padding:20px;
+    overflow:auto;
+}
+
+#sidebar.collapsed ~ .content{
+    margin-left:70px;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+/* CARD */
+.card{
+    background:var(--glass);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:15px;
+    padding:15px;
+    backdrop-filter:blur(10px);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.03);
+    border-color:var(--ethio-yellow);
+}
+
+.card h3{
+    margin:5px 0;
+    color:var(--ethio-yellow);
+}
+
+.card p{
+    font-size:12px;
+    opacity:0.8;
+}
+
+/* BUTTON */
+.btn{
+    display:inline-block;
+    margin-top:10px;
+    padding:8px 12px;
+    background:var(--ethio-red);
+    color:white;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:12px;
+    cursor:pointer;
+    border:none;
+}
+
+.btn:hover{
+    background:#c62828;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+    .grid{grid-template-columns:1fr;}
+    .content{margin-left:0;}
+    #sidebar{left:-260px;}
+    #sidebar.active{left:0;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+<div class="toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+
+<ul class="menu">
+ <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li> 
+            <li><a href="donationhub.html"><i class="fas fa-hand-holding-heart"></i><span class="link-text">Donate</span></a></li>
+            <li><a href="emergency.html"><i class="fas fa-phone"></i><span class="link-text">Emergency</span></a></li>
+        </ul>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<h2>🇪🇹 Ethiopia Donation Hub</h2>
+<p>Support trusted Ethiopian organizations making real impact</p>
+
+<div class="grid">
+
+<div class="card">
+<h3>Mekedonia</h3>
+<p>Elderly care & disability support in Ethiopia.</p>
+<a class="btn" href="https://mekedoniahomes.org/"target="_blank">Donate Now</a>
+</div>
+
+<div class="card">
+<h3>Food for Life Ethiopia</h3>
+<p>Nutrition & food support programs.</p>
+<a class="btn" href="https://www.ffl.org/" target="_blank">Donate Now</a>
+</div>
+
+<div class="card">
+<h3>Action for Development</h3>
+<p>Health, education & empowerment.</p>
+<a class="btn" href="https://www.afdethiopia.org/" target="_blank">Donate Now</a>
+</div>
+
+<div class="card">
+<h3>Mary Joy Ethiopia</h3>
+<p>Helping children and mothers.</p>
+<a class="btn" href="https://maryjoyethiopia.org/" target="_blank">Donate Now</a>
+</div>
+
+<div class="card">
+<h3>HOPE Enterprises</h3>
+<p>Youth education development.</p>
+<a class="btn" href="https://www.hope-enterprises.org/" target="_blank">Donate Now</a>
+</div>
+
+<div class="card">
+<h3>Selam Children Village</h3>
+<p>Care for orphaned children.</p>
+<a class="btn" href="https://www.selamchildrenvillage.org/" target="_blank">Donate Now</a>
+</div>
+div class="card">
+<h3>Ethiopian Red Cross (Ethiopia Branch)</h3>
+<p>Emergency relief & disaster response.</p>
+<a class="btn" href="https://www.redcrosseth.org/" target="_blank">Donate Now</a>
+</div>
+
+<div class="card">
+<h3>Search More NGOs</h3>
+<p>Find trusted Ethiopian donation organizations.</p>
+<a class="btn" href="https://www.google.com/search?q=ethiopia+charity+donation" target="_blank">Search</a>
+</div>
+
+<div class="card">
+<h3>Google Map NGOs</h3>
+<p>Locate donation centers near you.</p>
+<a class="btn" href="https://www.google.com/maps/search/charity+ethiopia" target="_blank">Open Map</a>
+</div>
+
+</div>
+</div>
+
+<script>
+function toggleMenu(){
+    const sb = document.getElementById("sidebar");
+    sb.classList.toggle("collapsed");
+    sb.classList.toggle("active");
+}
+</script>
+
+</body>
+</html>

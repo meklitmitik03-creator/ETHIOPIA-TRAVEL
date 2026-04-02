@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const cors = require('cors');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -7,21 +8,35 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Initialize Gemini with your KEY (stored in .env file)
+// Initialize Gemini AI with your API key from .env
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+// POST /chat endpoint
 app.post('/chat', async (req, res) => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = req.body.message;
+    if (!prompt) {
+      return res.status(400).json({ error: "No message provided" });
+    }
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    res.json({ reply: response.text() });
+    // Get the generative model (synchronous)
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    // Generate AI response
+    const result = await model.generateContent({ prompt });
+
+    // Get the text from the result (latest API usually uses output_text)
+    const reply = result.output_text  result.outputText  "No response from AI";
+
+    res.json({ reply });
   } catch (error) {
-    console.error("DETAILED ERROR:", error); // This will show the real error in your terminal
-    res.status(500).json({ error: error.message }); 
-}
+    console.error("DETAILED ERROR:", error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(Server running on port ${PORT});
+});

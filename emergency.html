@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emergency Services - Ethiopia</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+    --green:#2e7d32;
+    --yellow:#ffca28;
+    --red:#f44336;
+    --glass: rgba(255,255,255,0.08);
+}
+
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background: linear-gradient(135deg,#050505,#0f172a);
+    color:white;
+    overflow:hidden;
+}
+
+/* SIDEBAR */
+#sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background: linear-gradient(180deg,var(--green),var(--yellow),var(--red));
+    transition:0.4s;
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+#sidebar.collapsed{width:70px;}
+
+.toggle-btn{
+    position:absolute;
+    top:20px;
+    left:20px;
+    font-size:20px;
+    cursor:pointer;
+    color:#000;
+}
+
+.nav{
+    margin-top:80px;
+    list-style:none;
+    padding:0;
+}
+
+.nav li a{
+    display:flex;
+    padding:15px;
+    color:#000;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.nav li a:hover{
+    background:rgba(0,0,0,0.2);
+}
+
+.text{margin-left:15px;}
+#sidebar.collapsed .text{display:none;}
+
+/* CONTENT */
+.content{
+    margin-left:250px;
+    height:100vh;
+    padding:20px;
+    overflow:auto;
+    transition:0.4s;
+}
+
+#sidebar.collapsed ~ .content{
+    margin-left:70px;
+}
+
+/* HEADER CARD */
+.header{
+    background:var(--glass);
+    border:1px solid rgba(255,255,255,0.1);
+    padding:20px;
+    border-radius:15px;
+    backdrop-filter: blur(10px);
+    margin-bottom:20px;
+}
+
+.header h2{
+    margin:0;
+    color:var(--yellow);
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+/* EMERGENCY CARD */
+.card{
+    background:var(--glass);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:15px;
+    padding:18px;
+    transition:0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:var(--yellow);
+}
+
+.card h3{
+    margin:10px 0 5px;
+    color:var(--yellow);
+}
+
+.card p{
+    font-size:13px;
+    opacity:0.8;
+}
+
+/* CALL BUTTON */
+.call-btn{
+    display:inline-block;
+    margin-top:10px;
+    padding:10px 12px;
+    background:var(--red);
+    color:white;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:13px;
+    transition:0.3s;
+}
+
+.call-btn:hover{
+    background:#c62828;
+}
+
+/* ICON */
+.icon{
+    font-size:25px;
+    color:var(--yellow);
+}
+
+/* MOBILE */
+@media(max-width:768px){
+    .content{margin-left:0;}
+    #sidebar{left:-250px;}
+    #sidebar.active{left:0;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+<div class="toggle-btn" onclick="toggleSidebar()">
+<i class="fas fa-bars"></i>
+</div>
+<ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li> 
+            <li><a href="donationhub.html"><i class="fas fa-hand-holding-heart"></i><span class="link-text">Donate</span></a></li>
+        </ul>
+    </nav>
+
+
+<!-- CONTENT -->
+<div class="content">
+
+<div class="header">
+<h2>🚨 Emergency Services - Ethiopia</h2>
+<p>Quick access to life-saving contacts</p>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<i class="fas fa-shield-alt icon"></i>
+<h3>Police</h3>
+<p>National emergency police support</p>
+<a class="call-btn" href="tel:991">Call Now</a>
+</div>
+
+<div class="card">
+<i class="fas fa-fire icon"></i>
+<h3>Fire Department</h3>
+<p>Fire emergency response unit</p>
+<a class="call-btn" href="tel:939">Call Now</a>
+</div>
+
+<div class="card">
+<i class="fas fa-ambulance icon"></i>
+<h3>Ambulance</h3>
+<p>Medical emergency assistance</p>
+<a class="call-btn" href="tel:907">Call Now</a>
+</div>
+
+<div class="card">
+<i class="fas fa-hospital icon"></i>
+<h3>Hospital Help</h3>
+<p>Nearest emergency hospital support</p>
+<a class="call-btn" href="tel:911">Call Now</a>
+</div>
+<div class="card">
+<i class="fas fa-user-shield icon"></i>
+<h3>Disaster Response</h3>
+<p>National emergency coordination</p>
+<a class="call-btn" href="tel:912">Call Now</a>
+</div>
+
+<div class="card">
+<i class="fas fa-life-ring icon"></i>
+<h3>General Help</h3>
+<p>General emergency hotline</p>
+<a class="call-btn" href="tel:999">Call Now</a>
+</div>
+
+</div>
+
+</div>
+
+<script>
+function toggleSidebar(){
+    const sb = document.getElementById("sidebar");
+    sb.classList.toggle("collapsed");
+    sb.classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
