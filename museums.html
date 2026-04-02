@@ -1,128 +1,248 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Museums of Ethiopia</title>
+    <title>Museums of Ethiopia | EthioTravel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --ethio-green: #2e7d32;
             --ethio-yellow: #fcd116;
+            --ethio-red: #da121a;
             --glass: rgba(255, 255, 255, 0.1);
+            --sidebar-width: 80px;
         }
 
         body {
             background: #0a0a0a;
             color: white;
             margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            /* Ensure the body itself can scroll */
-            overflow-y: auto; 
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            /* Enable manual vertical scrolling */
+            overflow-y: auto;
         }
 
-        /* The Main Scrollable Area */
+        /* --- SIDEBAR --- */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px;
+            z-index: 1000;
+            border-right: 1px solid var(--glass);
+        }
+
+        .sidebar i {
+            font-size: 22px;
+            color: #888;
+            margin: 25px 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sidebar i:hover, .sidebar i.active {
+            color: var(--ethio-yellow);
+            transform: scale(1.1);
+        }
+
+        /* --- MAIN CONTENT --- */
         .main-content {
-            margin-left: 80px; /* Space for your sidebar */
+            margin-left: var(--sidebar-width);
             padding: 40px 20px;
             min-height: 100vh;
         }
 
-        .museum-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 columns */
-            gap: 25px;
-            max-width: 1100px;
-            margin: 0 auto;
-            /* This ensures the grid grows with content */
-            padding-bottom: 100px; 
+        .header-title {
+            text-align: center;
+            margin-bottom: 50px;
         }
 
+        .header-title h1 {
+            font-size: 2.8rem;
+            color: var(--ethio-yellow);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        /* --- MUSEUM GRID (2 COLUMNS) --- */
+        .museum-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        /* --- MUSEUM CARD --- */
         .museum-card {
             position: relative;
-            height: 350px;
-            border-radius: 15px;
+            height: 380px;
+            border-radius: 20px;
             overflow: hidden;
             background-size: cover;
             background-position: center;
             border: 1px solid var(--glass);
-            transition: all 0.5s ease;
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* When 'Explore' is clicked, the card takes both columns */
+        /* Expand to full width when active */
         .museum-card.expanded {
             grid-column: span 2;
-            height: 500px;
+            height: 700px;
         }
 
         .card-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            background: linear-gradient(transparent 30%, rgba(0,0,0,0.9) 90%);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 20px;
+            padding: 30px;
+            z-index: 5;
+            transition: background 0.4s;
+        }
+
+        .museum-card.map-active .card-overlay {
+            background: rgba(0,0,0,0.8);
+            justify-content: flex-start;
+        }
+
+        .museum-card h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: white;
         }
 
         .description {
-            display: none; /* Hidden by default */
-            margin: 15px 0;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #ccc;
+            display: none;
+            margin-top: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ddd;
+            max-width: 800px;
         }
 
-        .expanded .description {
-            display: block; /* Show when expanded */
+        .expanded .description { display: block; }
+
+        /* --- MAP EMBED --- */
+        .map-frame {
+            display: none;
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+            border-radius: 15px;
+            border: 2px solid var(--ethio-green);
         }
 
+        .map-active .map-frame { display: block; }
+
+        /* --- BUTTONS --- */
         .btn-group {
             display: flex;
-            gap: 10px;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .btn {
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 25px;
+            border-radius: 30px;
             border: none;
-            cursor: pointer;
             font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.85rem;
             transition: 0.3s;
         }
 
         .btn-explore { background: var(--ethio-yellow); color: black; }
         .btn-locate { background: var(--ethio-green); color: white; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
 
-        @media (max-width: 768px) {
+        /* --- CHAT BOX --- */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2000;
+        }
+
+        .chat-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--ethio-yellow);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: black;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 850px) {
             .museum-grid { grid-template-columns: 1fr; }
             .museum-card.expanded { grid-column: span 1; }
-            .main-content { margin-left: 0; }
+            .main-content { margin-left: 0; padding-top: 80px; }
+            .sidebar { width: 100%; height: 60px; flex-direction: row; justify-content: space-around; padding: 0; bottom: 0; top: auto; }
+            .sidebar i { margin: 0; }
         }
     </style>
 </head>
 <body>
 
+    <div class="sidebar">
+        <i class="fas fa-home" title="Home"></i>
+        <i class="fas fa-landmark active" title="Museums"></i>
+        <i class="fas fa-map-marked-alt" title="Map Search"></i>
+        <i class="fas fa-images" title="Gallery"></i>
+        <i class="fas fa-info-circle" title="About"></i>
+    </div>
+
     <div class="main-content">
-        <h1 style="text-align:center; color:var(--ethio-yellow);">National Museums</h1>
+        <div class="header-title">
+            <h1>National Museums</h1>
+            <p style="color: #888;">Explore the rich history and culture of Ethiopia</p>
+        </div>
         
         <div class="museum-grid" id="museumGrid">
             </div>
     </div>
 
+    <div class="chat-widget">
+        <div class="chat-btn"><i class="fas fa-robot"></i></div>
+    </div>
+
     <script>
+        // Museum Data Array (20 slots - add yours here)
         const museums = [
-            { name: "National Museum of Ethiopia", img: "https://images.unsplash.com/photo-1518998053502-51dc5c91c0a0?w=600", desc: "Located near Amist Kilo, this museum houses the famous 3.2 million-year-old fossil 'Lucy'." },
-            { name: "Red Terror Martyrs Museum", img: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=600", desc: "A memorial museum in Meskel Square dedicated to those who suffered under the Derg regime." },
-            { name: "Ethnological Museum", img: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600", desc: "Based in the former palace of Haile Selassie, showing the cultures of all Ethiopian tribes." },
-            { name: "Unity Park Museum", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600", desc: "A massive complex featuring the Grand Palace and various historical pavilions." },
-            { name: "Zoma Museum", img: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600", desc: "An architectural wonder built with traditional mud and straw, focusing on sustainable art." },
-            { name: "Adwa Victory Memorial", img: "https://images.unsplash.com/photo-1523805081730-61444927f07c?w=600", desc: "A new landmark in Piazza commemorating the victory of Adwa." }
+            { name: "National Museum of Ethiopia", q: "National+Museum+of+Ethiopia+Addis", img: "https://images.unsplash.com/photo-1518998053502-51dc5c91c0a0?w=800", desc: "Famous for housing the world-renowned fossil 'Lucy' (Dinkinesh). It is a center for paleontology and ancient history." },
+            { name: "Red Terror Martyrs Museum", q: "Red+Terror+Martyrs+Memorial+Museum", img: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800", desc: "A moving tribute to victims of the Derg regime. Features poignant historical artifacts and photographs." },
+            { name: "Ethnological Museum", q: "Ethnological+Museum+Addis+Ababa", img: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800", desc: "Located in the former palace of Emperor Haile Selassie, this museum showcases the lifestyle of Ethiopia's diverse ethnic groups." },
+            { name: "Unity Park Museum", q: "Unity+Park+Addis+Ababa", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800", desc: "A sprawling complex within the Grand Palace that combines history, nature, and modern Ethiopian governance." },
+            { name: "Zoma Museum", q: "Zoma+Museum+Addis", img: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800", desc: "An eco-friendly art center focusing on vernacular architecture and sustainable art installations." },
+            { name: "Adwa Victory Memorial", q: "Adwa+Victory+Memorial+Museum", img: "https://images.unsplash.com/photo-1523805081730-61444927f07c?w=800", desc: "A newly opened landmark celebrating Ethiopia's victory against colonialism in the 1896 Battle of Adwa." },
+            { name: "Ethiopian Science Museum", q: "Science+Museum+Addis+Ababa", img: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800", desc: "A dome-shaped futuristic hub showcasing Ethiopia's progress in technology and digital innovation." },
+            { name: "Stelae Park Museum", q: "Axum+Stelae+Field+Axum", img: "https://images.unsplash.com/photo-1563804860083-066e9275062c?w=800", desc: "Located in the ancient city of Axum, this museum houses treasures from the Axumite Empire." },
+            { name: "Gondar Royal Enclosure", q: "Fasil+Ghebbi+Gondar", img: "https://images.unsplash.com/photo-1520115596768-45e056965a3b?w=800", desc: "Also known as Fasil Ghebbi, this fortress-city contains several palaces and a dedicated museum of royal history." },
+            { name: "Harar Jugol Museum", q: "Harar+Jugol+Museum", img: "https://images.unsplash.com/photo-1508913922312-321319760731?w=800", desc: "Set inside the UNESCO walled city of Harar, celebrating Islamic history and traditional Harari craftsmanship." }
         ];
 
-        function init() {
+        function createCards() {
             const grid = document.getElementById('museumGrid');
-            museums.forEach(m => {
+            museums.forEach((m, i) => {
                 const card = document.createElement('div');
                 card.className = 'museum-card';
                 card.style.backgroundImage = `url('${m.img}')`;
@@ -130,9 +250,14 @@
                     <div class="card-overlay">
                         <h2>${m.name}</h2>
                         <div class="description">${m.desc}</div>
+                        <div class="map-frame">
+                            <iframe width="100%" height="100%" frameborder="0" 
+                                src="https://maps.google.com/maps?q=${m.q}&t=&z=14&ie=UTF8&iwloc=&output=embed">
+                            </iframe>
+                        </div>
                         <div class="btn-group">
                             <button class="btn btn-explore" onclick="toggleExplore(this)">Explore</button>
-                            <button class="btn btn-locate" onclick="goToLocation('${m.name}')">Locate</button>
+                            <button class="btn btn-locate" onclick="toggleLocate(this)">Locate</button>
                         </div>
                     </div>
                 `;
@@ -142,16 +267,32 @@
 
         function toggleExplore(btn) {
             const card = btn.closest('.museum-card');
-            card.classList.toggle('expanded');
-            btn.innerText = card.classList.contains('expanded') ? "Close" : "Explore";
+            const isExpanded = card.classList.contains('expanded');
+            
+            // Close other cards first (Optional, for better focus)
+            document.querySelectorAll('.museum-card').forEach(c => {
+                c.classList.remove('expanded', 'map-active');
+                c.querySelector('.btn-explore').innerText = "Explore";
+            });
+
+            if (!isExpanded) {
+                card.classList.add('expanded');
+                btn.innerText = "Close";
+            }
         }
 
-        function goToLocation(name) {
-            // Redirects to location.html and passes the name in the URL
-            window.location.href = `location.html?museum=${encodeURIComponent(name)}`;
+        function toggleLocate(btn) {
+            const card = btn.closest('.museum-card');
+            
+            // Ensure card is expanded first
+            card.classList.add('expanded');
+            card.querySelector('.btn-explore').innerText = "Close";
+            
+            // Toggle the map visibility
+            card.classList.toggle('map-active');
         }
 
-        window.onload = init;
+        window.onload = createCards;
     </script>
 </body>
 </html>

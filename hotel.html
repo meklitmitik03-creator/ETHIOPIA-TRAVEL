@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <meta name="theme-color" content="#2e7d32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Stay & Dine | EthioTravel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ethio-green: #2e7d32;
+            --ethio-yellow: #fcd116;
+        }
+
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; }
+
+        .panel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+        }
+
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+        }
+        .scroll-container::-webkit-scrollbar { display: none; }
+        .panel { scroll-snap-align: start; }
+
+        /* Sidebar remains on top */
+        #sidebar { z-index: 1001; }
+        .toggle-btn { z-index: 1002; cursor: pointer; }
+
+        /* Glass Card Styles */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            color: white;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        .card-icon { font-size: 3rem; color: var(--ethio-yellow); margin-bottom: 20px; }
+        .explore-btn {
+            background: var(--ethio-yellow);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .explore-btn:hover { transform: scale(1.05); background: #fff; }
+
+        /* AI Chat Wrapper (Matches your provided code) */
+        .ai-chat-wrapper { position: fixed; bottom: 20px; right: 20px; z-index: 2000; }
+        .chat-toggle { width: 60px; height: 60px; background: var(--ethio-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; cursor: pointer; }
+        .chat-window { position: absolute; bottom: 80px; right: 0; width: 300px; height: 400px; background: white; border-radius: 15px; display: none; flex-direction: column; overflow: hidden; }
+        .chat-window.active { display: flex; }
+        .chat-header { background: var(--ethio-green); color: white; padding: 15px; display: flex; justify-content: space-between; }
+        .chat-content { flex: 1; padding: 15px; overflow-y: auto; color: #333; font-size: 14px; }
+        .chat-input-area { padding: 10px; border-top: 1px solid #ddd; display: flex; }
+        .chat-input-area input { flex: 1; border: none; outline: none; padding: 5px; }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container" id="mainScroll">
+        
+        <section class="panel" id="hotelPanel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-hotel card-icon"></i>
+                <h2>Luxury Hotels</h2>
+                <p>From skyline views in Addis to historic stays in Gondar.</p>
+                <a href="hotel_list.html"><button class="explore-btn">Explore Hotels</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-utensils card-icon"></i>
+                <h2>Restaurants</h2>
+                <p>Taste the world-famous Injera and Ethiopian coffee.</p>
+                <a href="restaurants.html"><button class="explore-btn">View Menu</button></a>
+            </div>
+        </section>
+
+        <section class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80');">
+            <div class="glass-card">
+                <i class="fas fa-umbrella-beach card-icon"></i>
+                <h2>Eco Resorts</h2>
+                <p>Serene lakeside retreats and mountain lodges.</p>
+                <a href="resorts.html"><button class="explore-btn">Find Paradise</button></a>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="ai-chat-wrapper">
+        <div class="chat-toggle" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span>Ethiopia AI Guide</span><i class="fa-solid fa-circle-info"></i></div>
+            <div class="chat-content" id="chatContent"><div class="ai-msg">Selam! Ready to find a place to stay?</div></div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask AI..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        // BACKGROUND ROTATION (For Hotel Panel)
+        const hotelPanel = document.getElementById('hotelPanel');
+        const hotelImages = [
+            "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&q=80"
+        ];
+        let hIdx = 0;
+        setInterval(() => {
+            hIdx = (hIdx + 1) % hotelImages.length;
+            hotelPanel.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${hotelImages[hIdx]}')`;
+        }, 10000);
+
+        // AUTO VERTICAL SCROLL (Every 1 minute)
+        const scrollDiv = document.getElementById('mainScroll');
+        setInterval(() => {
+            let nextPos = scrollDiv.scrollTop + window.innerHeight;
+            if (nextPos >= scrollDiv.scrollHeight) nextPos = 0;
+            scrollDiv.scrollTo({ top: nextPos, behavior: 'smooth' });
+        }, 60000);
+
+        // AI Message Logic (Simplified for brevity)
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatContent = document.getElementById('chatContent');
+            if (!input.value.trim()) return;
+            chatContent.innerHTML += `<div style="text-align:right; margin:10px; color:green;">${input.value}</div>`;
+            input.value = '';
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        function handleKeyPress(event) { if (event.key === "Enter") sendMessage(); }
+    </script>
+</body>
+</html>

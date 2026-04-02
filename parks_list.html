@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parks of Ethiopia | EthioTravel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ethio-green: #2e7d32;
+            --ethio-yellow: #fcd116;
+            --glass: rgba(255, 255, 255, 0.1);
+            --sidebar-width: 80px;
+        }
+
+        body {
+            background: #050a05;
+            color: white;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px;
+            z-index: 1000;
+            border-right: 1px solid var(--glass);
+        }
+
+        .sidebar i {
+            font-size: 22px;
+            color: #888;
+            margin: 25px 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sidebar i:hover, .sidebar i.active {
+            color: var(--ethio-yellow);
+            transform: scale(1.1);
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header-title h1 {
+            font-size: 2.8rem;
+            color: var(--ethio-yellow);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* --- GRID --- */
+        .park-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        /* --- CARD --- */
+        .park-card {
+            position: relative;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid var(--glass);
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .park-card.expanded {
+            grid-column: span 2;
+            height: 800px; 
+        }
+
+        /* --- OVERLAY & FLEX FIX --- */
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent 20%, rgba(0,0,0,0.9) 85%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+            z-index: 5;
+            transition: 0.4s;
+        }
+
+        .park-card.expanded .card-overlay {
+            background: rgba(0,0,0,0.85);
+            justify-content: flex-start; 
+        }
+
+        .description {
+            display: none;
+            margin: 15px 0;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .expanded .description { display: block; }
+
+        /* --- MAP FRAME FIX --- */
+        .map-frame {
+            display: none;
+            width: 100%;
+            flex-grow: 1; 
+            min-height: 350px;
+            margin: 15px 0;
+            border-radius: 15px;
+            border: 2px solid var(--ethio-green);
+            overflow: hidden;
+        }
+
+        .map-active .map-frame { display: block; }
+
+        /* --- BUTTONS FIX --- */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: auto; 
+            z-index: 10;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn-explore { background: var(--ethio-yellow); color: black; }
+        .btn-locate { background: var(--ethio-green); color: white; }
+
+        /* --- CHAT --- */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2000;
+        }
+        .chat-btn {
+            width: 60px; height: 60px;
+            background: var(--ethio-yellow);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 24px; color: black;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 850px) {
+            .park-grid { grid-template-columns: 1fr; }
+            .park-card.expanded { grid-column: span 1; }
+            .main-content { margin-left: 0; }
+            .sidebar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <i class="fas fa-home"></i>
+        <i class="fas fa-tree active"></i>
+        <i class="fas fa-map-marked-alt"></i>
+        <i class="fas fa-images"></i>
+    </div>
+
+    <div class="main-content">
+        <div class="header-title">
+            <h1>Parks & National Parks</h1>
+            <p style="color: #888;">Experience Ethiopia's Untamed Beauty</p>
+        </div>
+        
+        <div class="park-grid" id="parkGrid"></div>
+    </div>
+
+    <div class="chat-widget">
+        <div class="chat-btn"><i class="fas fa-leaf"></i></div>
+    </div>
+
+    <script>
+        const parks = [
+            { name: "Andenet Park", q: "Andenet+Park+Addis+Ababa", img: "https://images.unsplash.com/photo-1500622388414-8555e04e610f?w=800", desc: "A symbol of unity located in the heart of Addis Ababa, featuring beautiful gardens and history." },
+           { name: "Andenet Park", q: "Andenet+Park+Addis+Ababa", img: "https://images.unsplash.com/photo-1500622388414-8555e04e610f?w=800", desc: "A modern urban park in the heart of Addis Ababa, offering beautiful walkways and cultural displays." },
+            { name: "Simien Mountains National Park", q: "Simien+Mountains+National+Park", img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800", desc: "A UNESCO World Heritage site known for its dramatic mountain peaks and endemic species like the Walia Ibex." },
+            { name: "Bale Mountains National Park", q: "Bale+Mountains+National+Park", img: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800", desc: "Home to the Ethiopian Wolf and the incredible Sanetti Plateau, the highest plateau in Africa." },
+            { name: "Entoto Park", q: "Entoto+Park+Addis+Ababa", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=800", desc: "An eco-tourism hub located on the Entoto ridge, offering ziplining, cycling, and panoramic views of Addis." },
+            { name: "Friendship Park", q: "Friendship+Park+Addis+Ababa", img: "https://images.unsplash.com/photo-1534346589587-9b51347da19e?w=800", desc: "A grand multi-functional urban park featuring artificial lakes, musical fountains, and open-air theaters." },
+            { name: "Nechisar National Park", q: "Nechisar+National+Park", img: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800", desc: "Located between Lakes Abaya and Chamo, known for its 'Bridge of God' and large zebra populations." },
+            { name: "Awash National Park", q: "Awash+National+Park", img: "https://images.unsplash.com/photo-1549366021-9f761d450615?w=800", desc: "One of the oldest national parks, famous for its dramatic waterfall and diverse bird species." },
+            { name: "Unity Park", q: "Unity+Park+Addis+Ababa", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800", desc: "Located within the National Palace, it features biological gardens, a zoo, and the history of Ethiopia's leaders." },
+            { name: "Omo National Park", q: "Omo+National+Park", img: "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800", desc: "A remote wilderness offering some of the most spectacular wildlife viewing in East Africa." },
+            { name: "Mago National Park", q: "Mago+National+Park", img: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800", desc: "Located on the east bank of the Omo River, famous for the Mursi people and savannah wildlife." },
+            { name: "Gambela National Park", q: "Gambela+National+Park", img: "https://images.unsplash.com/photo-1444464666168-49d633b867ad?w=800", desc: "Ethiopia's largest park, protecting the unique swamp and riverine forest ecosystems near Sudan." },
+            { name: "Abijatta-Shalla National Park", q: "Abijatta-Shalla+National+Park", img: "https://images.unsplash.com/photo-1505142446795-46ac27ed3c1b?w=800", desc: "A Rift Valley bird sanctuary featuring alkaline lakes and hot springs." },
+            { name: "Yangudi Rassa National Park", q: "Yangudi+Rassa+National+Park", img: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800", desc: "An arid park in the Afar region protecting the habitat of the Somali Wild Ass." },
+            { name: "Chebera Churchura National Park", q: "Chebera+Churchura+National+Park", img: "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=800", desc: "The best place in Ethiopia to see wild elephants and pristine rainforest landscapes." },
+            { name: "Sheger Park", q: "Sheger+Park+Addis+Ababa", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800", desc: "Part of the beautifying Sheger project, creating a green corridor along the city's riverbanks." },
+            { name: "Hamle 19 Park", q: "Hamle+19+Park+Addis+Ababa", img: "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=800", desc: "A peaceful recreational forest park popular for family picnics and weddings." },
+            { name: "Lake Hawassa Park", q: "Lake+Hawassa+Ethiopia", img: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800", desc: "A lakeside retreat famous for fish markets, hippo sightings, and sunset boat rides." },
+            { name: "Wenchi Crater Lake", q: "Wenchi+Crater+Lake", img: "https://images.unsplash.com/photo-1439853949127-fa647821eba0?w=800", desc: "An extinct volcano caldera containing a turquoise lake, accessible via hiking or horseback." },
+            { name: "Menagesha Suba Forest Park", q: "Menagesha+Suba+Forest", img: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800", desc: "The oldest forest in Ethiopia, first protected in the 15th century, home to the Menelik’s Bushbuck." },
+            { name: "Lake Ziway", q: "Lake+Ziway+Ethiopia", img: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800", desc: "A freshwater Rift Valley lake bustling with flamingos and ancient island monasteries." }
+        ]; 
+        function createCards() {
+            const grid = document.getElementById('parkGrid');
+            parks.forEach((p) => {
+                const card = document.createElement('div');
+                card.className = 'park-card';
+                card.style.backgroundImage = `url('${p.img}')`;
+                card.innerHTML = `
+                    <div class="card-overlay">
+                        <h2>${p.name}</h2>
+                        <div class="description">${p.desc}</div>
+                        <div class="map-frame">
+                            <iframe width="100%" height="100%" frameborder="0" scrolling="no" 
+                                src="https://maps.google.com/maps?q=${p.q}&t=&z=13&ie=UTF8&iwloc=&output=embed">
+                            </iframe>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-explore" onclick="toggleExplore(this)">Explore</button>
+                            <button class="btn btn-locate" onclick="toggleLocate(this)">Locate</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleExplore(btn) {
+            const card = btn.closest('.park-card');
+            const isExpanded = card.classList.contains('expanded');
+            
+            // Close all other cards
+            document.querySelectorAll('.park-card').forEach(c => {
+                if (c !== card) {
+                    c.classList.remove('expanded', 'map-active');
+                    c.querySelector('.btn-explore').innerText = "Explore";
+                }
+            });
+
+            if (!isExpanded) {
+                card.classList.add('expanded');
+                btn.innerText = "Close";
+            } else {
+                card.classList.remove('expanded', 'map-active');
+                btn.innerText = "Explore";
+            }
+        }
+
+        function toggleLocate(btn) {
+            const card = btn.closest('.park-card');
+            const isMapActive = card.classList.contains('map-active');
+            
+            if (isMapActive) {
+                // If map is already open, close everything and contract to origin
+                card.classList.remove('map-active', 'expanded');
+                card.querySelector('.btn-explore').innerText = "Explore";
+            } else {
+                // Open the card and the map
+                card.classList.add('expanded', 'map-active');
+                card.querySelector('.btn-explore').innerText = "Close";
+            }
+        }
+
+        window.onload = createCards;
+    </script>
+</body>
+</html>
