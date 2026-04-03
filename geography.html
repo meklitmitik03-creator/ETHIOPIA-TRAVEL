@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Geography - EthioTravel AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ethio-green: #2e7d32;
+            --ethio-yellow: #fcd116;
+            --ethio-red: #f44336;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #000;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR --- */
+        #sidebar { 
+            z-index: 3000; 
+            transition: 0.5s ease; 
+            width: 150px; 
+            position: fixed; 
+            left: 0; top: 0; 
+            height: 100vh; 
+            background: linear-gradient(180deg, var(--ethio-green) 0%, var(--ethio-yellow) 50%, var(--ethio-red) 100%); 
+        }
+
+        #sidebar.collapsed { width: 70px; }
+        
+        .nav-links { list-style: none; padding: 80px 0 0 0; margin: 0; }
+        
+        .nav-links li a { 
+            display: flex; align-items: center; padding: 15px 25px; 
+            color: #000; text-decoration: none; font-weight: bold; transition: 0.3s; 
+            white-space: nowrap;
+        }
+        
+        .nav-links li a:hover { background: rgba(0,0,0,0.15); }
+        
+        .link-text { margin-left: 20px; transition: 0.3s; }
+        
+        #sidebar.collapsed .link-text { display: none; }
+        
+        .toggle-btn { 
+            position: absolute; top: 25px; left: 23px; 
+            cursor: pointer; font-size: 1.5rem; color: #000; 
+        }
+
+        /* --- SCROLL PANELS --- */
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none; /* Firefox */
+        }
+        .scroll-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        .panel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            scroll-snap-align: start;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            max-width: 80%;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        .glass-card h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--ethio-yellow);
+        }
+
+        .explore-btn {
+            background: var(--ethio-green);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .explore-btn:hover {
+            transform: scale(1.1);
+            background: var(--ethio-yellow);
+            color: black;
+        }
+
+        @media (max-width: 768px) {
+            .glass-card h2 { font-size: 2rem; }
+            .glass-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar collapsed" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+            <li><a href="culture.html"><i class="fas fa-users"></i><span class="link-text">Culture</span></a></li>
+            <li><a href="history.html"><i class="fas fa-monument"></i><span class="link-text">History</span></a></li>
+            <li><a href="land.html"><i class="fas fa-mountain"></i><span class="link-text">Land</span></a></li>
+            <li><a href="animal.html"><i class="fas fa-hippo"></i><span class="link-text">Animals</span></a></li>
+            <li><a href="geography.html"><i class="fas fa-globe-africa"></i><span class="link-text">Geography</span></a></li>
+            <li><a href="hotel.html"><i class="fas fa-hotel"></i><span class="link-text">Hotels</span></a></li>
+            <li><a href="information.html"><i class="fas fa-info-circle"></i><span class="link-text">Info</span></a></li> 
+            <li><a href="donationhub.html"><i class="fas fa-hand-holding-heart"></i><span class="link-text">Donate</span></a></li>
+            <li><a href="emergency.html"><i class="fas fa-phone"></i><span class="link-text">Emergency</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="scroll-container" id="mainScroll">
+
+        <section id="climate" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1572888195250-3037a59d3578?w=1000');">
+            <div class="glass-card">
+                <h2>☀️ Climate Zones</h2>
+                <p>From Alpine cold to tropical heat—discover the "Wurch" and "Dega."</p>
+                <a href="climate.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+
+        <section id="topography" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1668939581252-470c103ac7da?w=1000');">
+            <div class="glass-card">
+                <h2>⛰️ Topography</h2>
+                <p>The Roof of Africa: High plateaus split by the Great Rift Valley.</p>
+                <a href="topography.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+
+        <section id="extremes" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://media.istockphoto.com/id/639949018/photo/view-into-the-lava-lake-of-erta-ale-volcano-ethiopia.webp?a=1&b=1&s=612x612&w=0&k=20&c=XOPbLlOwP1R15yp91L0F5MmMwC6rGV9CbV3mdWQdSCw=');">
+            <div class="glass-card">
+                <h2>📉 Extremes</h2>
+                <p>From Ras Dashen's peak to the Danakil Depression's fires.</p>
+                <a href="extremes.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+
+        <section id="water" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1573401545579-498aa95975bd?w=1000');">
+            <div class="glass-card">
+                <h2>💧 Water Resources</h2>
+                <p>The Water Tower of East Africa: Home of the Blue Nile.</p>
+                <a href="water.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+
+        <section id="borders" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://media.istockphoto.com/id/157635632/photo/travel-the-globe-series-saudi-arabia.webp?a=1&b=1&s=612x612&w=0&k=20&c=5bJ2VxZkh3RAqfmobKqMa7gImiaQz5u628AV4DlPkvo=');">
+            <div class="glass-card">
+                <h2>🗺️ Borders</h2>
+                <p>A landlocked giant surrounded by six diverse nations.</p>
+                <a href="borders.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+
+        <section id="radiation" class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1572888195250-3037a59d3578?w=1000');">
+            <div class="glass-card">
+                <h2>🌞 Sun Radiation</h2>
+                <p>"13 Months of Sunshine"—High solar potential and equatorial light.</p>
+                <a href="radiation.html" class="explore-btn">Explore</a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+    </script>
+</body>
+</html>

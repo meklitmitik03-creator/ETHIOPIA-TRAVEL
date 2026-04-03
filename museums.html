@@ -7,12 +7,86 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --ethio-green: #2e7d32;
-            --ethio-yellow: #fcd116;
-            --ethio-red: #da121a;
-            --glass: rgba(255, 255, 255, 0.1);
-            --sidebar-width: 80px;
-        }
+    --ethio-green: #2e7d32;
+    --ethio-yellow: #fcd116;
+    --ethio-red: #da121a;
+    --glass: rgba(255, 255, 255, 0.1);
+    --sidebar-width: 90px; /* Slightly wider for comfort */
+}
+
+body {
+    background: #0a0a0a;
+    color: white;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex; /* Helps align sidebar and content */
+}
+
+/* --- FIXED SIDEBAR --- */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: var(--sidebar-width);
+    /* Clean vertical gradient */
+    background: linear-gradient(to bottom, var(--ethio-green), var(--ethio-yellow), var(--ethio-red));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    z-index: 1000;
+    overflow-y: auto; /* Allows sidebar itself to scroll if many links are added */
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.sidebar li {
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.sidebar a {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    transition: 0.3s;
+}
+
+.sidebar i {
+    font-size: 22px;
+    color: #000; /* Black icons against the bright flag colors */
+    margin-bottom: 5px;
+}
+
+.sidebar .link-text {
+    font-size: 10px;
+    color: #000;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.sidebar a:hover {
+    background: rgba(0,0,0,0.1);
+    transform: scale(1.05);
+}
+
+/* --- MAIN CONTENT --- */
+.main-content {
+    margin-left: var(--sidebar-width); /* Pushes content so it's not under sidebar */
+    width: calc(100% - var(--sidebar-width));
+    padding: 40px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
 
         body {
             background: #0a0a0a;
